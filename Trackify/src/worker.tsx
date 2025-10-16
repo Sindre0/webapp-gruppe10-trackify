@@ -25,7 +25,7 @@ export default defineApp([
       return (
         <div style={{ padding: "2rem", maxWidth: "600px", margin: "0 auto" }}>
           <h1>Start</h1>
-          <p>Velkommen til Trackify</p>
+          <p>Velkommen til 2raws Branch!</p>
           <p>Databasen har {userResult.length} brukere</p>
           <div style={{ margin: "1.5rem 0" }}>
             <a
