@@ -25,11 +25,12 @@ export default defineApp([
       const userResult = await drizzle(env.DB).select().from(users);
       return (
         <div style={{ padding: "2rem", maxWidth: "600px", margin: "0 auto" }}>
+          <Nav/>
           <h1>Start</h1>
           <p>Velkommen til 2raws Branch!</p>
           <p>Databasen har {userResult.length} brukere</p>
 
-          <Nav/>
+          
 
           <div style={{ margin: "1.5rem 0" }}>
             <a
