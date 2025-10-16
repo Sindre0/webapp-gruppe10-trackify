@@ -7,6 +7,7 @@ import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
 import { env } from "cloudflare:workers";
 import { drizzle } from "drizzle-orm/d1";
+import Breadcrumbs from "./app/components/Breadcrumbs";
 
 export interface Env {
   DB: D1Database;
@@ -22,8 +23,9 @@ export default defineApp([
   render(Document, [
     route("/", async () => {
       const userResult = await drizzle(env.DB).select().from(users);
-      return (
-        <div style={{ padding: "2rem", maxWidth: "600px", margin: "0 auto" }}>
+      return (  
+        <div style={{ width: "100%", margin: "0 auto" }}>
+          <Breadcrumbs/>
           <h1>Start</h1>
           <p>Velkommen til 2raws Branch!</p>
           <p>Databasen har {userResult.length} brukere</p>
