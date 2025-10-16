@@ -2,6 +2,7 @@ import { defineApp } from "rwsdk/worker";
 import { render, route } from "rwsdk/router";
 import { Document } from "@/app/Document";
 import { Home } from "@/app/pages/Home";
+import Nav from "./app/components/Nav"
 
 import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
@@ -27,6 +28,9 @@ export default defineApp([
           <h1>Start</h1>
           <p>Velkommen til 2raws Branch!</p>
           <p>Databasen har {userResult.length} brukere</p>
+
+          <Nav/>
+
           <div style={{ margin: "1.5rem 0" }}>
             <a
               href="/home"
