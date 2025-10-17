@@ -8,6 +8,7 @@ import { setCommonHeaders } from "./app/headers";
 import { env } from "cloudflare:workers";
 import { drizzle } from "drizzle-orm/d1";
 import Breadcrumbs from "./app/components/Breadcrumbs";
+import EksempelKomponent from "./app/components/EksempelKomponent";
 
 export interface Env {
   DB: D1Database;
@@ -22,10 +23,15 @@ export default defineApp([
   setCommonHeaders(),
   render(Document, [
     route("/", async () => {
-      return (  
+      return ( 
+
         <div style={{ width: "100%", margin: "0 auto" }}>
-          <div id="root"></div>
+          <div>
+          <Breadcrumbs/>
+          </div>
           <h1>Eksempel tittel</h1>
+          <a href="/leaderboard">Leaderboard</a>
+          <EksempelKomponent/>
         </div>
       );
     }),
@@ -44,7 +50,7 @@ export default defineApp([
       async () => {
       return (  
         <div style={{ width: "100%", margin: "0 auto" }}>
-          <div id="root"></div>
+          <Breadcrumbs/>
           <p style={{paddingTop: "5rem"}}>This is a leaderboard site.</p>
         </div>
       );  

@@ -1,20 +1,19 @@
-import React, {useEffect, useState } from "react";
-import { requestInfo } from "rwsdk/worker";
 "use client";
-export default function Breadcrumbs() {
-  const [pathSegments, setPathSegments] = useState<string[]>([]);
 
-  useEffect(() => {
+import React, {useEffect, useState } from "react";
+
+export default function Breadcrumbs() {
+    const [pathSegments, setPathSegments] = useState<string[]>([]);
+
     const updateBreadcrumbs = () => {
       const segments = window.location.pathname.split("/").filter(Boolean);
       setPathSegments(segments);
     };
-
-    updateBreadcrumbs();
-    window.addEventListener("popstate", updateBreadcrumbs);
-
-    return () => window.removeEventListener("popstate", updateBreadcrumbs);
-  }, []);
+    useEffect(() => {
+        updateBreadcrumbs();
+        window.addEventListener("popstate", updateBreadcrumbs);
+        return () => window.removeEventListener("popstate", updateBreadcrumbs);
+    }, []);
 
   return (
     <nav style={{ background: "lightgrey", fontWeight: 600, padding: "0.5rem" }}>
