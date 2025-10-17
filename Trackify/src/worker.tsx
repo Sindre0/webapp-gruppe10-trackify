@@ -24,7 +24,8 @@ export default defineApp([
     route("/", async () => {
       return (  
         <div style={{ width: "100%", margin: "0 auto" }}>
-          <Breadcrumbs/>
+          <div id="root"></div>
+          <h1>Eksempel tittel</h1>
         </div>
       );
     }),
@@ -43,8 +44,8 @@ export default defineApp([
       async () => {
       return (  
         <div style={{ width: "100%", margin: "0 auto" }}>
-          <Breadcrumbs/>
-          This is a leaderboard site.
+          <div id="root"></div>
+          <p style={{paddingTop: "5rem"}}>This is a leaderboard site.</p>
         </div>
       );  
       },

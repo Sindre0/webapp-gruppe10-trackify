@@ -1,21 +1,44 @@
-import React from "react";
+import React, {useEffect, useState } from "react";
 import { requestInfo } from "rwsdk/worker";
+"use client";
+export default function Breadcrumbs() {
+  const [pathSegments, setPathSegments] = useState<string[]>([]);
 
-export default function Breadcrumbs(){
-    const { request, response } = requestInfo;
+  useEffect(() => {
+    const updateBreadcrumbs = () => {
+      const segments = window.location.pathname.split("/").filter(Boolean);
+      setPathSegments(segments);
+    };
 
-    const getCurrentUrl = () => {
-        console.log(request?.url)
-        return <p>{request?.url}</p>
-    }
-    
-    return (
-        <nav style={{background: "lightgrey", width: "100%", borderBottom: "2px solid black", borderTop: "2px solid black", fontWeight: "600"}}>
-            <ul style={{padding: "0.2rem", paddingLeft: "0.5rem"}}>
-                <li style={{display: "inline"}}><a href="/">Home</a>/</li>
-                <li style={{display: "inline"}}><a href="/leaderboard">Leaderboard</a></li>
-            </ul>
-            {getCurrentUrl()}
-        </nav>
-    )
+    updateBreadcrumbs();
+    window.addEventListener("popstate", updateBreadcrumbs);
+
+    return () => window.removeEventListener("popstate", updateBreadcrumbs);
+  }, []);
+
+  return (
+    <nav style={{ background: "lightgrey", fontWeight: 600, padding: "0.5rem" }}>
+      <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+        <li style={{ display: "inline" }}>
+          <a href="/">Home</a>
+          {pathSegments.length > 0 && " / "}
+        </li>
+        {pathSegments.map((segment, index) => {
+          const pathUpToHere = "/" + pathSegments.slice(0, index + 1).join("/");
+          const isLast = index === pathSegments.length - 1;
+          return (
+            <li key={index} style={{ display: "inline" }}>
+              {!isLast ? (
+                <>
+                  <a href={pathUpToHere}>{segment}</a> /{" "}
+                </>
+              ) : (
+                <span>{segment}</span>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  );
 }
