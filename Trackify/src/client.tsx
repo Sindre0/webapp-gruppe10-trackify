@@ -1,5 +1,4 @@
-import { initClient } from "rwsdk/client";
-import ReactDOM, { hydrateRoot } from 'react-dom/client';
-import Breadcrumbs from "./app/components/Breadcrumbs";
+import { initClient, initClientNavigation } from "rwsdk/client";
 
-initClient();
+const { handleResponse } = initClientNavigation();
+initClient({ handleResponse });
