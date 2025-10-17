@@ -8,6 +8,8 @@ import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
 import { env } from "cloudflare:workers";
 import { drizzle } from "drizzle-orm/d1";
+import Breadcrumbs from "./app/components/Breadcrumbs";
+import EksempelKomponent from "./app/components/EksempelKomponent";
 
 export interface Env {
   DB: D1Database;
@@ -22,36 +24,13 @@ export default defineApp([
   setCommonHeaders(),
   render(Document, [
     route("/", async () => {
-      const userResult = await drizzle(env.DB).select().from(users);
-      return (
-        <div style={{ padding: "2rem", maxWidth: "600px", margin: "0 auto" }}>
-          <Nav/>
-          <h1>Start</h1>
-          <p>Velkommen til 2raws Branch!</p>
-          <p>Databasen har {userResult.length} brukere</p>
-
-          
-
-          <div style={{ margin: "1.5rem 0" }}>
-            <a
-              href="/home"
-              style={{
-                display: "inline-block",
-                padding: "0.5rem 1rem",
-                background: "#0070f3",
-                color: "white",
-                textDecoration: "none",
-                borderRadius: "4px",
-                fontWeight: "500",
-              }}
-            >
-              Go to Home Page
-            </a>
+        <div style={{ width: "100%", margin: "0 auto" }}>
+          <div>
+          <Breadcrumbs/>
           </div>
-          <p style={{ fontSize: "0.875rem", color: "#666" }}>
-            Note: The home page is protected and requires authentication. You
-            will be redirected to login if you're not signed in.
-          </p>
+          <h1>Eksempel tittel</h1>
+          <a href="/leaderboard">Leaderboard</a>
+          <EksempelKomponent/>
         </div>
       );
     }),
@@ -66,5 +45,15 @@ export default defineApp([
       },
       Home,
     ]),
+    route("/leaderboard", [
+      async () => {
+      return (  
+        <div style={{ width: "100%", margin: "0 auto" }}>
+          <Breadcrumbs/>
+          <p style={{paddingTop: "5rem"}}>This is a leaderboard site.</p>
+        </div>
+      );  
+      },
+    ])
   ]),
 ]);
