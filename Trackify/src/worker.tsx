@@ -2,6 +2,7 @@ import { defineApp } from "rwsdk/worker";
 import { render, route } from "rwsdk/router";
 import { Document } from "@/app/Document";
 import { Home } from "@/app/pages/Home";
+import Nav from "./app/components/Nav"
 
 import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
@@ -23,8 +24,6 @@ export default defineApp([
   setCommonHeaders(),
   render(Document, [
     route("/", async () => {
-      return ( 
-
         <div style={{ width: "100%", margin: "0 auto" }}>
           <div>
           <Breadcrumbs/>
