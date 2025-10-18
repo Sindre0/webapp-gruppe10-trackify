@@ -9,6 +9,7 @@ import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
 import { env } from "cloudflare:workers";
 import { drizzle } from "drizzle-orm/d1";
+import Leaderboard from "./app/components/Leaderboard";
 
 
 export interface Env {
@@ -36,6 +37,7 @@ export default defineApp([
         return (  
           <div style={{ width: "100%", margin: "0 auto" }}>
             <p style={{paddingTop: "5rem"}}>This is a leaderboard site.</p>
+            <Leaderboard/>
           </div>
         );  
         },
