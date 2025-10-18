@@ -18,7 +18,7 @@ export default function Nav() {
 
   return (
     <header>
-      <nav className = "shadow-lg" >
+      <nav className = "shadow-lg h-12 z-1 bg-white" >
         <div className="mx-auto max-w-10xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-12 items-center justify-between">
             {/* Logo */}
