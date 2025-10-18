@@ -6,7 +6,7 @@ import HamburgerMenu from "./HamburgerMenu";
 import { useState } from "react";
 
 export default function Nav() {
-  const [hamburgerOpened, setHamburgerOpened] = useState(false)
+  const [hamburgerOpened, setHamburgerOpened] = useState(true)
 
   const toggleHamburger = () => {
     setHamburgerOpened(!hamburgerOpened)
