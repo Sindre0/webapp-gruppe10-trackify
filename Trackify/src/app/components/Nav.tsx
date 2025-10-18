@@ -18,7 +18,7 @@ export default function Nav() {
 
   return (
     <header>
-      <nav >
+      <nav className = "shadow-lg" >
         <div className="mx-auto max-w-10xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-12 items-center justify-between">
             {/* Logo */}
@@ -47,9 +47,6 @@ export default function Nav() {
         </div>
         <Breadcrumbs/>
       </nav>
-
-      {/* Svart stripe under nav */}
-      <div className="h-[2px] w-full bg-black" />
     </header>
   );
 }
