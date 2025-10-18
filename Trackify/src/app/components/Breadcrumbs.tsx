@@ -16,7 +16,7 @@ export default function Breadcrumbs() {
     }, []);
 
   return (
-    <nav style={{ background: "lightgrey", fontWeight: 600, padding: "0.5rem" }}>
+    <div style={{ background: "lightgrey", fontWeight: 600, padding: "0.5rem" }}>
       <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
         <li style={{ display: "inline" }}>
           <a href="/">Home</a>
@@ -38,6 +38,6 @@ export default function Breadcrumbs() {
           );
         })}
       </ul>
-    </nav>
+    </div>
   );
 }
