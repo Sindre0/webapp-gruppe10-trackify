@@ -17,9 +17,9 @@ export default function Breadcrumbs() {
 
   return (
     <div style={{ background: "#F5F5F5", fontWeight: 600, padding: "0.2rem" }}>
-      <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+      <ul style={{ listStyle: "none", margin: 0, padding: "0rem 1rem" , fontWeight: 400 }}>
         <li style={{ display: "inline" }}>
-          <a style={{ padding: "0rem 1rem" , fontWeight: 400 }} href="/">Home</a>
+          <a href="/">Home</a>
           {pathSegments.length > 0 && " / "}
         </li>
         {pathSegments.map((segment, index) => {
