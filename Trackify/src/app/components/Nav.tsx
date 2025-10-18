@@ -2,8 +2,20 @@
 
 import { Menu, User, Settings } from "react-feather";
 import Breadcrumbs from "./Breadcrumbs";
+import HamburgerMenu from "./HamburgerMenu";
+import { useState } from "react";
 
 export default function Nav() {
+  const [hamburgerOpened, setHamburgerOpened] = useState(false)
+
+  const toggleHamburger = () => {
+    setHamburgerOpened(!hamburgerOpened)
+  }
+
+  const displayHamburger = (state: boolean) => {
+    return state ? <HamburgerMenu/> : null
+  } 
+
   return (
     <header>
       <nav className = "shadow-lg" >
@@ -26,10 +38,9 @@ export default function Nav() {
                   <User size={22} />
                 </a>
               </li>
-              <li className="lg">
-                <a href="#" className="rounded-md p-1 focus:outline-none">
-                  <Menu size={26} />
-                </a>
+              <li className="lg rounded-md p-1 focus:outline-none" onClick={toggleHamburger}>
+                {displayHamburger(hamburgerOpened)}
+                <Menu size={26} />
               </li>
             </ul>
           </div>
