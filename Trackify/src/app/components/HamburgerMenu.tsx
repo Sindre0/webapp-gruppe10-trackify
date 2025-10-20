@@ -14,7 +14,8 @@ export default function HamburgerMenu() {
         paddingTop: "6rem",
         display: "flex",            
         flexDirection: "column",    
-        alignItems: "stretch" 
+        alignItems: "stretch", 
+        gap: "1rem"
     };
     const overlayStyle: CSSProperties = {
         position: "fixed",  
@@ -38,13 +39,16 @@ export default function HamburgerMenu() {
             <div style={sidePanelStyle}>
                 <a style={destinationStyle} href="/">Home</a>
                 <a style={destinationStyle} href="/leaderboard">Leaderboard</a>
-                <CornerDownRight/>
-                <ul style={{...destinationStyle, fontSize: 20, paddingLeft: "3rem", display: "block"}}>
-                    <li><a href="">Ongoing leaderboards</a></li>
-                    <li><a href="">Create a Leaderboard</a></li>
-                    <li><a href="">Join a Leaderboard</a></li>
-                    <li><a href="">My Leaderboards</a></li>
-                </ul>
+                <div style={{display: "flex", flexDirection: "row", gap: "0"}}>
+                    <CornerDownRight/>
+                    <ul style={{...destinationStyle, fontSize: 20}}>
+                        <li><a href="">Ongoing leaderboards</a></li>
+                        <li><a href="">Create a Leaderboard</a></li>
+                        <li><a href="">Join a Leaderboard</a></li>
+                        <li><a href="">My Leaderboards</a></li>
+                    </ul>
+                </div>
+
 
                 <a style={destinationStyle} href="">Upcoming Matches</a>
                 <a style={destinationStyle} href="">Announcements</a>

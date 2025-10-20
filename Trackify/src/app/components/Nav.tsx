@@ -6,7 +6,7 @@ import HamburgerMenu from "./HamburgerMenu";
 import { useState } from "react";
 
 export default function Nav() {
-  const [hamburgerOpened, setHamburgerOpened] = useState(true)
+  const [hamburgerOpened, setHamburgerOpened] = useState(false)
 
   const toggleHamburger = () => {
     setHamburgerOpened(!hamburgerOpened)
@@ -17,7 +17,7 @@ export default function Nav() {
   } 
 
   return (
-    <header>
+    <header className="pb-8">
       <nav className = "shadow-lg h-12 z-1 bg-white" >
         <div className="mx-auto max-w-10xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-12 items-center justify-between">
