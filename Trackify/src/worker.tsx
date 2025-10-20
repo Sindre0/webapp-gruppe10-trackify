@@ -27,7 +27,7 @@ export default defineApp([
     layout(MainLayout, [
       route("/", async () => {
         return (
-          <div style={{ width: "100%", margin: "0 auto" }}>
+          <div>
             <h1>Eksempel tittel</h1>
             <a href="/leaderboard">Leaderboard</a>
           </div>
@@ -35,9 +35,8 @@ export default defineApp([
       }),
       route("/leaderboard", async () => { 
         return (  
-          <div style={{ width: "100%", margin: "0 auto" }}>
-            <p style={{paddingTop: "5rem"}}>This is a leaderboard site.</p>
-            <Leaderboard/>
+          <div>
+            <p>This is a leaderboard site.</p>
           </div>
         );  
         },
