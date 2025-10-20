@@ -1,13 +1,14 @@
-  type LeaderboardProps = {
-        title: string;       
-        csvData: string;     
-};
+import LeaderboardButton from "./LeaderboardButton";
 
-export default function Leaderboard({ title, csvData }: LeaderboardProps) {
+
+export default function LeaderboardMenu() {
     return (
-        <div>
-            <h1>{title}</h1>
-            <p>Replace with graph drawer func.</p>
-        </div>
+        <section className='space-y-4 max-w-[80%] mx-auto mt-8'>
+            <LeaderboardButton href="#">Ongoing Leaderboards</LeaderboardButton>
+            <LeaderboardButton href="#">Concluded leaderboards</LeaderboardButton>
+            <LeaderboardButton href="#">Create a leaderboard</LeaderboardButton>
+            <LeaderboardButton href="#">Join a leaderboard</LeaderboardButton>
+            <LeaderboardButton href="#">My leaderboards</LeaderboardButton>
+        </section>
     );
 }
