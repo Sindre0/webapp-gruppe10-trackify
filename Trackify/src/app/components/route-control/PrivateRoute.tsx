@@ -9,7 +9,6 @@ interface PrivateRouteProps extends LayoutProps {
 export default function PrivateRoute({ children, isLoggedIn }: PrivateRouteProps) {
     if (!isLoggedIn) {
         navigate("/login");
-        return null;
     }
     return children;
 }

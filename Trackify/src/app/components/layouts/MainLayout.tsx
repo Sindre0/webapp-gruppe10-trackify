@@ -9,12 +9,9 @@ import LoginSite from "../LoginSite";
 export default function MainLayout({children}: LayoutProps) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-
     return (
         <>
-            {!isLoggedIn ? (
-            <LoginSite setIsLoggedIn={setIsLoggedIn} />
-        ) : (
+        {!isLoggedIn ? (<LoginSite setIsLoggedIn={setIsLoggedIn} />) : (
             <PrivateRoute isLoggedIn={isLoggedIn}>
             <div>
                 <Nav/>
