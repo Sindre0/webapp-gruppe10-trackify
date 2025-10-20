@@ -9,7 +9,7 @@ import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
 import { env } from "cloudflare:workers";
 import { drizzle } from "drizzle-orm/d1";
-import Leaderboard from "./app/components/Leaderboard";
+import Home from "./app/pages/Home";
 
 
 export interface Env {
@@ -28,8 +28,7 @@ export default defineApp([
       route("/", async () => {
         return (
           <div>
-            <h1>Eksempel tittel</h1>
-            <a href="/leaderboard">Leaderboard</a>
+            <Home />
           </div>
         );
       }),

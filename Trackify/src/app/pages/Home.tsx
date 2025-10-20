@@ -1,13 +1,17 @@
-import { RequestInfo } from "rwsdk/worker";
+import WelcomeMessage from "../components/WelcomeMessage";
+import OngoingPreview from "../components/OngoingPreview";
+import ConcludedPreview from "../components/ConcludedPreview";
+import RecentLeaderboard from "../components/RecentLeaderboard";
+import UpcomingMatches from "../components/UpcomingMatches";
 
-export function Home({ ctx }: RequestInfo) {
+export default function Home() {
   return (
     <div>
-      <p>
-        {ctx.user?.username
-          ? `You are logged in as user ${ctx.user.username}`
-          : "You are not logged in"}
-      </p>
+      <WelcomeMessage />
+      <OngoingPreview />
+      <ConcludedPreview />
+      <RecentLeaderboard />
+      <UpcomingMatches />
     </div>
   );
 }

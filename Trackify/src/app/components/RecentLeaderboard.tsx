@@ -1,0 +1,39 @@
+
+
+
+
+export default function RecentLeaderboard() {
+  const leaderboard = {
+    name: "Sjakk HIOF sesong 4",
+    placings: [
+      { player: "Kent", wins: 28, losses: 12 },
+      { player: "Kevin", wins: 25, losses: 15 },
+      { player: "Leif", wins: 25, losses: 16 },
+      { player: "Lars", wins: 20, losses: 20 },
+      { player: "Linda", wins: 18, losses: 22 },
+      { player: "Lene", wins: 15, losses: 25 },
+      { player: "Kari", wins: 30, losses: 10 },
+    ],
+  };
+
+  if (!leaderboard) {
+    return <p>No recent leaderboard data available.</p>;
+  }
+
+  // Sorter etter høyest mengde wins
+  const sortedPlacings = [...leaderboard.placings].sort((a, b) => b.wins - a.wins);
+
+  return (
+    <section>
+      <h2>{leaderboard.name}</h2>
+      <ul>
+        {sortedPlacings.map((placing, index) => (
+          <li key={index}>
+            {index + 1}. {placing.player}: <span>{placing.wins}W-{placing.losses}L</span>
+          </li>
+        ))}
+      </ul>
+        <a href="#">View All</a>
+    </section>
+  );
+}
