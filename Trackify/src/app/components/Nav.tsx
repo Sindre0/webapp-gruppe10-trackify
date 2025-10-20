@@ -2,11 +2,23 @@
 
 import { Menu, User, Settings } from "react-feather";
 import Breadcrumbs from "./Breadcrumbs";
+import HamburgerMenu from "./HamburgerMenu";
+import { useState } from "react";
 
 export default function Nav() {
+  const [hamburgerOpened, setHamburgerOpened] = useState(false)
+
+  const toggleHamburger = () => {
+    setHamburgerOpened(!hamburgerOpened)
+  }
+
+  const displayHamburger = (state: boolean) => {
+    return state ? <HamburgerMenu/> : null
+  } 
+
   return (
-    <header>
-      <nav >
+    <header className="pb-8">
+      <nav className = "shadow-lg h-12 z-1 bg-white" >
         <div className="mx-auto max-w-10xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-12 items-center justify-between">
             {/* Logo */}
@@ -26,19 +38,15 @@ export default function Nav() {
                   <User size={22} />
                 </a>
               </li>
-              <li className="lg">
-                <a href="#" className="rounded-md p-1 focus:outline-none">
-                  <Menu size={26} />
-                </a>
+              <li className="lg rounded-md p-1 focus:outline-none" onClick={toggleHamburger}>
+                {displayHamburger(hamburgerOpened)}
+                <Menu size={26} />
               </li>
             </ul>
           </div>
         </div>
         <Breadcrumbs/>
       </nav>
-
-      {/* Svart stripe under nav */}
-      <div className="h-[2px] w-full bg-black" />
     </header>
   );
 }
