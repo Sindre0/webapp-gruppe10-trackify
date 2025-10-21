@@ -1,13 +1,21 @@
-import { RequestInfo } from "rwsdk/worker";
+import WelcomeMessage from "../components/WelcomeMessage";
+import OngoingPreview from "../components/OngoingPreview";
+import ConcludedPreview from "../components/ConcludedPreview";
+import RecentLeaderboard from "../components/RecentLeaderboard";
+import UpcomingMatches from "../components/UpcomingMatches";
 
-export function Home({ ctx }: RequestInfo) {
+export default function Home() {
   return (
-    <div>
-      <p>
-        {ctx.user?.username
-          ? `You are logged in as user ${ctx.user.username}`
-          : "You are not logged in"}
-      </p>
-    </div>
+    <main >
+      <WelcomeMessage />
+        <div className="flex gap-8 mb-8 w-[70%] mx-auto">
+          <div className="space-y-4"> 
+            <OngoingPreview />
+            <ConcludedPreview />
+          </div>
+      <RecentLeaderboard />
+      <UpcomingMatches />
+      </div>
+    </main>
   );
 }
