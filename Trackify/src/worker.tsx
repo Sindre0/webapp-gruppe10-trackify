@@ -7,6 +7,8 @@ import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
 import { env } from "cloudflare:workers";
 import { drizzle } from "drizzle-orm/d1";
+import LeaderboardMenu from "./app/components/LeaderboardMenu";
+import Home from "./app/pages/Home";
 
 export interface Env {
   DB: D1Database;
@@ -23,17 +25,16 @@ export default defineApp([
     layout(MainLayout, [
       route("/", async () => {
         return (
-            <div>
-              <h1>Eksempel tittel</h1>
-              <a href="/leaderboard">Leaderboard</a>
-            </div>
+          <div>
+            <Home />
+          </div>
         );
       }),
       route("/leaderboard", async () => { 
-        return (
-            <div>
-              <p>This is a leaderboard site.</p>
-            </div>
+        return (  
+          <div>
+            <LeaderboardMenu />
+          </div>
         );  
         },
       )
