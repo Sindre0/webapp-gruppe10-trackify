@@ -1,7 +1,3 @@
-
-
-
-
 export default function RecentLeaderboard() {
   const leaderboard = {
     name: "Sjakk HIOF sesong 4",
@@ -11,8 +7,10 @@ export default function RecentLeaderboard() {
       { player: "Leif", wins: 25, losses: 16 },
       { player: "Lars", wins: 20, losses: 20 },
       { player: "Linda", wins: 18, losses: 22 },
-      { player: "Lene", wins: 15, losses: 25 },
       { player: "Kari", wins: 30, losses: 10 },
+      { player: "Lene", wins: 15, losses: 25 },
+      { player: "Kai", wins: 10, losses: 20 },
+      { player: "Tom", wins: 30, losses: 10 },
     ],
   };
 
@@ -20,20 +18,20 @@ export default function RecentLeaderboard() {
     return <p>No recent leaderboard data available.</p>;
   }
 
-  // Sorter etter høyest mengde wins
+  // Sorter etter høyest antall wins
   const sortedPlacings = [...leaderboard.placings].sort((a, b) => b.wins - a.wins);
 
   return (
-    <section>
-      <h2>{leaderboard.name}</h2>
-      <ul>
+    <section className="block w-[50%]">
+      <h2 className="m-2 text-lg">{leaderboard.name}</h2>
+      <ul className="px-5 py-3 border border-gray-300 shadow-md mx-auto">
         {sortedPlacings.map((placing, index) => (
-          <li key={index}>
+          <li className="border-b border-black/20 mb-1 py-2" key={index}>
             {index + 1}. {placing.player}: <span>{placing.wins}W-{placing.losses}L</span>
           </li>
         ))}
+        <a className="block mt-2 text-blue-600 text-sm text-center" href="#">View All</a>
       </ul>
-        <a href="#">View All</a>
     </section>
   );
 }
