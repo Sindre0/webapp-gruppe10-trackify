@@ -1,8 +1,6 @@
 import { defineApp } from "rwsdk/worker";
 import { layout, render, route } from "rwsdk/router";
 import { Document } from "@/app/Document";
-import Nav from "./app/components/Nav"
-import Breadcrumbs from "./app/components/Breadcrumbs";
 import MainLayout from "./app/components/layouts/MainLayout";
 
 import { User, users } from "./db/schema/user-schema";
@@ -11,7 +9,6 @@ import { env } from "cloudflare:workers";
 import { drizzle } from "drizzle-orm/d1";
 import LeaderboardMenu from "./app/components/LeaderboardMenu";
 import Home from "./app/pages/Home";
-
 
 export interface Env {
   DB: D1Database;
