@@ -1,14 +1,8 @@
 import React from "react";
-import { navigate } from "rwsdk/client";
 
 type LoginSiteProps = {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
-function login(setIsLoggedIn: boolean) {
-    setIsLoggedIn=true;
-    navigate("/");
-}
 
 export default function LoginSite({ setIsLoggedIn }: LoginSiteProps) {
   return (
