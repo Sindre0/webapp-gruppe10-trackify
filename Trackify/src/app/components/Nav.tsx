@@ -18,7 +18,7 @@ export default function Nav() {
 
   return (
     <header className="pb-8">
-      <nav className = "shadow-lg h-12 z-1 bg-white" >
+      <nav className = "shadow-lg h-12 bg-white">
         <div className="mx-auto max-w-10xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-12 items-center justify-between">
             {/* Logo */}
@@ -38,9 +38,11 @@ export default function Nav() {
                   <User size={22} />
                 </a>
               </li>
-              <li className="lg rounded-md p-1 focus:outline-none" onClick={toggleHamburger}>
-                {displayHamburger(hamburgerOpened)}
+              <li className="lg rounded-md p-1 focus:outline-none z-2" onClick={toggleHamburger}>
                 <Menu size={26} />
+              </li>
+              <li className="lg rounded-md p-1 focus:outline-none">
+                  {displayHamburger(hamburgerOpened)}
               </li>
             </ul>
           </div>
