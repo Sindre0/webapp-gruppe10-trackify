@@ -1,10 +1,35 @@
+"use client";
+
 import React from "react";
+import { navigate } from "rwsdk/client";
 
-type LoginSiteProps = {
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-};
+export default function LoginSite() {
 
-export default function LoginSite({ setIsLoggedIn }: LoginSiteProps) {
+  function handleLogin(event: React.FormEvent) {
+    
+      event.preventDefault();
+      const form = new FormData();
+      const email = String(form.get("email") || "").trim();
+      
+
+        // In a real app you'd verify credentials on the server. For now we
+        // create a minimal `User` shape matching `src/db/schema/user-schema.ts`.
+        const user = {
+            id: 1,
+            name: email.split("@")[0] || "User",
+            email,
+        };
+
+        // Store as encoded JSON so the worker can decode and parse it.
+        document.cookie = `user_session=${encodeURIComponent(
+            JSON.stringify(user)
+        )}; path=/`;
+        console.log("Set cookie:", document.cookie);
+        alert("Login clicked");
+        // Redirect to home so the worker receives the cookie on the next request.
+        navigate("/");
+  }
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <div className="bg-white shadow-lg p-8 w-full max-w-sm text-center">
@@ -33,9 +58,10 @@ export default function LoginSite({ setIsLoggedIn }: LoginSiteProps) {
                 </p>
 
                 <button
-                    type="submit"
+                    type="button"
                     className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md transition-colors"
-                    onClick={() => setIsLoggedIn(true)}>
+                    onClick={handleLogin}
+                    >
                     Login
                 </button>
             </form>
