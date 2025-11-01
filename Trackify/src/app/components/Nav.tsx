@@ -41,10 +41,10 @@ export default function Nav() {
               <li className="lg rounded-md p-1 z-2" onClick={toggleHamburger}>
                 <Menu size={26} />
               </li>
-              <li className="lg rounded-md p-1">
-                  {displayHamburger(hamburgerOpened)}
-              </li>
             </ul>
+              <div className={`lg rounded-md p-1 ${hamburgerOpened ? "fixed" : "hidden"}`}>
+                  {displayHamburger(hamburgerOpened)}
+              </div>
           </div>
         </div>
         <Breadcrumbs/>
