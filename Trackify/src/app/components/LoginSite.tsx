@@ -5,30 +5,23 @@ import { navigate } from "rwsdk/client";
 
 export default function LoginSite() {
 
-  function handleLogin(event: React.FormEvent) {
-    
-      event.preventDefault();
-      const form = new FormData();
-      const email = String(form.get("email") || "").trim();
-      
+    function handleLogin(event: React.FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const email = String(formData.get("email") ?? "").trim();
 
-        // In a real app you'd verify credentials on the server. For now we
-        // create a minimal `User` shape matching `src/db/schema/user-schema.ts`.
         const user = {
             id: 1,
             name: email.split("@")[0] || "User",
             email,
         };
 
-        // Store as encoded JSON so the worker can decode and parse it.
         document.cookie = `user_session=${encodeURIComponent(
             JSON.stringify(user)
         )}; path=/`;
         console.log("Set cookie:", document.cookie);
-        alert("Login clicked");
-        // Redirect to home so the worker receives the cookie on the next request.
         navigate("/");
-  }
+    }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -36,12 +29,12 @@ export default function LoginSite() {
             <h1 className="text-2xl font-semibold mb-6">Trackify</h1>
             <h2 className="text-xl font-medium mb-4">Sign in</h2>
 
-            <form className="flex flex-col space-y-4 text-left">
+                        <form className="flex flex-col space-y-4 text-left" onSubmit={handleLogin}>
                 <div>
                     <label htmlFor="email" className="block text-sm text-gray-700 mb-1">
                     Email
                     </label>
-                    <input id="email" type="email"
+                                        <input id="email" name="email" type="email" autoComplete="email" required
                     className="w-full border-b border-gray-300 focus:outline-none focus:border-blue-500 p-1"/>
                 </div>
 
@@ -49,7 +42,7 @@ export default function LoginSite() {
                     <label htmlFor="password" className="block text-sm text-gray-700 mb-1">
                     Password
                     </label>
-                    <input id="password" type="password"
+                                        <input id="password" name="password" type="password" autoComplete="current-password"
                     className="w-full border-b border-gray-300 focus:outline-none focus:border-blue-500 p-1"/>
                 </div>
 
@@ -58,10 +51,9 @@ export default function LoginSite() {
                 </p>
 
                 <button
-                    type="button"
+                                        type="submit"
                     className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md transition-colors"
-                    onClick={handleLogin}
-                    >
+                                        >
                     Login
                 </button>
             </form>

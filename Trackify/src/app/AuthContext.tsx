@@ -1,20 +1,20 @@
 "use client";
 
 import type { User } from "@/db/schema";
-import { createContext, ReactNode } from "react";
+import { createContext, ReactNode, useEffect } from "react";
 import { navigate } from "rwsdk/client";
 
 export const AuthContext = createContext<User | undefined>(undefined);
 
-export function AuthProvider({
-    user,
-    children,
-}: {
+export function AuthProvider({user, children,}: {
     user: User | undefined;
     children: ReactNode;
 }) {
-    // if (!user) {
-    //     navigate("/login");
-    // }
-    return <AuthContext value={user}>{children}</AuthContext>;
+    useEffect(() => {
+        if (!user) {
+            navigate("/login");
+        }
+    }, [user]);
+
+    return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
 }   
