@@ -47,7 +47,7 @@ export default function LoginSite() {
                 </div>
 
                 <p className="text-sm text-gray-600">
-                    No account? <a href="#" className="text-blue-500 hover:underline">Make one here!</a>
+                    No account? <a href="/create-account" className="text-blue-500 hover:underline">Make one here!</a>
                 </p>
 
                 <button
