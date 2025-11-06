@@ -9,7 +9,8 @@ import { env } from "cloudflare:workers";
 import { drizzle } from "drizzle-orm/d1";
 import LeaderboardMenu from "./app/components/LeaderboardMenu";
 import Home from "./app/pages/Home";
-import LoginSite from "./app/components/LoginSite";
+import LoginSite from "./app/pages/LoginSite";
+import CreateAccount from "./app/pages/CreateAccount";
 
 export interface Env {
   DB: D1Database;
@@ -80,12 +81,14 @@ export default defineApp([
             <LeaderboardMenu />
           </div>
         );  
-        },
-      )
+        }),
       ]),
-    route("/login", async () => {
-      return <LoginSite></LoginSite>;
-  }),
+      route("/login", async () => {
+          return <LoginSite />;
+      }),
+      route("/create-account", async () => {
+        return <CreateAccount />;
+      }),
   ]),
 ]);
 
