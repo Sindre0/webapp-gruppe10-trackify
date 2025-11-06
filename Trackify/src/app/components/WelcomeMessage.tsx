@@ -1,8 +1,14 @@
+"use client";
+
+import { useAuth } from "@/hooks/useAuth";
+
 export default function WelcomeMessage() {
-    const username = "Geir Ragnar";
+    const user = useAuth();
+
+    const username = user?.name || "Unknown";
     const rank = 1;
     const recentLeaderboard = "Sjakk HIOF sesong 4";
-
+    
     return (
         <section className="flex justify-center mt-8 mb-8">
             <section className = "block w-[60%] border border-gray-300 shadow-md rounded-3xl px-5 py-3">
