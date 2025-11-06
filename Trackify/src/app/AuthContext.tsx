@@ -16,5 +16,5 @@ export function AuthProvider({user, children,}: {
         }
     }, [user]);
 
-    return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
+    return <AuthContext value={user}>{children}</AuthContext>;
 }   
