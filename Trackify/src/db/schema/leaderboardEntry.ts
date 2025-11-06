@@ -8,11 +8,11 @@ import { users } from "./user-schema";
 
 
 export const leaderboard_entry = sqliteTable("leaderboard_entry", {
-  entry_id : int().primaryKey({ autoIncrement: true }),
-  leaderboard_id: text().notNull().references(() => leaderboards.id, { onDelete: "cascade" }),
-  entry_date: text().default(sql`(CURRENT_DATE)`),
-  winner_id: int().notNull().references(() => users.id),
-  loser_id: int().notNull().references(() => users.id),
+  entry_id : int("entry_id").primaryKey({ autoIncrement: true }),
+  leaderboard_id: text("leaderboard_id").notNull().references(() => leaderboards.id, { onDelete: "cascade" }),
+  entry_date: text("entry_date").default(sql`(CURRENT_DATE)`),
+  winner_id: text("winner_id").notNull().references(() => users.id),
+  loser_id: text("loser_id").notNull().references(() => users.id),
 },
 (table) => [
     index( "idx_leaderboard_entry_leaderboard_id").on(table.leaderboard_id),
