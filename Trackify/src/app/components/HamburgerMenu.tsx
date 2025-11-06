@@ -35,7 +35,7 @@ export default function HamburgerMenu() {
     }
 
     return (
-        <div style={overlayStyle}>
+        <aside style={overlayStyle}>
             <div style={sidePanelStyle}>
                 <a style={destinationStyle} href="/">Home</a>
                 <a style={destinationStyle} href="/leaderboard">Leaderboard</a>
@@ -43,6 +43,7 @@ export default function HamburgerMenu() {
                     <CornerDownRight/>
                     <ul style={{...destinationStyle, fontSize: 20}}>
                         <li><a href="">Ongoing leaderboards</a></li>
+                        <li><a href="">Concluded leaderboards</a></li>
                         <li><a href="">Create a Leaderboard</a></li>
                         <li><a href="">Join a Leaderboard</a></li>
                         <li><a href="">My Leaderboards</a></li>
@@ -53,7 +54,7 @@ export default function HamburgerMenu() {
                 <a style={destinationStyle} href="">Upcoming Matches</a>
                 <a style={destinationStyle} href="">Announcements</a>
             </div>
-        </div>
+        </aside>
 
     )
 }
