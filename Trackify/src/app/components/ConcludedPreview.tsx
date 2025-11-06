@@ -6,16 +6,16 @@ export default function ConcludedPreview() {
     ];
 
     return (
-        <section>
-            <h2>Concluded Leaderboards</h2>
-            <ul>
+        <section className="block w-64">
+            <h2 className="m-2 text-lg">Concluded Leaderboards</h2>
+            <ul className="px-5 py-3 border border-gray-300 shadow-md mx-auto mb-2">
                 {leaderboards.map((board) => (
-                    <li key={board.id}>
+                    <li className="border-b border-black/20 mb-2 mt-2" key={board.id}>
                         {board.name}
                     </li>
                 ))}
+                <a className="block mt-4 text-blue-600 text-sm" href="#">View All </a>
             </ul>
-            <a href="#">View All </a>
         </section>
     );
 }

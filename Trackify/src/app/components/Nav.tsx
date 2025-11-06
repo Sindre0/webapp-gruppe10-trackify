@@ -17,9 +17,9 @@ export default function Nav() {
   } 
 
   return (
-    <header className="pb-8">
-      <nav className = "shadow-lg h-12 z-1 bg-white" >
-        <div className="mx-auto max-w-10xl px-4 sm:px-6 lg:px-8">
+    <header className="pb-6">
+      <nav className = "h-12">
+        <div className="mx-auto lg:px-8">
           <div className="flex h-12 items-center justify-between">
             {/* Logo */}
             <a href="/" className="text-3xl font-semibold tracking-tight">
@@ -29,20 +29,22 @@ export default function Nav() {
             {/* Ikoner */}
             <ul className="flex items-center gap-4">
               <li>
-                <a href="/#" className="rounded-md p-1 focus:outline-none">
+                <a href="/#" className="rounded-md p-1">
                   <Settings size={22} />
                 </a>
               </li>
               <li>
-                <a href="/#" className="rounded-md p-1 focus:outline-none">
+                <a href="/#" className="rounded-md p-1">
                   <User size={22} />
                 </a>
               </li>
-              <li className="lg rounded-md p-1 focus:outline-none" onClick={toggleHamburger}>
-                {displayHamburger(hamburgerOpened)}
+              <li className="lg rounded-md p-1 z-2" onClick={toggleHamburger}>
                 <Menu size={26} />
               </li>
             </ul>
+              <div className={`lg rounded-md p-1 ${hamburgerOpened ? "fixed" : "hidden"}`}>
+                  {displayHamburger(hamburgerOpened)}
+              </div>
           </div>
         </div>
         <Breadcrumbs/>

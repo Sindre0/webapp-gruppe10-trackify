@@ -4,8 +4,10 @@ export default function WelcomeMessage() {
     const recentLeaderboard = "Sjakk HIOF sesong 4";
 
     return (
-        <section>
-            <p>Welcome, {username}! You are ranked #{rank} on the {recentLeaderboard}</p>
+        <section className="flex justify-center mt-8 mb-8">
+            <section className = "block w-[60%] border border-gray-300 shadow-md rounded-3xl px-5 py-3">
+                <p>Welcome, {username}! You are ranked #{rank} on the {recentLeaderboard}</p>
+            </section>
         </section>
     )
 }

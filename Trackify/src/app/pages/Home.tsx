@@ -6,12 +6,16 @@ import UpcomingMatches from "../components/UpcomingMatches";
 
 export default function Home() {
   return (
-    <div>
+    <main >
       <WelcomeMessage />
-      <OngoingPreview />
-      <ConcludedPreview />
+        <div className="flex gap-8 mb-8 w-[70%] mx-auto">
+          <div className="space-y-4"> 
+            <OngoingPreview />
+            <ConcludedPreview />
+          </div>
       <RecentLeaderboard />
       <UpcomingMatches />
-    </div>
+      </div>
+    </main>
   );
 }

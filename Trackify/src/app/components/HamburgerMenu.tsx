@@ -24,7 +24,7 @@ export default function HamburgerMenu() {
         width: "100%",           
         height: "100%",           
         backgroundColor: "rgba(0, 0, 0, 0.5)", 
-        zIndex: "-1"
+        zIndex: "+1"
     }
     const destinationStyle :CSSProperties = {
         width: "100%",
