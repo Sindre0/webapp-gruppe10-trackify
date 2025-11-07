@@ -67,28 +67,24 @@ export default defineApp([
   setCommonHeaders(),
   authenticationMiddleware,
   render(Document, [
+    route("/login", async () => {
+      return <LoginSite />;
+    }),
+    route("/create-account", async () => {
+      return <CreateAccount />;
+    }),
     layout(MainLayout, [
       route("/", async () => {
         return (
-          <div>
-            <Home />
-          </div>
+          <Home />
         );
       }),
       route("/leaderboard", async () => { 
         return (  
-          <div>
-            <LeaderboardMenu />
-          </div>
+          <LeaderboardMenu />
         );  
-        }),
-      ]),
-      route("/login", async () => {
-          return <LoginSite />;
       }),
-      route("/create-account", async () => {
-        return <CreateAccount />;
-      }),
+    ]),
   ]),
 ]);
 
