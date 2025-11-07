@@ -13,7 +13,7 @@ export default function Nav() {
   }
 
   const displayHamburger = (state: boolean) => {
-    return state ? <HamburgerMenu/> : null
+    return state ? <HamburgerMenu hamburgerToggle={toggleHamburger} /> : null
   } 
 
   return (
