@@ -10,6 +10,7 @@ import { drizzle } from "drizzle-orm/d1";
 import LeaderboardMenu from "./app/components/LeaderboardMenu";
 import Home from "./app/pages/Home";
 import LoginSite from "./app/components/LoginSite";
+import GameLeaderboard from "./app/pages/GameLeaderboard";
 
 export interface Env {
   DB: D1Database;
@@ -83,9 +84,17 @@ export default defineApp([
         },
       )
       ]),
+        route("/game-leaderboard", async () => {
+       return (  
+          <div>
+            <GameLeaderboard />
+          </div>
+        );  
+      },
+      )
+      ]),
     route("/login", async () => {
       return <LoginSite></LoginSite>;
-  }),
-  ]),
-]);
+    }),
+  ]);
 

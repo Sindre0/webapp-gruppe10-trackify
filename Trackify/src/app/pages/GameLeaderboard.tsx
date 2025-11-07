@@ -1,0 +1,21 @@
+import WelcomeMessage from "../components/WelcomeMessage";
+import OngoingPreview from "../components/OngoingPreview";
+import ConcludedPreview from "../components/ConcludedPreview";
+import RecentLeaderboard from "../components/RecentLeaderboard";
+import UpcomingMatches from "../components/UpcomingMatches";
+import GameSpecificLeaderboard from "../components/GameSpecificLeaderboard";
+
+export default function Home() {
+  return (
+    <main >
+      <WelcomeMessage />
+        <div className="flex gap-8 mb-8 w-[70%] mx-auto">
+          <div className="space-y-4" > 
+            <section className ="w-[100%]">
+              <GameSpecificLeaderboard />
+            </section>
+          </div>
+      </div>
+    </main>
+  );
+}
