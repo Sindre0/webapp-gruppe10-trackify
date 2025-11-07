@@ -44,67 +44,54 @@ export default function CreateAccount() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50">
-      <div className="bg-white shadow-lg p-8 w-full max-w-sm text-center">
-        <h1 className="text-2xl font-semibold mb-6">Trackify</h1>
-        <h2 className="text-xl font-medium mb-4">Create account</h2>
+    <main className="flex items-center justify-center min-h-screen bg-gray-50">
+      <section className="bg-white shadow-lg p-8 w-full max-w-sm text-center">
+        <h1 className="mb-6 text-2xl font-semibold">Trackify</h1>
+
+        <h2 className="text-xl font-medium mb-4">
+          Create account
+        </h2>
 
         <form className="flex flex-col space-y-4 text-left" onSubmit={handleCreateAccount}>
-          <div>
-            <label htmlFor="name" className="block text-sm text-gray-700 mb-1">
-              Name
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              autoComplete="name"
-              required
-              className="w-full border-b border-gray-300 focus:outline-none focus:border-blue-500 p-1"
-            />
-          </div>
+          <label htmlFor="name" className="block text-sm text-gray-700 mb-1">Name</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            autoComplete="name"
+            required
+            className="w-full border-b border-gray-300 focus:outline-none focus:border-blue-500 p-1"
+          />
 
-          <div>
-            <label htmlFor="email" className="block text-sm text-gray-700 mb-1">
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              className="w-full border-b border-gray-300 focus:outline-none focus:border-blue-500 p-1"
-            />
-          </div>
+          <label htmlFor="email" className="block text-sm text-gray-700 mb-1">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            className="w-full border-b border-gray-300 focus:outline-none focus:border-blue-500 p-1"
+          />
 
-          <div>
-            <label htmlFor="password" className="block text-sm text-gray-700 mb-1">
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="new-password"
-              required
-              className="w-full border-b border-gray-300 focus:outline-none focus:border-blue-500 p-1"
-            />
-          </div>
+          <label htmlFor="password" className="block text-sm text-gray-700 mb-1">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autoComplete="new-password"
+            required
+            className="w-full border-b border-gray-300 focus:outline-none focus:border-blue-500 p-1"
+          />
 
-          <div>
-            <label htmlFor="confirm" className="block text-sm text-gray-700 mb-1">
-              Confirm password
-            </label>
-            <input
-              id="confirm"
-              name="confirm"
-              type="password"
-              autoComplete="new-password"
-              required
-              className="w-full border-b border-gray-300 focus:outline-none focus:border-blue-500 p-1"
-            />
-          </div>
+          <label htmlFor="confirm" className="block text-sm text-gray-700 mb-1">Confirm password</label>
+          <input
+            id="confirm"
+            name="confirm"
+            type="password"
+            autoComplete="new-password"
+            required
+            className="w-full border-b border-gray-300 focus:outline-none focus:border-blue-500 p-1"
+          />
 
           <p className="text-sm text-gray-600">
             Already have an account?{" "}
@@ -120,7 +107,7 @@ export default function CreateAccount() {
             Create account
           </button>
         </form>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
