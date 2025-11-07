@@ -23,9 +23,7 @@ export default function UpcomingMatches() {
                     Kari (#1) vs Lars (#5) <br /> <a className="text-blue-600 text-sm" href="#">Sjakk HIOF sesong 4 - 18/09</a>
                 </li>
                 <a className="block mt-4 text-blue-600 text-sm text-center" href="#">View All</a>
-            </ul>
-
-            
+            </ul> 
         </section>
     );
 }
