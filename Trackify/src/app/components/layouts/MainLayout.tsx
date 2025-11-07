@@ -8,10 +8,10 @@ export default function MainLayout({children}: LayoutProps) {
     const user = ctx?.user ?? undefined;
     return (
         <AuthProvider user={user}>
-            <div>
-                <Nav/>
+            <Nav/>
+            <main>
                 {children}
-            </div>
+            </main>
         </AuthProvider>
     )
 }

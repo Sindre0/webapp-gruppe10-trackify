@@ -1,6 +1,5 @@
 import LeaderboardButton from "./LeaderboardButton";
 
-
 export default function LeaderboardMenu() {
     return (
         <section className='space-y-4 max-w-[80%] mx-auto mt-8'>
@@ -11,4 +10,4 @@ export default function LeaderboardMenu() {
             <LeaderboardButton href="#">My leaderboards</LeaderboardButton>
         </section>
     );
-}
+} 
