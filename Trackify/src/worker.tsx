@@ -7,10 +7,11 @@ import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
 import { env } from "cloudflare:workers";
 import { drizzle } from "drizzle-orm/d1";
-import LeaderboardMenu from "./app/components/LeaderboardMenu";
+import LeaderboardMenu from "./app/pages/LeaderboardMenu";
 import Home from "./app/pages/Home";
 import LoginSite from "./app/pages/LoginSite";
 import CreateAccount from "./app/pages/CreateAccount";
+import NewLeaderboard from "./app/pages/NewLeaderboard";
 
 export interface Env {
   DB: D1Database;
@@ -82,6 +83,11 @@ export default defineApp([
       route("/leaderboard", async () => { 
         return (  
           <LeaderboardMenu />
+        );  
+      }),
+      route("/create-leaderboard", async () => { 
+        return (  
+          <NewLeaderboard />
         );  
       }),
     ]),
