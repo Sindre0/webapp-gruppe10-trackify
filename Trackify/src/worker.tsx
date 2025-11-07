@@ -12,6 +12,7 @@ import Home from "./app/pages/Home";
 import LoginSite from "./app/pages/LoginSite";
 import CreateAccount from "./app/pages/CreateAccount";
 import GameLeaderboard from "./app/pages/GameLeaderboard";
+import ProfilePage from "./app/pages/ProfilePage";
 
 export interface Env {
   DB: D1Database;
@@ -90,6 +91,11 @@ export default defineApp([
           <GameLeaderboard />
         );
       }),
+      route("/profile", async () => { 
+        return (  
+          <ProfilePage />
+        );  
+      })
     ])
     ]),
   ]);
