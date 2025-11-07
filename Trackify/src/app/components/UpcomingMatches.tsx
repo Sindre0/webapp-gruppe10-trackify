@@ -1,7 +1,7 @@
 export default function UpcomingMatches() {
     // Dette er hardkodet da det ikke er en prioritering enda.
     return (
-        <section className="block w-64">
+        <section className="w-full">
             <h2 className="text-lg mb-3">Upcoming Matches</h2>
             <ul className="px-5 py-3 border border-gray-300 shadow-md mx-auto mb-6 space-y-3">
                 <li className="border-b border-black/10 pb-2">

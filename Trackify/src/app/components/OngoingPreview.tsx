@@ -6,7 +6,7 @@ export default function OngoingPreview() {
     ];
 
     return (
-        <section className="block w-64">
+        <section className="w-full">
             <h2 className="m-2 text-lg">Ongoing Leaderboards</h2>
             <ul className="px-5 py-3 border border-gray-300 shadow-md mx-auto">
                 {leaderboards.map((board) => (

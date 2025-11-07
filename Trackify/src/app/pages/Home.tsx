@@ -14,7 +14,9 @@ export default function Home() {
             <ConcludedPreview />
           </div>
       <RecentLeaderboard />
-      <UpcomingMatches />
+      <section className="w-[30%] space-y-4">
+        <UpcomingMatches />
+      </section>
       </div>
     </main>
   );

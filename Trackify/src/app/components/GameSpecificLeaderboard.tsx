@@ -1,6 +1,6 @@
 export default function(){
   const leaderboard = {
-    name: "Sjakk HIOF sesong 4",
+    name: "Counter-Strike: Global Offensive",
     placings: [
       { player: "Kent", wins: 28, losses: 12 },
       { player: "Kevin", wins: 25, losses: 15 },
@@ -23,7 +23,7 @@ export default function(){
 
   return (
     //Maa fikse w-80!
-    <section className="block w-120">
+    <section className="w-full">
       <h2 className="m-2 text-lg">{leaderboard.name}</h2>
       <ul className="px-5 py-3 border border-gray-300 shadow-md mx-auto">
         {sortedPlacings.map((placing, index) => (

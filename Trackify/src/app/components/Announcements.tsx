@@ -11,7 +11,7 @@ export default function Announcements() {
     ];
 
     return (
-        <section className="block w-64">
+        <section className="w-full">
             <h2 className="m-2 text-lg">Announcements</h2>
             <ul className="px-5 py-3 border border-gray-300 shadow-md mx-auto mb-2">
                 {announcements.map((element) => (

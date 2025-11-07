@@ -22,7 +22,7 @@ export default function RecentLeaderboard() {
   const sortedPlacings = [...leaderboard.placings].sort((a, b) => b.wins - a.wins);
 
   return (
-    <section className="block w-[50%]">
+    <section className="block w-[60%]">
       <h2 className="m-2 text-lg">{leaderboard.name}</h2>
       <ul className="px-5 py-3 border border-gray-300 shadow-md mx-auto">
         {sortedPlacings.map((placing, index) => (
