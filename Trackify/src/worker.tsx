@@ -67,34 +67,25 @@ export default defineApp([
   setCommonHeaders(),
   authenticationMiddleware,
   render(Document, [
+    route("/login", async () => {
+      return <LoginSite />;
+    }),
     layout(MainLayout, [
       route("/", async () => {
         return (
-          <div>
-            <Home />
-          </div>
+          <Home />
         );
       }),
       route("/leaderboard", async () => { 
         return (  
-          <div>
-            <LeaderboardMenu />
-          </div>
+          <LeaderboardMenu />
         );  
-        },
-      )
-      ]),
-        route("/game-leaderboard", async () => {
-       return (  
-          <div>
-            <GameLeaderboard />
-          </div>
-        );  
-      },
-      )
-      ]),
-    route("/login", async () => {
-      return <LoginSite></LoginSite>;
-    }),
-  ]);
-
+      }),
+      route("/game-leaderboard", async () => { 
+        return (  
+          <GameLeaderboard />
+        );
+      }),
+    ])
+  ]),
+]);
