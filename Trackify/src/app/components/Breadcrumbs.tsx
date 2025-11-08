@@ -9,6 +9,11 @@ export default function Breadcrumbs() {
       const segments = window.location.pathname.split("/").filter(Boolean);
       setPathSegments(segments);
     };
+
+    const prettifySegment = (segment: string) => {
+      return segment.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+    }
+
     useEffect(() => {
         updateBreadcrumbs();
         window.addEventListener("popstate", updateBreadcrumbs);
@@ -29,10 +34,10 @@ export default function Breadcrumbs() {
             <li key={index} className="inline">
               {!isLast ? (
                 <>
-                  <a href={pathUpToHere}>{segment}</a> /{" "}
+                  <a href={pathUpToHere}>{prettifySegment(segment)}</a> /{" "}
                 </>
               ) : (
-                <span>{segment}</span>
+                <span>{prettifySegment(segment)}</span>
               )}
             </li>
           );
