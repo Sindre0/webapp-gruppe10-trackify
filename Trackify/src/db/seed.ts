@@ -4,51 +4,54 @@
 
 import { defineScript } from "rwsdk/worker";
 import { drizzle } from "drizzle-orm/d1";
-import { users } from "./schema";
+import { users, leaderboards, leaderboard_has_user, leaderboard_entry, Leaderboard } from "./schema";
 import { env as WorkerEnv } from "cloudflare:workers";
 
 export const seedData = async (env?: Env) => {
   try {
     const db = drizzle(env?.DB ?? WorkerEnv.DB);
+    await db.delete(leaderboard_entry);
+    await db.delete(leaderboard_has_user);
+    await db.delete(leaderboards);
     await db.delete(users);
-    await db.delete(tasks);
+    
 
-    const [user1] = await db
-      .insert(users)
-      .values({
-        name: "Test user",
-        email: "test@testuser.io",
-      })
-      .returning();
+    const userRows = await db.insert(users).values([
+      { id: "user1", username: "alice", email: "alice@example.com", passwordHash: "hash1" },
+      { id: "user2", username: "bob", email: "bob@example.com", passwordHash: "hash2" },
+      { id: "user3", username: "carol", email: "carol@example.com", passwordHash: "hash3" },
+    ]).returning();
 
-    const taskData: Task[] = [
+    const [alice, bob, carol] = userRows;
+
+    const leaderboardData: Leaderboard[] = [
       {
-        id: "1",
-        name: "Task 1",
-        description: "Description for Task 1",
-        dueDate: new Date(Date.now() + 86400 * 1000),
-        userId: user1.id,
-        completed: false,
-        published: true,
+        id: crypto.randomUUID(),
+        name: "CS:GO Tournament",
+        description: "Description for CS:GO Tournament",
+        visibility: "public",
+        createdAt: new Date().toISOString(),
+        endDate: new Date(Date.now() + 86400 * 1000).toISOString(),
+        active: true,
       },
       {
-        id: "2",
-        name: "Task 2",
-        description: "Description for Task 2",
-        dueDate: new Date(Date.now() + 172800 * 1000), // Due in 2 days
-        userId: user1.id,
-        completed: false,
-        published: false,
+        id: crypto.randomUUID(),
+        name: "Chess Tournament",
+        description: "Description for Chess Tournament",
+        visibility: "public",
+        createdAt: new Date().toISOString(),
+        endDate: new Date(Date.now() + 86400 * 1000).toISOString(),
+        active: true,
       },
     ];
 
-    const [...insertedTasks] = await db
-      .insert(tasks)
-      .values(taskData)
+    const [...insertedLeaderboards] = await db
+      .insert(leaderboards)
+      .values(leaderboardData)
       .returning();
 
     const result = await db.select().from(users).all();
-    console.log("Inserted tasks:", insertedTasks);
+    console.log("Inserted leaderboards:", insertedLeaderboards);
 
     console.log("🌱 Finished seeding");
 

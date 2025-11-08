@@ -1,6 +1,6 @@
 
 
-import { sqliteTable, text, int, } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, int, primaryKey } from "drizzle-orm/sqlite-core";
 import { leaderboards } from "./leaderboard-schema";
 import { users } from "./user-schema";
 

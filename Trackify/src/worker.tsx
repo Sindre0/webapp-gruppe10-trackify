@@ -3,6 +3,7 @@ import { layout, render, route } from "rwsdk/router";
 import { Document } from "@/app/Document";
 import MainLayout from "./app/components/layouts/MainLayout";
 
+import { seedData } from "./db/seed";
 import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
 import { env } from "cloudflare:workers";
@@ -67,6 +68,10 @@ export default defineApp([
   setCommonHeaders(),
   authenticationMiddleware,
   render(Document, [
+     route("/api/seed", async () => {
+    await seedData(env);
+    return Response.json({ success: true });
+  }),
     layout(MainLayout, [
       route("/", async () => {
         return (

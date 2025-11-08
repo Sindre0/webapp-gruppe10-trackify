@@ -10,6 +10,7 @@ export const leaderboards = sqliteTable("leaderboards", {
   description: text("description"),
   visibility: text("visibility").notNull(),
   createdAt: text("createdAt").default(sql`(CURRENT_DATE)`),
+  endDate: text("endDate").default(sql`(CURRENT_DATE)`),
   active: int("active", {mode: "boolean"}).default(true),
 });
 
