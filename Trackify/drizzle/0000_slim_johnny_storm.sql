@@ -1,3 +1,12 @@
+CREATE TABLE `users` (
+	`id` text PRIMARY KEY NOT NULL,
+	`username` text NOT NULL,
+	`email` text NOT NULL,
+	`passwordHash` text NOT NULL,
+	`createdAt` text DEFAULT (CURRENT_DATE)
+);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);--> statement-breakpoint
 CREATE TABLE `leaderboards` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
@@ -29,18 +38,4 @@ CREATE TABLE `leaderboard_entry` (
 	FOREIGN KEY (`loser_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE INDEX `idx_leaderboard_entry_leaderboard_id` ON `leaderboard_entry` (`leaderboard_id`);--> statement-breakpoint
-PRAGMA foreign_keys=OFF;--> statement-breakpoint
-CREATE TABLE `__new_users` (
-	`id` text PRIMARY KEY NOT NULL,
-	`username` text NOT NULL,
-	`email` text NOT NULL,
-	`passwordHash` text NOT NULL,
-	`createdAt` text DEFAULT (CURRENT_DATE)
-);
---> statement-breakpoint
-INSERT INTO `__new_users`("id", "username", "email", "passwordHash", "createdAt") SELECT "id", "username", "email", "passwordHash", "createdAt" FROM `users`;--> statement-breakpoint
-DROP TABLE `users`;--> statement-breakpoint
-ALTER TABLE `__new_users` RENAME TO `users`;--> statement-breakpoint
-PRAGMA foreign_keys=ON;--> statement-breakpoint
-CREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);
+CREATE INDEX `idx_leaderboard_entry_leaderboard_id` ON `leaderboard_entry` (`leaderboard_id`);

@@ -67,11 +67,11 @@ export async function authenticationMiddleware({
 export default defineApp([
   setCommonHeaders(),
   authenticationMiddleware,
-  render(Document, [
-     route("/api/seed", async () => {
+  route("/api/seed", async () => {
     await seedData(env);
     return Response.json({ success: true });
     }),
+  render(Document, [
     layout(MainLayout, [
       route("/", async () => {
         return (
@@ -87,6 +87,11 @@ export default defineApp([
           </div>
         );  
         }),
+      route("/test-db", async ({}) => {
+        const db = drizzle(env.DB);
+        const allUsers = await db.select().from(users);
+        return Response.json(allUsers);
+      }),
       ]),
       route("/login", async () => {
           return <LoginSite />;
