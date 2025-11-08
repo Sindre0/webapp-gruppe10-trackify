@@ -11,7 +11,7 @@ export default function LeaderboardMenu() {
                     <LeaderboardButton href="#">Concluded leaderboards</LeaderboardButton>
                 </li>
                 <li className="pb-4">
-                    <LeaderboardButton href="#">Create a leaderboard</LeaderboardButton>
+                    <LeaderboardButton href="leaderboard/create-leaderboard">Create a leaderboard</LeaderboardButton>
                 </li>
                 <li className="pb-4">
                     <LeaderboardButton href="#">Join a leaderboard</LeaderboardButton>

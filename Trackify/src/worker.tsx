@@ -1,5 +1,5 @@
 import { defineApp } from "rwsdk/worker";
-import { layout, render, route } from "rwsdk/router";
+import { layout, prefix, render, route } from "rwsdk/router";
 import { Document } from "@/app/Document";
 import MainLayout from "./app/components/layouts/MainLayout";
 
@@ -12,6 +12,7 @@ import Home from "./app/pages/Home";
 import LoginSite from "./app/pages/LoginSite";
 import CreateAccount from "./app/pages/CreateAccount";
 import NewLeaderboard from "./app/pages/NewLeaderboard";
+import UpdateLeaderboard from "./app/pages/UpdateLeaderboard";
 
 export interface Env {
   DB: D1Database;
@@ -80,16 +81,23 @@ export default defineApp([
           <Home />
         );
       }),
-      route("/leaderboard", async () => { 
-        return (  
-          <LeaderboardMenu />
-        );  
-      }),
-      route("/create-leaderboard", async () => { 
-        return (  
-          <NewLeaderboard />
-        );  
-      }),
+      prefix("/leaderboard", [
+        route("/", async () => { 
+          return (  
+            <LeaderboardMenu />
+          );  
+        }),
+        route("/create-leaderboard", async () => { 
+          return (  
+            <NewLeaderboard />
+          );  
+        }),
+        route("/my-leaderboards/:id/update-leaderboard", async () => { 
+          return (  
+            <UpdateLeaderboard />
+          );  
+        }),
+      ]),
     ]),
   ]),
 ]);
