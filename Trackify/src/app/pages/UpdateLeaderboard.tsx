@@ -3,7 +3,10 @@
 import React from "react";
 import { navigate } from "rwsdk/client";
 
-export default function UpdateLeaderboard() {
+export default function UpdateLeaderboard({id}: {id: string}) {
+
+  // fetch leaderboard by id...
+
   async function handleUpdateLeaderboard(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     alert("Updating leaderboard...");
@@ -13,7 +16,7 @@ export default function UpdateLeaderboard() {
 
   return (
     <section className="max-w-[80%] mx-auto mt-10 space-y-4">
-      <h1 className="text-xl m-1 font-semibold">Update leaderboard</h1>
+      <h1 className="text-xl m-1 font-semibold">Update leaderboard for {id}</h1>
 
       <form
         onSubmit={handleUpdateLeaderboard}

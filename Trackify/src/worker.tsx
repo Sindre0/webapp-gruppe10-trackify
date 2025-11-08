@@ -92,9 +92,11 @@ export default defineApp([
             <NewLeaderboard />
           );  
         }),
-        route("/my-leaderboards/:id/update-leaderboard", async () => { 
+        route("/my-leaderboards/:id/update-leaderboard", ({params}) => {
+          const leaderboardId = params.id;
+
           return (  
-            <UpdateLeaderboard />
+            <UpdateLeaderboard id={leaderboardId} />
           );  
         }),
       ]),
