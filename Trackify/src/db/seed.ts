@@ -4,7 +4,7 @@
 
 import { defineScript } from "rwsdk/worker";
 import { drizzle } from "drizzle-orm/d1";
-import { users, leaderboards, leaderboard_has_user, leaderboard_entry, Leaderboard } from "./schema";
+import { users, leaderboards, leaderboard_has_user, leaderboard_entry, type Leaderboard, type LeaderboardHasUser, type LeaderboardEntry } from "./schema";
 import { env as WorkerEnv } from "cloudflare:workers";
 
 export const seedData = async (env?: Env) => {
@@ -16,17 +16,39 @@ export const seedData = async (env?: Env) => {
     await db.delete(users);
     
 
-    const userRows = await db.insert(users).values([
-      { id: "user1", username: "alice", email: "alice@example.com", passwordHash: "hash1" },
-      { id: "user2", username: "bob", email: "bob@example.com", passwordHash: "hash2" },
-      { id: "user3", username: "carol", email: "carol@example.com", passwordHash: "hash3" },
-    ]).returning();
+    const [user1] = await db
+    .insert(users)
+    .values({
+      id: "36b8f84d-df4e-4d49-b662-bcde71a8764f",
+      username: "Test user",
+      email: "test@testuser.io",
+      passwordHash: "hashedpassword",
+    })
+    .returning();
 
-    const [alice, bob, carol] = userRows;
+    const [user2] = await db
+    .insert(users)
+    .values({
+      id: "46b8f84d-df4e-4d49-b662-bcde71a8764f",
+      username: "Test user 2",
+      email: "test2@testuser.io",
+      passwordHash: "hashedpassword",
+    })
+    .returning();
+
+    const [user3] = await db
+    .insert(users)
+    .values({
+      id: "56b8f84d-df4e-4d49-b662-bcde71a8764f",
+      username: "Test user 3",
+      email: "test3@testuser.io",
+      passwordHash: "hashedpassword",
+    })
+    .returning();
 
     const leaderboardData: Leaderboard[] = [
       {
-        id: crypto.randomUUID(),
+        id: "66b8f84d-df4e-4d49-b662-bcde71a8764f",
         name: "CS:GO Tournament",
         description: "Description for CS:GO Tournament",
         visibility: "public",
@@ -35,7 +57,7 @@ export const seedData = async (env?: Env) => {
         active: true,
       },
       {
-        id: crypto.randomUUID(),
+        id: "76b8f84d-df4e-4d49-b662-bcde71a8764f",
         name: "Chess Tournament",
         description: "Description for Chess Tournament",
         visibility: "public",
@@ -49,6 +71,96 @@ export const seedData = async (env?: Env) => {
       .insert(leaderboards)
       .values(leaderboardData)
       .returning();
+
+    
+    const LeaderboardHasUserData: LeaderboardHasUser[] = [
+      {
+        leaderboard_id: leaderboardData[0].id,
+        user_id: user1.id,
+        is_owner: true,
+        is_mod: false,
+      },
+      {
+        leaderboard_id: leaderboardData[0].id,
+        user_id: user2.id,
+        is_owner: false,
+        is_mod: true,
+      },
+      {
+        leaderboard_id: leaderboardData[0].id,
+        user_id: user3.id,
+        is_owner: false,
+        is_mod: false,
+      },
+      {
+        leaderboard_id: leaderboardData[1].id,
+        user_id: user1.id,
+        is_owner: true,
+        is_mod: false,
+      },
+      {
+        leaderboard_id: leaderboardData[1].id,
+        user_id: user2.id,
+        is_owner: false,
+        is_mod: false,
+      }
+    ];
+
+    await db.insert(leaderboard_has_user).values(LeaderboardHasUserData).returning();
+
+    const LeaderboardEntryData: LeaderboardEntry[] = [
+      {
+        entry_id: 0,
+        leaderboard_id: leaderboardData[0].id,
+        entry_date: new Date().toISOString(),
+        winner_id: user2.id,
+        loser_id: user3.id,
+      },
+      {
+        entry_id: 1,
+        leaderboard_id: leaderboardData[0].id,
+        entry_date: new Date().toISOString(),
+        winner_id: user1.id,
+        loser_id: user2.id,
+      },
+      {
+        entry_id: 2,
+        leaderboard_id: leaderboardData[0].id,
+        entry_date: new Date().toISOString(),
+        winner_id: user1.id,
+        loser_id: user3.id,
+      },
+      {
+        entry_id: 3,
+        leaderboard_id: leaderboardData[0].id,
+        entry_date: new Date().toISOString(),
+        winner_id: user2.id,
+        loser_id: user1.id,
+      },
+      {
+        entry_id: 4,
+        leaderboard_id: leaderboardData[1].id,
+        entry_date: new Date().toISOString(),
+        winner_id: user1.id,
+        loser_id: user2.id,
+      },
+      {
+        entry_id: 5,
+        leaderboard_id: leaderboardData[1].id,
+        entry_date: new Date().toISOString(),
+        winner_id: user2.id,
+        loser_id: user1.id,
+      },
+      {
+        entry_id: 6,
+        leaderboard_id: leaderboardData[1].id,
+        entry_date: new Date().toISOString(),
+        winner_id: user1.id,
+        loser_id: user2.id,
+      }
+    ]
+
+    await db.insert(leaderboard_entry).values(LeaderboardEntryData).returning();
 
     const result = await db.select().from(users).all();
     console.log("Inserted leaderboards:", insertedLeaderboards);

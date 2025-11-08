@@ -71,7 +71,7 @@ export default defineApp([
      route("/api/seed", async () => {
     await seedData(env);
     return Response.json({ success: true });
-  }),
+    }),
     layout(MainLayout, [
       route("/", async () => {
         return (
