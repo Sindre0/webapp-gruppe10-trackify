@@ -3,6 +3,7 @@ import { layout, prefix, render, route } from "rwsdk/router";
 import { Document } from "@/app/Document";
 import MainLayout from "./app/components/layouts/MainLayout";
 
+import { seedData } from "./db/seed";
 import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
 import { env } from "cloudflare:workers";
@@ -69,6 +70,10 @@ export async function authenticationMiddleware({
 export default defineApp([
   setCommonHeaders(),
   authenticationMiddleware,
+  route("/api/seed", async () => {
+    await seedData(env);
+    return Response.json({ success: true });
+    }),
   render(Document, [
     route("/login", async () => {
       return <LoginSite />;
@@ -107,6 +112,11 @@ export default defineApp([
             <AddLeaderboardData id={leaderboardId} />
           );  
         }),
+      route("/test-db", async ({}) => {
+        const db = drizzle(env.DB);
+        const allUsers = await db.select().from(users);
+        return Response.json(allUsers);
+      }),
       ]),
     ]),
   ]),
