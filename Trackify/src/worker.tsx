@@ -13,6 +13,7 @@ import LoginSite from "./app/pages/LoginSite";
 import CreateAccount from "./app/pages/CreateAccount";
 import NewLeaderboard from "./app/pages/NewLeaderboard";
 import UpdateLeaderboard from "./app/pages/UpdateLeaderboard";
+import AddLeaderboardData from "./app/pages/AddLeaderboardData";
 
 export interface Env {
   DB: D1Database;
@@ -97,6 +98,13 @@ export default defineApp([
 
           return (  
             <UpdateLeaderboard id={leaderboardId} />
+          );  
+        }),
+        route("/my-leaderboards/:id/add-data", ({params}) => {
+          const leaderboardId = params.id;
+
+          return (  
+            <AddLeaderboardData id={leaderboardId} />
           );  
         }),
       ]),
