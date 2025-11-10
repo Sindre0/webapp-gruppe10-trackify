@@ -11,6 +11,8 @@ import LeaderboardMenu from "./app/components/LeaderboardMenu";
 import Home from "./app/pages/Home";
 import LoginSite from "./app/pages/LoginSite";
 import CreateAccount from "./app/pages/CreateAccount";
+import OngoingLeaderboards from "./app/pages/OngoingLeaderboards";
+import ConcludedLeaderboards from "./app/pages/ConcludedLeaderboards";
 import GameLeaderboard from "./app/pages/GameLeaderboard";
 import ProfilePage from "./app/pages/ProfilePage";
 
@@ -89,6 +91,16 @@ export default defineApp([
        route("/game-leaderboard", async () => { 
         return (  
           <GameLeaderboard />
+        );
+      }),
+      route("/ongoing-leaderboards", async () => {
+        return (
+          <OngoingLeaderboards />
+        );
+      }),
+      route("/concluded-leaderboards", async () => {
+        return (
+          <ConcludedLeaderboards />
         );
       }),
       route("/profile", async () => { 

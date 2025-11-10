@@ -7,7 +7,7 @@ export default function ConcludedPreview() {
 
     return (
         <section className="block w-64">
-            <h2 className="m-2 text-lg">Concluded Leaderboards</h2>
+            <h2 className="text-2xl font-semibold mb-6">Concluded</h2>
             <ul className="px-5 py-3 border border-gray-300 shadow-md mx-auto mb-2">
                 {leaderboards.map((board) => (
                     <li className="border-b border-black/20 mb-2 mt-2" key={board.id}>

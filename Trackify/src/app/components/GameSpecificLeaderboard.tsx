@@ -11,6 +11,15 @@ export default function(){
       { player: "Lene", wins: 15, losses: 25 },
       { player: "Kai", wins: 10, losses: 20 },
       { player: "Tom", wins: 30, losses: 10 },
+      { player: "Bjørn", wins: 21, losses: 12 },
+      { player: "Gaute", wins: 25, losses: 15 },
+      { player: "Lasse", wins: 25, losses: 16 },
+      { player: "Sander", wins: 20, losses: 20 },
+      { player: "Max", wins: 18, losses: 22 },
+      { player: "Sindre", wins: 30, losses: 10 },
+      { player: "Sondre", wins: 15, losses: 25 },
+      { player: "Geir", wins: 10, losses: 20 },
+      { player: "Eirik", wins: 30, losses: 10 },
     ],
   };
 
@@ -24,7 +33,7 @@ export default function(){
   return (
     //Maa fikse w-80!
     <section className="w-full h-full">
-      <h2 className="text-lg mb-3">{leaderboard.name}</h2>
+      <h2 className="text-2xl font-semibold mb-6">{leaderboard.name}</h2>
       <ul className="px-5 py-3 border border-gray-300 shadow-md h-[calc(100%-3rem)] overflow-y-auto">
         {sortedPlacings.map((placing, index) => (
             // Obs flex for å splitte player fra w/l
