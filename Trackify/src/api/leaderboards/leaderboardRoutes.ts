@@ -9,9 +9,16 @@ export const leaderboardRoutes = [
         switch (method) {
             case "get":
                 return await leaderboardController.listLeaderboards(ctx);
-            case "post":
-                // Handle leaderboard creation
-                break;
+            default:
+                return new Response("Method Not Allowed", { status: 405 });
+        }
+    }),
+    route("/:id", async (ctx: any) => {
+        const method = ctx.request.method.toLowerCase();
+        console.log("Leaderboard route accessed with method:", method);
+        switch (method) {
+            case "get":
+                return await leaderboardController.getLeaderboardById(ctx);
             default:
                 return new Response("Method Not Allowed", { status: 405 });
         }

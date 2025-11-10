@@ -7,7 +7,7 @@ export type LeaderboardQueryParams = {
 
 export interface LeaderboardService {
     list(params?: LeaderboardQueryParams): Promise<Result<any[]>>;
-    getById(id: string): Promise<Result<any | null>>;
+    getById(id: string): Promise<Result<any>>;
 }
 
 export function createLeaderboardService(leaderboardRepository: LeaderboardRepository): LeaderboardService {
@@ -17,13 +17,7 @@ export function createLeaderboardService(leaderboardRepository: LeaderboardRepos
 
         },
         async getById(id: string): Promise<Result<any>> {
-            // Placeholder implementation
-            return {
-                success: false,
-                error: {
-                    message: "Not implemented"
-                }
-            };
+            return await leaderboardRepository.findById(id);
         },
     };
 }

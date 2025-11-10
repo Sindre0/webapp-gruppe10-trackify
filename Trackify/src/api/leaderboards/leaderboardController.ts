@@ -33,8 +33,20 @@ export function createLeaderboardController(leaderboardService: LeaderboardServi
             
         },
         async getLeaderboardById(context: RequestInfo) {
-            const { id } = context.params;
-            return await leaderboardService.getById(id);
+            const id  = context.params.id;
+            const dataFromService = await leaderboardService.getById(id);
+
+            if (!dataFromService.success) {
+                return new Response(JSON.stringify(dataFromService), { 
+                    status: dataFromService.error.code || 500 ,
+                    headers: { "Content-Type": "application/json" }})
+            };
+
+            return new Response(JSON.stringify({
+                ...dataFromService,
+                id: id
+            }), { status: 200 , headers: { "Content-Type": "application/json" }  
+            });
         }
     }
 }

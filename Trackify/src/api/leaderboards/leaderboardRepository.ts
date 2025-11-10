@@ -7,7 +7,7 @@ import { env } from "cloudflare:workers";
 
 export interface LeaderboardRepository {
     findMany(params?: any): Promise<Result<any[]>>;
-    findById(id: string): Promise<Result<any | null>>;
+    findById(id: string): Promise<Result<any>>;
 }
 
 export function createLeaderboardRepository(): LeaderboardRepository {
@@ -32,8 +32,20 @@ export function createLeaderboardRepository(): LeaderboardRepository {
             return {success: true, data: allLeaderboards};
         },
         async findById(id: string) {
-            // Placeholder implementation
-            return {success: true, data: null};
+            const db = drizzle(env.DB);
+            const leaderboard = await db.select().from(leaderboards).where(eq(leaderboards.id, id));
+
+            if (leaderboard.length === 0) {
+                return {
+                    success: false,
+                    error: {
+                        code: 404,
+                        message: "Leaderboard not found"
+                    }
+                };
+            }
+
+            return {success: true, data: leaderboard[0]};
         },
     };
 }
