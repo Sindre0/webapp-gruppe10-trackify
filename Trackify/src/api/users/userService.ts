@@ -15,6 +15,7 @@ export type UserRegisterParams = {
 export interface UserService {
     getByLogin(login: UserLoginParams): Promise<Result<any>>;
     registerUser(register: UserRegisterParams): Promise<Result<any>>;
+    getLeaderboards(userID: string): Promise<Result<any>>;
 }
 
 export function createUserService(userRepository: UserRepository): UserService {
@@ -28,9 +29,14 @@ export function createUserService(userRepository: UserRepository): UserService {
         async registerUser(register: UserRegisterParams): Promise<Result<any>> {
             register.email = decodeURIComponent(register.email);
             register.password = decodeURIComponent(register.password);
-            register.username = decodeURIComponent(register.username ?? "");
+            register.username = decodeURIComponent(register.username);
 
             return await userRepository.createUser(register);
+        },
+        async getLeaderboards(userID: string): Promise<Result<any>> {
+            userID = decodeURIComponent(userID);
+
+            return await userRepository.getAllUserLeaderboards(userID);
         }
     };
 }

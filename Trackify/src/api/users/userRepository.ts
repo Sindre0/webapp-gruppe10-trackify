@@ -4,10 +4,12 @@ import type { Result } from "../../types/result";
 import { users } from "@/db/schema/user-schema";
 import { env } from "cloudflare:workers";
 import { UserLoginParams, UserRegisterParams } from "./userService";
+import { leaderboard_has_user } from "@/db/schema/leaderboardHasUser-schema";
 
 export interface UserRepository {
     findByLogin(login: UserLoginParams): Promise<Result<any>>;
     createUser(register: UserRegisterParams): Promise<Result<any>>;
+    getAllUserLeaderboards(userID: string): Promise<Result<any>>;
 }
 
 export function createUserRepository(): UserRepository {
@@ -50,6 +52,19 @@ export function createUserRepository(): UserRepository {
 
             const data = { message: "User was added" };
             return { success: true, data: data };
+        },
+        async getAllUserLeaderboards(userID: string) {
+            const db = drizzle(env.DB);
+            const leaderboards = await db.select({
+                leaderboard_id: leaderboard_has_user.leaderboard_id,
+                is_owner: leaderboard_has_user.is_owner,
+                is_mod: leaderboard_has_user.is_mod
+            }).from(leaderboard_has_user).where(eq(leaderboard_has_user.user_id, userID));
+            if (leaderboards.length == 0) {
+                return { success: false, error: { message: "No leaderboards found for user", code: 404 } };
+            }
+
+            return { success: true, data: leaderboards };
         }
     };
 }
