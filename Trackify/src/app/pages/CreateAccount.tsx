@@ -64,7 +64,7 @@ export default function CreateAccount() {
         </h2>
 
         <form className="flex flex-col space-y-4 text-left" onSubmit={handleCreateAccount}>
-          <label htmlFor="name" className="block text-sm text-gray-700 mb-1">Name</label>
+          <label htmlFor="name" className="block text-sm text-gray-700 mb-1">Username</label>
           <input
             id="name"
             name="name"
