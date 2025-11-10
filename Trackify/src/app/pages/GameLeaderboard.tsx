@@ -14,24 +14,27 @@ export default function GameLeaderboard() {
   return (
     <main>
       <WelcomeMessage />
-      <div className="w-[70%] mx-auto mb-8">
-        <div className="flex gap-8">
-          <section className="w-[40%]">
-            <GameSpecificLeaderboard />
-          </section>
-          <section className="w-[60%] flex flex-col gap-4">
-            <section className="flex gap-4">
-              <section className="w-1/2">
+      <article className="w-[70%] mx-auto mb-8">
+        <main className="flex gap-6 min-h-[800px]">
+          <aside className="w-[40%] h-full">
+              <GameSpecificLeaderboard />
+          </aside>
+          
+          <section className="w-[60%] flex flex-col gap-6 h-full">
+            <section className="h-[33%] flex gap-6">
+              <article className="w-1/2 h-full">
                 <Announcements />
-              </section>
-              <section className="w-1/2">
+              </article>
+              <article className="w-1/2 h-full">
                 <UpcomingMatches />
-              </section>
+              </article>
             </section>
-            <GraphRender />
+            <section className="h-[67%]">
+              <GraphRender />
+            </section>
           </section>
-        </div>
-      </div>
+        </main>
+      </article>
     </main>
   );
 }

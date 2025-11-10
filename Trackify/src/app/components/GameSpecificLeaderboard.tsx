@@ -23,9 +23,9 @@ export default function(){
 
   return (
     //Maa fikse w-80!
-    <section className="w-full">
-      <h2 className="m-2 text-lg">{leaderboard.name}</h2>
-      <ul className="px-5 py-3 border border-gray-300 shadow-md mx-auto">
+    <section className="w-full h-full">
+      <h2 className="text-lg mb-3">{leaderboard.name}</h2>
+      <ul className="px-5 py-3 border border-gray-300 shadow-md h-[calc(100%-3rem)] overflow-y-auto">
         {sortedPlacings.map((placing, index) => (
             // Obs flex for å splitte player fra w/l
           <li className="flex justify-between border-b border-black/20 mb-1 py-2" key={index}>
