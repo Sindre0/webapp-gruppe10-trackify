@@ -11,7 +11,7 @@ export default function LoginSite() {
         const email = String(formData.get("email") ?? "").trim();
         const password = String(formData.get("password") ?? "").trim();
 
-        const user = fetch(`/api/v1/users/login/${encodeURIComponent(email)}:${encodeURIComponent(password)}`)
+        fetch(`/api/v1/users/login/${encodeURIComponent(email)}:${encodeURIComponent(password)}`)
             .then(response => response.json())
             .then((data: any) => {
                 if (data.success) {
