@@ -1,5 +1,3 @@
-
-
 import type { RequestInfo } from "rwsdk/worker";
 import { leaderboardService, LeaderboardService } from "./leaderboardService";
 import { error } from "console";
