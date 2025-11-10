@@ -1,12 +1,14 @@
 "use client";
 
+import { navigate } from "rwsdk/client";
 import { AuthContext } from "../app/AuthContext";
 import { useContext } from "react";
 
 export function useAuth() {
   const user = useContext(AuthContext);
   if (!user) {
-    throw new Error("useAuth must be used within an AuthProvider in Layout");
+    navigate("/login");
+    ;
   }
   return user;
 }
