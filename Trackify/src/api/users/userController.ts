@@ -22,6 +22,27 @@ export function createUserController(userService: UserService) {
                     ...dataFromService,
                 }), { status: 200 , headers: { "Content-Type": "application/json" }  
                 });
+        },
+        async registerUser(context: RequestInfo) {
+            const [username, email, password] = context.params.register.split(":");
+            const register = { username, email, password };
+            console.log("Register parameter received:", register);
+
+
+            const dataFromService = await userService.registerUser(register);
+            
+            if (!dataFromService.success) {
+                return new Response(JSON.stringify(dataFromService), { 
+                status: dataFromService.error.code || 500 ,
+                headers: { "Content-Type": "application/json" }
+                })
+            };
+
+            return new Response(JSON.stringify({
+                ...dataFromService,
+            }), { status: 201 , headers: { "Content-Type": "application/json" }  
+            });
+
         }
     }
 }
