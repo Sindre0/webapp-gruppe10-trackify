@@ -5,7 +5,11 @@ import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
 import { useEffect, useState } from "react";
 import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
 
-export default function OngoingPreview() {
+type OngoingPreviewProps = {
+    onSelect?: (id: string) => void;
+};
+
+export default function OngoingPreview({ onSelect }: OngoingPreviewProps) {
     const user = useAuth();
     const [leaderboards, setLeaderboards] = useState<{ id: string; name: string }[]>([]);
 
@@ -48,8 +52,17 @@ export default function OngoingPreview() {
                     <li>No ongoing leaderboards.</li>
                 ) : (
                     leaderboards.map((leaderboard) => (
-                        <li className="border-b border-black/20 mb-2 mt-2" key={leaderboard.id}>
-                            {leaderboard.name}
+                        <li
+                            className="border-b border-black/20 mb-2 mt-2"
+                            key={leaderboard.id}
+                        >
+                            <button
+                                type="button"
+                                className="text-left w-full hover:underline"
+                                onClick={() => onSelect?.(leaderboard.id)}
+                            >
+                                {leaderboard.name}
+                            </button>
                         </li>
                     ))
                 )}

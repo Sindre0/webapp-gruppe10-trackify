@@ -1,5 +1,5 @@
 export function getLeaderboardDetails(leaderboardID: string) {
-    const name = fetch(`/api/v1/leaderboards/${encodeURIComponent(leaderboardID)}`)
+    const details = fetch(`/api/v1/leaderboards/${encodeURIComponent(leaderboardID)}`)
         .then(response => response.json())
         .then((data: any) => {
             if (data.success) {
@@ -10,5 +10,5 @@ export function getLeaderboardDetails(leaderboardID: string) {
             }
         });
         
-    return name;
+    return details;
 }

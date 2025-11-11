@@ -5,7 +5,11 @@ import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 
-export default function ConcludedPreview() {
+type ConcludedPreviewProps = {
+    onSelect?: (id: string) => void;
+};
+
+export default function ConcludedPreview({ onSelect }: ConcludedPreviewProps) {
     const user = useAuth();
     const [leaderboards, setLeaderboards] = useState<{ id: string; name: string }[]>([]);
 
@@ -48,7 +52,13 @@ export default function ConcludedPreview() {
                 ) : (
                     leaderboards.map((leaderboard) => (
                         <li className="border-b border-black/20 mb-2 mt-2" key={leaderboard.id}>
-                            {leaderboard.name}
+                            <button
+                                type="button"
+                                className="text-left w-full hover:underline"
+                                onClick={() => onSelect?.(leaderboard.id)}
+                            >
+                                {leaderboard.name}
+                            </button>
                         </li>
                     ))
                 )}
