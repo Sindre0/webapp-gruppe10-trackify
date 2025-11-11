@@ -15,6 +15,8 @@ import CreateAccount from "./app/pages/CreateAccount";
 import NewLeaderboard from "./app/pages/NewLeaderboard";
 import UpdateLeaderboard from "./app/pages/UpdateLeaderboard";
 import AddLeaderboardData from "./app/pages/AddLeaderboardData";
+import { leaderboardRoutes } from "./api/leaderboards/leaderboardRoutes";
+import { userRoutes } from "./api/users/userRoutes";
 
 export interface Env {
   DB: D1Database;
@@ -74,6 +76,8 @@ export default defineApp([
     await seedData(env);
     return Response.json({ success: true });
     }),
+  prefix("/api/v1/leaderboards", [leaderboardRoutes]),
+  prefix("/api/v1/users", [userRoutes]),
   render(Document, [
     route("/login", async () => {
       return <LoginSite />;
@@ -112,12 +116,12 @@ export default defineApp([
             <AddLeaderboardData id={leaderboardId} />
           );  
         }),
+      ]),
       route("/test-db", async ({}) => {
         const db = drizzle(env.DB);
         const allUsers = await db.select().from(users);
         return Response.json(allUsers);
       }),
-      ]),
     ]),
   ]),
 ]);

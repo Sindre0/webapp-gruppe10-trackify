@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 export default function WelcomeMessage() {
     const user = useAuth();
 
-    const username = user?.name || "Unknown";
+    const username = user?.username || "Unknown";
     const rank = 1;
     const recentLeaderboard = "Sjakk HIOF sesong 4";
     

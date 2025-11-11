@@ -9,18 +9,30 @@ export default function LoginSite() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const email = String(formData.get("email") ?? "").trim();
+        const password = String(formData.get("password") ?? "").trim();
 
-        const user = {
-            id: 1,
-            name: email.split("@")[0] || "User",
-            email,
-        };
-
-        document.cookie = `user_session=${encodeURIComponent(
-            JSON.stringify(user)
-        )}; path=/`;
-        console.log("Set cookie:", document.cookie);
-        navigate("/");
+        fetch(`/api/v1/users/login/${encodeURIComponent(email)}:${encodeURIComponent(password)}`)
+            .then(response => response.json())
+            .then((data: any) => {
+                if (data.success) {
+                    const user = data.data;
+                    document.cookie = `user_session=${encodeURIComponent(
+                        JSON.stringify(user)
+                    )}; path=/`;
+                    console.log("Logging in user:", {user: email});
+                    console.log("Set cookie:", document.cookie);
+                    document.cookie = `user_session=${encodeURIComponent(
+                        JSON.stringify(user)
+                        )}; path=/`;
+                        console.log("Set cookie:", document.cookie);
+                    navigate("/");
+                } else {
+                    alert("Login failed: " + data.error.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error during login:", error);
+            });
     }
 
   return (

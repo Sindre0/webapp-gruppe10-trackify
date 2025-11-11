@@ -24,22 +24,33 @@ export default function CreateAccount() {
     }
 
     try {
-      // TODO: Legg til database backend
+      // Register new user via API
+      const response = await fetch(`/api/v1/users/register/${name}:${email}:${password}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
 
-      // Midlertidig løsning:
-      const user = {
-        id: 1,
-        name,
-        email,
-      };
-      document.cookie = `user_session=${encodeURIComponent(
-        JSON.stringify(user)
-      )}; path=/`;
-
-      navigate("/");
-    } catch (err) {
-      console.error("Create account error:", err);
-      alert("Could not create account. Please try again.");
+      fetch(`/api/v1/users/login/${encodeURIComponent(email)}:${encodeURIComponent(password)}`)
+        .then(response => response.json())
+        .then((data: any) => {
+            if (data.success) {
+                const user = data.data;
+                document.cookie = `user_session=${encodeURIComponent(
+                    JSON.stringify(user)
+                )}; path=/`;
+                console.log("Logging in user:", {user: email});
+                console.log("Set cookie:", document.cookie);
+                document.cookie = `user_session=${encodeURIComponent(
+                    JSON.stringify(user)
+                    )}; path=/`;
+                    console.log("Set cookie:", document.cookie);
+                navigate("/");
+                  }});
+    } catch (error) {
+      console.error("Create account error:", error);
+      alert("Could not create account.");
     }
   }
 
@@ -53,7 +64,7 @@ export default function CreateAccount() {
         </h2>
 
         <form className="flex flex-col space-y-4 text-left" onSubmit={handleCreateAccount}>
-          <label htmlFor="name" className="block text-sm text-gray-700 mb-1">Name</label>
+          <label htmlFor="name" className="block text-sm text-gray-700 mb-1">Username</label>
           <input
             id="name"
             name="name"
