@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/hooks/useAuth";
-import { getLeaderboardDetails } from "@/hooks/getLeaderboardName";
+import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
 import { useEffect, useState } from "react";
 import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
 
