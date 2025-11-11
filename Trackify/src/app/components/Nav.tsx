@@ -33,7 +33,7 @@ export default function Nav() {
                 </a>
               </li>
               <li>
-                <a href="/#" className="rounded-md p-1">
+                <a href="/profile" className="rounded-md p-1">
                   <User size={22} />
                 </a>
               </li>

@@ -21,6 +21,7 @@ import UpdateLeaderboard from "./app/pages/UpdateLeaderboard";
 import AddLeaderboardData from "./app/pages/AddLeaderboardData";
 import { leaderboardRoutes } from "./api/leaderboards/leaderboardRoutes";
 import { userRoutes } from "./api/users/userRoutes";
+import Announcements from "./app/components/Announcements";
 
 
 export interface Env {
@@ -143,6 +144,13 @@ export default defineApp([
       route("/profile", async () => { 
         return (  
           <ProfilePage />
+        );  
+      }),
+      route("/announcements", async () => { 
+        return (
+          <section className="space-y-4 max-w-[80%] mx-auto mt-8">
+            <Announcements />
+          </section>
         );  
       }),
     ]),

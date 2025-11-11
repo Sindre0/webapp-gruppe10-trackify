@@ -16,9 +16,9 @@ export default function HamburgerMenu({ hamburgerToggle }: { hamburgerToggle: ()
                 <li className="flex flex-row gap-0">
                     <CornerDownRight/>
                     <ul className="ml-2 font-medium text-xl text-blue-600 cursor-pointer space-y-1">
-                        <li><a href="#">Ongoing leaderboards</a></li>
-                        <li><a href="#">Concluded leaderboards</a></li>
-                        <li><a href="#">Create a Leaderboard</a></li>
+                        <li><a href="/leaderboard/ongoing-leaderboards">Ongoing leaderboards</a></li>
+                        <li><a href="/leaderboard/concluded-leaderboards">Concluded leaderboards</a></li>
+                        <li><a href="/leaderboard/create-leaderboard">Create a Leaderboard</a></li>
                         <li><a href="#">Join a Leaderboard</a></li>
                         <li><a href="#">My Leaderboards</a></li>
                     </ul>
@@ -28,7 +28,7 @@ export default function HamburgerMenu({ hamburgerToggle }: { hamburgerToggle: ()
                     <a href="#">Upcoming Matches</a>
                 </li>
                 <li className="block w-full font-medium text-2xl text-blue-600 cursor-pointer">
-                    <a href="#">Announcements</a>
+                    <a href="/announcements">Announcements</a>
                 </li>
             </ul>
         </aside>
