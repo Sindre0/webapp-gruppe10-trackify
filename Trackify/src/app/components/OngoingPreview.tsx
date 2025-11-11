@@ -58,7 +58,7 @@ export default function OngoingPreview({ onSelect }: OngoingPreviewProps) {
                         >
                             <button
                                 type="button"
-                                className="text-left w-full hover:underline"
+                                className="text-left w-full hover:underline cursor-pointer"
                                 onClick={() => onSelect?.(leaderboard.id)}
                             >
                                 {leaderboard.name}
@@ -66,7 +66,7 @@ export default function OngoingPreview({ onSelect }: OngoingPreviewProps) {
                         </li>
                     ))
                 )}
-                <a className="block mt-4 text-blue-600 text-sm" href="#">View All </a>
+                <a className="block mt-4 text-blue-600 text-sm" href="/leaderboard/ongoing-leaderboards">View All </a>
             </ul>
         </section>
     );

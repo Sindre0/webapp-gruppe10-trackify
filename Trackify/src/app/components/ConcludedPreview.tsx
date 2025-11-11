@@ -54,7 +54,7 @@ export default function ConcludedPreview({ onSelect }: ConcludedPreviewProps) {
                         <li className="border-b border-black/20 mb-2 mt-2" key={leaderboard.id}>
                             <button
                                 type="button"
-                                className="text-left w-full hover:underline"
+                                className="text-left w-full hover:underline cursor-pointer"
                                 onClick={() => onSelect?.(leaderboard.id)}
                             >
                                 {leaderboard.name}
@@ -62,7 +62,7 @@ export default function ConcludedPreview({ onSelect }: ConcludedPreviewProps) {
                         </li>
                     ))
                 )}
-                <a className="block mt-4 text-blue-600 text-sm" href="#">View All </a>
+                <a className="block mt-4 text-blue-600 text-sm" href="/leaderboard/concluded-leaderboards">View All </a>
             </ul>
         </section>
     );
