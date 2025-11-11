@@ -1,18 +1,24 @@
 import { defineApp } from "rwsdk/worker";
-import { layout, render, route } from "rwsdk/router";
+import { layout, prefix, render, route } from "rwsdk/router";
 import { Document } from "@/app/Document";
 import MainLayout from "./app/components/layouts/MainLayout";
 
+import { seedData } from "./db/seed";
 import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
 import { env } from "cloudflare:workers";
 import { drizzle } from "drizzle-orm/d1";
-import LeaderboardMenu from "./app/components/LeaderboardMenu";
+import LeaderboardMenu from "./app/pages/LeaderboardMenu";
 import Home from "./app/pages/Home";
 import LoginSite from "./app/pages/LoginSite";
 import CreateAccount from "./app/pages/CreateAccount";
+
 import GameLeaderboard from "./app/pages/GameLeaderboard";
 import ProfilePage from "./app/pages/ProfilePage";
+import NewLeaderboard from "./app/pages/NewLeaderboard";
+import UpdateLeaderboard from "./app/pages/UpdateLeaderboard";
+import AddLeaderboardData from "./app/pages/AddLeaderboardData";
+
 
 export interface Env {
   DB: D1Database;
@@ -68,6 +74,10 @@ export async function authenticationMiddleware({
 export default defineApp([
   setCommonHeaders(),
   authenticationMiddleware,
+  route("/api/seed", async () => {
+    await seedData(env);
+    return Response.json({ success: true });
+    }),
   render(Document, [
     route("/login", async () => {
       return <LoginSite />;
@@ -81,22 +91,49 @@ export default defineApp([
           <Home />
         );
       }),
-      route("/leaderboard", async () => { 
-        return (  
-          <LeaderboardMenu />
-        );  
-      }),
-       route("/game-leaderboard", async () => { 
+      prefix("/leaderboard", [
+        route("/", async () => { 
+          return (  
+            <LeaderboardMenu />
+          );  
+        }),
+        route("/create-leaderboard", async () => { 
+          return (  
+            <NewLeaderboard />
+          );  
+        }),
+        route("/my-leaderboards/:id/update-leaderboard", ({params}) => {
+          const leaderboardId = params.id;
+
+          return (  
+            <UpdateLeaderboard id={leaderboardId} />
+          );  
+        }),
+        route("/my-leaderboards/:id/add-data", ({params}) => {
+          const leaderboardId = params.id;
+
+          return (  
+            <AddLeaderboardData id={leaderboardId} />
+          );  
+        }),
+        route("/game-leaderboard", async () => { 
         return (  
           <GameLeaderboard />
-        );
+          );
+        }),
+      ]),
+      route("/test-db", async ({}) => {
+        const db = drizzle(env.DB);
+        const allUsers = await db.select().from(users);
+        return Response.json(allUsers);
       }),
+
       route("/profile", async () => { 
         return (  
           <ProfilePage />
         );  
       })
-    ])
+    ]),
     ]),
   ]);
 
