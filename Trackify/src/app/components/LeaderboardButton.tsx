@@ -1,7 +1,7 @@
 import React from "react";
 
 const buttonStyle =
-  "block w-full text-left rounded-2xl border border-gray-300 bg-white px-5 py-3 shadow focus:outline-none"
+  "block w-full text-left bg-white px-6 py-4 hover:bg-gray-50 transition-colors cursor-pointer text-lg font-medium text-gray-900"
 
 type Props = {
   children: string;          // button text

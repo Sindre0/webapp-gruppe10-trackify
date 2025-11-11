@@ -12,7 +12,8 @@ import LeaderboardMenu from "./app/pages/LeaderboardMenu";
 import Home from "./app/pages/Home";
 import LoginSite from "./app/pages/LoginSite";
 import CreateAccount from "./app/pages/CreateAccount";
-
+import OngoingLeaderboards from "./app/pages/OngoingLeaderboards";
+import ConcludedLeaderboards from "./app/pages/ConcludedLeaderboards";
 import GameLeaderboard from "./app/pages/GameLeaderboard";
 import ProfilePage from "./app/pages/ProfilePage";
 import NewLeaderboard from "./app/pages/NewLeaderboard";
@@ -121,6 +122,16 @@ export default defineApp([
           <GameLeaderboard />
           );
         }),
+      route("/ongoing-leaderboards", async () => {
+        return (
+          <OngoingLeaderboards />
+        );
+      }),
+      route("/concluded-leaderboards", async () => {
+        return (
+          <ConcludedLeaderboards />
+        );
+      }),
       ]),
       route("/test-db", async ({}) => {
         const db = drizzle(env.DB);

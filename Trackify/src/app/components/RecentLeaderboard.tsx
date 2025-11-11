@@ -23,7 +23,7 @@ export default function RecentLeaderboard() {
 
   return (
     <section className="block w-[60%]">
-      <h2 className="m-2 text-lg">{leaderboard.name}</h2>
+      <h2 className="text-2xl font-semibold mb-6">{leaderboard.name}</h2>
       <ul className="px-5 py-3 border border-gray-300 shadow-md mx-auto">
         {sortedPlacings.map((placing, index) => (
           <li className="border-b border-black/20 mb-1 py-2" key={index}>
