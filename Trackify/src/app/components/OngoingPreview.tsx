@@ -41,8 +41,8 @@ export default function OngoingPreview() {
     }, [user?.id]);
         
     return (
-        <section className="block w-64">
-            <h2 className="m-2 text-lg">Ongoing Leaderboards</h2>
+        <section className="w-full">
+            <h2 className="text-2xl font-semibold mb-6">Ongoing Leaderboards</h2>
             <ul className="px-5 py-3 border border-gray-300 shadow-md mx-auto">
                 {leaderboards.length === 0 ? (
                     <li>No ongoing leaderboards.</li>

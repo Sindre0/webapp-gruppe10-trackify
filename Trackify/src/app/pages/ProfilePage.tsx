@@ -3,20 +3,14 @@ import OngoingPreview from "../components/OngoingPreview";
 import ConcludedPreview from "../components/ConcludedPreview";
 import RecentLeaderboard from "../components/RecentLeaderboard";
 import UpcomingMatches from "../components/UpcomingMatches";
+import Profile from "../components/Profile";
 
-export default function Home() {
+export default function ProfilePage() {
   return (
     <main >
       <WelcomeMessage />
-        <div className="flex gap-8 mb-8 w-[70%] mx-auto">
-          <div className="space-y-4"> 
-            <OngoingPreview />
-            <ConcludedPreview />
-          </div>
-      <RecentLeaderboard />
-      <section className="w-[30%] space-y-4">
-        <UpcomingMatches />
-      </section>
+        <div className="mb-8 w-[70%] mx-auto space-y-4">
+            <Profile />
       </div>
     </main>
   );
