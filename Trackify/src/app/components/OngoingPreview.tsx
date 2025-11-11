@@ -13,12 +13,10 @@ export default function OngoingPreview() {
         const fetchLeaderboards = async () => {
             if (!user?.id) return;
             try {
-                
                 const data: any = await getUserLeaderboards(user.id);
-                console.log("Fetching leaderboards for user ID:", data);
 
                 if (data.length > 0) {
-                    console.log("Fetched leaderboards:", data);
+                    console.log("Fetched ongoing leaderboards.");
                     const leaderboardID = await Promise.all(
                         data.map(async (item: any) => {
                             const details = await getLeaderboardDetails(item.leaderboard_id);
@@ -33,10 +31,10 @@ export default function OngoingPreview() {
                     );
                     setLeaderboards(leaderboardID.filter((item: any) => item !== null));
                 } else {
-                    console.error("Failed to fetch leaderboards: " + data.error?.message);
+                    console.error("Failed to fetch ongoing leaderboards: " + data.error?.message);
                 }
             } catch (err) {
-                console.error("Error fetching leaderboards:", err);
+                console.error("Error fetching ongoing leaderboards:", err);
             }
         };
         fetchLeaderboards();

@@ -12,13 +12,10 @@ export default function ConcludedPreview() {
     useEffect(() => {
         const fetchLeaderboards = async () => {
             if (!user?.id) return;
-            try {
-                
+            try {       
                 const data: any = await getUserLeaderboards(user.id);
-                console.log("Fetching leaderboards for user ID:", data);
-
                 if (data.length > 0) {
-                    console.log("Fetched leaderboards:", data);
+                    console.log("Fetched concluded leaderboards.");
                     const leaderboardID = await Promise.all(
                         data.map(async (item: any) => {
                             const details = await getLeaderboardDetails(item.leaderboard_id);
@@ -33,10 +30,10 @@ export default function ConcludedPreview() {
                     );
                     setLeaderboards(leaderboardID.filter((item: any) => item !== null));
                 } else {
-                    console.error("Failed to fetch leaderboards: " + data.error?.message);
+                    console.error("Failed to fetch concluded leaderboards: " + data.error?.message);
                 }
             } catch (err) {
-                console.error("Error fetching leaderboards:", err);
+                console.error("Error fetching concluded leaderboards:", err);
             }
         };
         fetchLeaderboards();

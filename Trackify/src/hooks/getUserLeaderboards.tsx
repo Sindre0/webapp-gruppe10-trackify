@@ -3,10 +3,10 @@ export function getUserLeaderboards(userID: string) {
         .then(response => response.json())
         .then((data: any) => {
             if (data.success) {
-                console.log("Fetched leaderboards:", data.data);
+                console.log("Fetched the user's leaderboards:", data.data);
                 return data.data;
             } else {
-                console.error("Failed to fetch leaderboard name: " + data.error.message);
+                console.error("Failed to fetch the user's leaderboards: " + data.error.message);
                 return "Unknown Leaderboard";
             }
         });
