@@ -49,7 +49,7 @@ export const seedData = async (env?: Env) => {
     const leaderboardData: Leaderboard[] = [
       {
         id: "66b8f84d-df4e-4d49-b662-bcde71a8764f",
-        name: "CS:GO Tournament",
+        name: "CS:GO Tournament W44",
         description: "Description for CS:GO Tournament",
         visibility: "public",
         createdAt: new Date().toISOString(),
@@ -65,6 +65,15 @@ export const seedData = async (env?: Env) => {
         endDate: new Date(Date.now() + 86400 * 1000).toISOString(),
         active: true,
       },
+      {
+        id: "86b8f84d-df4e-4d49-b662-bcde71a8764f",
+        name: "CS:GO Tournament W40",
+        description: "Description for Inactive Tournament",
+        visibility: "public",
+        createdAt: new Date().toISOString(),
+        endDate: new Date(Date.now() + 86400 * 1000).toISOString(),
+        active: false,
+      }
     ];
 
     const [...insertedLeaderboards] = await db
@@ -103,6 +112,24 @@ export const seedData = async (env?: Env) => {
         user_id: user2.id,
         is_owner: false,
         is_mod: false,
+      },
+      {
+        leaderboard_id: leaderboardData[2].id,
+        user_id: user1.id,
+        is_owner: true,
+        is_mod: false,
+      },
+      {
+        leaderboard_id: leaderboardData[2].id,
+        user_id: user2.id,
+        is_owner: false,
+        is_mod: false,
+      },
+      {
+        leaderboard_id: leaderboardData[2].id,
+        user_id: user3.id,
+        is_owner: false,
+        is_mod: false,
       }
     ];
 
@@ -137,7 +164,7 @@ export const seedData = async (env?: Env) => {
         winner_id: user2.id,
         loser_id: user1.id,
       },
-      {
+     {
         entry_id: 4,
         leaderboard_id: leaderboardData[1].id,
         entry_date: new Date().toISOString(),
@@ -154,6 +181,48 @@ export const seedData = async (env?: Env) => {
       {
         entry_id: 6,
         leaderboard_id: leaderboardData[1].id,
+        entry_date: new Date().toISOString(),
+        winner_id: user1.id,
+        loser_id: user2.id,
+      },
+      {
+        entry_id: 7,
+        leaderboard_id: leaderboardData[2].id,
+        entry_date: new Date().toISOString(),
+        winner_id: user2.id,
+        loser_id: user3.id,
+      },
+      {
+        entry_id: 8,
+        leaderboard_id: leaderboardData[2].id,
+        entry_date: new Date().toISOString(),
+        winner_id: user3.id,
+        loser_id: user1.id,
+      },
+      {
+        entry_id: 9,
+        leaderboard_id: leaderboardData[0].id,
+        entry_date: new Date().toISOString(),
+        winner_id: user1.id,
+        loser_id: user2.id,
+      },
+      {
+        entry_id: 10,
+        leaderboard_id: leaderboardData[0].id,
+        entry_date: new Date().toISOString(),
+        winner_id: user1.id,
+        loser_id: user3.id,
+      },
+      {
+        entry_id: 11,
+        leaderboard_id: leaderboardData[0].id,
+        entry_date: new Date().toISOString(),
+        winner_id: user2.id,
+        loser_id: user3.id,
+      },
+      {
+        entry_id: 12,
+        leaderboard_id: leaderboardData[0].id,
         entry_date: new Date().toISOString(),
         winner_id: user1.id,
         loser_id: user2.id,
