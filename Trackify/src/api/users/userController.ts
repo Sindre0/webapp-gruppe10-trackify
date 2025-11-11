@@ -60,6 +60,22 @@ export function createUserController(userService: UserService) {
                 ...dataFromService,
             }), { status: 200, headers: { "Content-Type": "application/json" }  
             });
+        },
+        async getUsername(context: RequestInfo) {
+            const userID = context.params.userID;
+            console.log("Get username for userID:", userID);
+            const dataFromService = await userService.getUsername(userID);
+            
+            if (!dataFromService.success) {
+                return new Response(JSON.stringify(dataFromService), { 
+                status: dataFromService.error.code || 500 ,
+                headers: { "Content-Type": "application/json" }
+                })
+            }
+            return new Response(JSON.stringify({
+                ...dataFromService,
+            }), { status: 200, headers: { "Content-Type": "application/json" }  
+            });   
         }
     }
 }

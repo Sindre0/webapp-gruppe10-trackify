@@ -32,4 +32,14 @@ export const userRoutes = [
                 return new Response("Method Not Allowed", { status: 405 });
         }
     }),
+    route("/:userID/username", async (ctx: any) => {
+        const method = ctx.request.method.toLowerCase();
+        console.log("User route accessed with method:", method);
+        switch (method) {
+            case "get":
+                return await userController.getUsername(ctx);
+            default:
+                return new Response("Method Not Allowed", { status: 405 });
+        }
+    }), 
 ];

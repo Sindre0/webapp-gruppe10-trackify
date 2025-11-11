@@ -10,13 +10,13 @@ export interface UserRepository {
     findByLogin(login: UserLoginParams): Promise<Result<any>>;
     createUser(register: UserRegisterParams): Promise<Result<any>>;
     getAllUserLeaderboards(userID: string): Promise<Result<any>>;
+    getUsername(userID: string): Promise<Result<any>>;
 }
 
 export function createUserRepository(): UserRepository {
     return {
         async findByLogin(login: UserLoginParams) {
             const db = drizzle(env.DB);
-            // select user where email and password match
             const user = await db.select().from(users).where((eq(users.email, login.email), eq(users.passwordHash, login.password)));
             
             if (user.length == 0) {
@@ -65,6 +65,18 @@ export function createUserRepository(): UserRepository {
             }
 
             return { success: true, data: leaderboards };
+        },
+        async getUsername(userID: string) {
+            const db = drizzle(env.DB);
+            const user = await db.select({
+                username: users.username
+            }).from(users).where(eq(users.id, userID));
+
+            if (user.length == 0) {
+                return { success: false, error: { message: "User not found", code: 404 } };
+            }
+
+            return { success: true, data: user };
         }
     };
 }

@@ -1,5 +1,6 @@
 import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
 import { getLeaderboardEntries } from "@/hooks/getLeaderboardEntries";
+import { getUsername } from "@/hooks/getUsername";
 import { useEffect, useState } from "react";
 import { ArrowLeft } from "react-feather";
 
@@ -28,12 +29,8 @@ export default function HomeLeaderboard({ selectedLeaderboardId }: HomeLeaderboa
 
         (async () => {
             try {
-                // Fetch details & entries in parallel
                 const [details, entries] = await Promise.all([
-                    getLeaderboardDetails(selectedLeaderboardId).catch(err => {
-                        console.error("Error fetching leaderboard details:", err);
-                        return { name: "Unknown leaderboard" } as any;
-                    }),
+                    getLeaderboardDetails(selectedLeaderboardId),
                     getLeaderboardEntries(selectedLeaderboardId)
                 ]);
 
@@ -51,13 +48,15 @@ export default function HomeLeaderboard({ selectedLeaderboardId }: HomeLeaderboa
                     matchResultsMap.get(loserID)!.losses += 1;
                 });
 
-                const savingPlayerStats: PlayerStats[] = Array.from(matchResultsMap.entries()).map(([id, results]) => {
-                    const totalGames = results.wins + results.losses;
-                    const winRatio = totalGames > 0 ? results.wins / totalGames : 0;
+                const savingPlayerStats: PlayerStats[] = await Promise.all(
+                    Array.from(matchResultsMap.entries()).map(async ([id, results]) => {
+                        const totalGames = results.wins + results.losses;
+                        const winRatio = totalGames > 0 ? results.wins / totalGames : 0;
+                        const name = await getUsername(id);
 
-                    
-                    return { id, name: "", wins: results.wins, losses: results.losses, winRatio };
-                });
+                        return { id, name: String(name ?? "Unknown"), wins: results.wins, losses: results.losses, winRatio };
+                    })
+                );
 
                 savingPlayerStats.sort((a, b) => b.winRatio === a.winRatio ? b.wins - a.wins : b.winRatio - a.winRatio);
                 setPlayerStats(savingPlayerStats);
@@ -86,7 +85,7 @@ export default function HomeLeaderboard({ selectedLeaderboardId }: HomeLeaderboa
                                         <span className=" text-lg  w-8">
                                             {index + 1}.
                                         </span>
-                                        {player.id}
+                                        {player.name}
                                     </h3>
                                     <section className="flex items-center gap-4 text-gray-400">
                                         <p className="font-semibold">
