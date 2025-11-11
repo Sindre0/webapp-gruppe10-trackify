@@ -1,44 +1,162 @@
 import { defineApp } from "rwsdk/worker";
-import { layout, render, route } from "rwsdk/router";
+import { layout, prefix, render, route } from "rwsdk/router";
 import { Document } from "@/app/Document";
 import MainLayout from "./app/components/layouts/MainLayout";
 
+import { seedData } from "./db/seed";
 import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
 import { env } from "cloudflare:workers";
 import { drizzle } from "drizzle-orm/d1";
-import LeaderboardMenu from "./app/components/LeaderboardMenu";
+import LeaderboardMenu from "./app/pages/LeaderboardMenu";
 import Home from "./app/pages/Home";
+import LoginSite from "./app/pages/LoginSite";
+import CreateAccount from "./app/pages/CreateAccount";
+import OngoingLeaderboards from "./app/pages/OngoingLeaderboards";
+import ConcludedLeaderboards from "./app/pages/ConcludedLeaderboards";
+import GameLeaderboard from "./app/pages/GameLeaderboard";
+import ProfilePage from "./app/pages/ProfilePage";
+import NewLeaderboard from "./app/pages/NewLeaderboard";
+import UpdateLeaderboard from "./app/pages/UpdateLeaderboard";
+import AddLeaderboardData from "./app/pages/AddLeaderboardData";
+import { leaderboardRoutes } from "./api/leaderboards/leaderboardRoutes";
+import { userRoutes } from "./api/users/userRoutes";
+import Announcements from "./app/components/Announcements";
+
 
 export interface Env {
   DB: D1Database;
 }
 
 export type AppContext = {
-  user: User | undefined;
+  user: User | null;
   authUrl: string;
 };
 
+export function extractSessionFromCookies(cookieHeader: string): string | null {
+  const cookies = cookieHeader.split(";").map((c) => c.trim());
+  console.log("Extracting session from cookies:", cookies);
+  for (const cookie of cookies) {
+    const [name, value] = cookie.split("=");
+    if (name === "user_session") {
+      return decodeURIComponent(value);
+    }
+  }
+
+  return null;
+}
+
+export async function authenticationMiddleware({
+  ctx,
+  request,
+}: {
+  ctx: AppContext;
+  request: Request;
+}) {
+  ctx.user = null;
+  try {
+    // Get session cookie
+    console.log("Authenticating request...");
+    const cookies = request.headers.get("cookie");
+    if (!cookies) {
+      return;
+    }
+
+    const userData = extractSessionFromCookies(cookies);
+
+    if (!userData) {
+      return;
+    }
+    ctx.user = JSON.parse(userData) as User;
+    console.log("Authenticated user:", ctx.user);
+  } catch (error) {
+    console.error("Authentication middleware error:", error);
+    ctx.user = null;
+  }
+}
+
 export default defineApp([
   setCommonHeaders(),
+  authenticationMiddleware,
+  route("/api/seed", async () => {
+    await seedData(env);
+    return Response.json({ success: true });
+    }),
+  prefix("/api/v1/leaderboards", [leaderboardRoutes]),
+  prefix("/api/v1/users", [userRoutes]),
   render(Document, [
+    route("/login", async () => {
+      return <LoginSite />;
+    }),
+    route("/create-account", async () => {
+      return <CreateAccount />;
+    }),
     layout(MainLayout, [
       route("/", async () => {
         return (
-          <div>
-            <Home />
-          </div>
+          <Home />
         );
       }),
-      route("/leaderboard", async () => { 
-        return (  
-          <div>
+      prefix("/leaderboard", [
+        route("/", async () => { 
+          return (  
             <LeaderboardMenu />
-          </div>
-        );  
-        },
-      )
+          );  
+        }),
+        route("/create-leaderboard", async () => { 
+          return (  
+            <NewLeaderboard />
+          );  
+        }),
+        route("/my-leaderboards/:id/update-leaderboard", ({params}) => {
+          const leaderboardId = params.id;
+          return (  
+            <UpdateLeaderboard id={leaderboardId} />
+          );  
+        }),
+        route("/my-leaderboards/:id/add-data", ({params}) => {
+          const leaderboardId = params.id;
+          return (  
+            <AddLeaderboardData id={leaderboardId} />
+          );  
+        }),
+        route("/game-leaderboard", async () => { 
+          return (  
+            <GameLeaderboard />
+          );
+        }),
+        route("/ongoing-leaderboards", async () => {
+          return (
+            <OngoingLeaderboards />
+          );
+        }),
+        route("/concluded-leaderboards", async () => {
+          return (
+            <ConcludedLeaderboards />
+          );
+        }),
       ]),
+      route("/test-db", async ({}) => {
+        const db = drizzle(env.DB);
+        const allUsers = await db.select().from(users);
+        return Response.json(allUsers);
+      }),
+      route("/profile", async () => { 
+        return (  
+          <ProfilePage />
+        );  
+      }),
+      route("/announcements", async () => { 
+        return (
+          <section className="space-y-4 max-w-[80%] mx-auto mt-8">
+            <Announcements />
+          </section>
+        );  
+      }),
     ]),
-  ]);
+  ]),
+]);
+
+
+
 

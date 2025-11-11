@@ -13,18 +13,17 @@ export default function Nav() {
   }
 
   const displayHamburger = (state: boolean) => {
-    return state ? <HamburgerMenu/> : null
+    return state ? <HamburgerMenu hamburgerToggle={toggleHamburger} /> : null
   } 
 
   return (
     <header className="pb-6">
       <nav className = "h-12">
-        <div className="mx-auto lg:px-8">
-          <div className="flex h-12 items-center justify-between">
+          <div className="mx-auto lg:px-8 flex h-12 items-center justify-between">
             {/* Logo */}
-            <a href="/" className="text-3xl font-semibold tracking-tight">
-              Trackify
-            </a>
+            <h1 className="text-3xl font-semibold tracking-tight">
+              <a href="/">Trackify</a>
+            </h1>
 
             {/* Ikoner */}
             <ul className="flex items-center gap-4">
@@ -34,19 +33,28 @@ export default function Nav() {
                 </a>
               </li>
               <li>
-                <a href="/#" className="rounded-md p-1">
+                <a href="/profile" className="rounded-md p-1">
                   <User size={22} />
                 </a>
               </li>
-              <li className="lg rounded-md p-1 z-2" onClick={toggleHamburger}>
-                <Menu size={26} />
-              </li>
-              <li className="lg rounded-md p-1">
-                  {displayHamburger(hamburgerOpened)}
+              <li>
+                <button
+                  className="rounded-md p-1"
+                  onClick={toggleHamburger}
+                  aria-expanded={hamburgerOpened}
+                  aria-controls="mobile-menu"
+                >
+                  <Menu size={26} aria-label="Toggle menu" />
+                </button>
               </li>
             </ul>
+            <menu
+              id="mobile-menu"
+              className={`absolute top-0 right-0 p-1 bg-white shadow-lg ${hamburgerOpened ? "block" : "hidden"}`}
+            >
+              {displayHamburger(hamburgerOpened)}
+            </menu>
           </div>
-        </div>
         <Breadcrumbs/>
       </nav>
     </header>

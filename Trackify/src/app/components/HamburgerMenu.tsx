@@ -1,59 +1,36 @@
-import type { CSSProperties } from "react";   
-import { CornerDownRight, Grid } from "react-feather";
+import { CornerDownRight } from "react-feather";
 
-export default function HamburgerMenu() {
-    const sidePanelStyle: CSSProperties = {
-        position: "fixed",   
-        top: "0",
-        right: "0",            
-        width: "30%",      
-        height: "100%",        
-        backgroundColor: "white",
-        zIndex: "1",
-        padding: "1rem",
-        paddingTop: "6rem",
-        display: "flex",            
-        flexDirection: "column",    
-        alignItems: "stretch", 
-        gap: "1rem"
-    };
-    const overlayStyle: CSSProperties = {
-        position: "fixed",  
-        top: "0",
-        left: "0",
-        width: "100%",           
-        height: "100%",           
-        backgroundColor: "rgba(0, 0, 0, 0.5)", 
-        zIndex: "+1"
-    }
-    const destinationStyle :CSSProperties = {
-        width: "100%",
-        fontWeight: "500",
-        fontSize: 24,
-        color: "blue",
-        cursor: "pointer"
-    }
-
+export default function HamburgerMenu({ hamburgerToggle }: { hamburgerToggle: () => void }) {
     return (
-        <div style={overlayStyle}>
-            <div style={sidePanelStyle}>
-                <a style={destinationStyle} href="/">Home</a>
-                <a style={destinationStyle} href="/leaderboard">Leaderboard</a>
-                <div style={{display: "flex", flexDirection: "row", gap: "0"}}>
+        <aside
+            className="fixed inset-0 bg-black/50 z-20"
+            onClick={hamburgerToggle}
+        >
+            <ul className="fixed right-0 top-0 h-full w-1/3 bg-white z-30 p-4 pt-24 flex flex-col items-stretch gap-4">
+                <li className="block w-full font-medium text-2xl text-blue-600 cursor-pointer">
+                    <a href="/">Home</a>
+                </li>
+                <li className="block w-full font-medium text-2xl text-blue-600 cursor-pointer">
+                    <a href="/leaderboard">Leaderboard</a>
+                </li>
+                <li className="flex flex-row gap-0">
                     <CornerDownRight/>
-                    <ul style={{...destinationStyle, fontSize: 20}}>
-                        <li><a href="">Ongoing leaderboards</a></li>
-                        <li><a href="">Create a Leaderboard</a></li>
-                        <li><a href="">Join a Leaderboard</a></li>
-                        <li><a href="">My Leaderboards</a></li>
+                    <ul className="ml-2 font-medium text-xl text-blue-600 cursor-pointer space-y-1">
+                        <li><a href="/leaderboard/ongoing-leaderboards">Ongoing leaderboards</a></li>
+                        <li><a href="/leaderboard/concluded-leaderboards">Concluded leaderboards</a></li>
+                        <li><a href="/leaderboard/create-leaderboard">Create a Leaderboard</a></li>
+                        <li><a href="#">Join a Leaderboard</a></li>
+                        <li><a href="#">My Leaderboards</a></li>
                     </ul>
-                </div>
+                </li>
 
-
-                <a style={destinationStyle} href="">Upcoming Matches</a>
-                <a style={destinationStyle} href="">Announcements</a>
-            </div>
-        </div>
-
+                <li className="block w-full font-medium text-2xl text-blue-600 cursor-pointer">
+                    <a href="#">Upcoming Matches</a>
+                </li>
+                <li className="block w-full font-medium text-2xl text-blue-600 cursor-pointer">
+                    <a href="/announcements">Announcements</a>
+                </li>
+            </ul>
+        </aside>
     )
 }
