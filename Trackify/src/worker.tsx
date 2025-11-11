@@ -109,45 +109,42 @@ export default defineApp([
         }),
         route("/my-leaderboards/:id/update-leaderboard", ({params}) => {
           const leaderboardId = params.id;
-
           return (  
             <UpdateLeaderboard id={leaderboardId} />
           );  
         }),
         route("/my-leaderboards/:id/add-data", ({params}) => {
           const leaderboardId = params.id;
-
           return (  
             <AddLeaderboardData id={leaderboardId} />
           );  
         }),
         route("/game-leaderboard", async () => { 
-        return (  
-          <GameLeaderboard />
+          return (  
+            <GameLeaderboard />
           );
         }),
-      route("/ongoing-leaderboards", async () => {
-        return (
-          <OngoingLeaderboards />
-        );
-      }),
-      route("/concluded-leaderboards", async () => {
-        return (
-          <ConcludedLeaderboards />
-        );
-      }),
+        route("/ongoing-leaderboards", async () => {
+          return (
+            <OngoingLeaderboards />
+          );
+        }),
+        route("/concluded-leaderboards", async () => {
+          return (
+            <ConcludedLeaderboards />
+          );
+        }),
       ]),
       route("/test-db", async ({}) => {
         const db = drizzle(env.DB);
         const allUsers = await db.select().from(users);
         return Response.json(allUsers);
       }),
-
       route("/profile", async () => { 
         return (  
           <ProfilePage />
         );  
-      })
+      }),
     ]),
   ]),
 ]);
