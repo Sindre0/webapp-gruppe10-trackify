@@ -114,6 +114,12 @@ export default defineApp([
               <MyLeaderboards />
           );
         }),
+        route("/my-leaderboards/:id", async ({params}) => {
+          const leaderboardId = params.id;
+          return (
+              <MyLeaderboards />
+          );
+        }),
         route("/my-leaderboards/:id/update-leaderboard", async ({params}) => {
           const leaderboardId = params.id;
           return (  

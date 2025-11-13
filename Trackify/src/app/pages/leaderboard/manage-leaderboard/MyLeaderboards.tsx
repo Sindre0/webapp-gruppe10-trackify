@@ -53,7 +53,7 @@ export default function MyLeaderboards() {
                             key={leaderboard.id}
                         >
                             <button 
-                            onClick={() => navigate(`/leaderboard/ongoing-leaderboards/${leaderboard.id}`)}
+                            onClick={() => navigate(`/leaderboard/my-leaderboards/${leaderboard.id}`)}
                             className="w-full text-left border shadow-md border-gray-200 rounded-3xl bg-gray-50 px-6 py-4 hover:bg-gray-100 cursor-pointer text-lg font-medium mb-4">
                                 {leaderboard.name}
                             </button>
