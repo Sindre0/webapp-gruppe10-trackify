@@ -8,15 +8,36 @@ import GameSpecificLeaderboard from "../../components/GameSpecificLeaderboard";
 import Announcements from "../../components/Announcements";
 import GraphRender from "../../components/GraphRender";
 import HomeLeaderboard from "@/app/components/HomeLeaderboard";
+import { useAuth } from "@/hooks/useAuth";
+import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
+import { useEffect, useState } from "react";
+import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
 
 export default function GameLeaderboard({id}: {id: string}) {
+  const [isAllowedState, setIsAllowedState] = useState<boolean>(false);
+  const user = useAuth();
 
+  async function checkAuthorization() {
+    if (!user?.id) return;
+    await getUserLeaderboards(user.id).then(leaderboards => {
+      leaderboards.forEach(async (leaderboard: any) => {
+        if (leaderboard.leaderboard_id !== id) return;
+        console.log("Authorization status update: ", isAllowedState);
+        setIsAllowedState(false);
+      });
+    });
+  }
+  useEffect(() => {
+    checkAuthorization();
+    console.log("Authorization status: ", isAllowedState);
+  }, [user?.id]);
 
   return (
-
-      <article className="w-[80%] mx-auto mt-6 mb-8 flex gap-6 min-h-[800px]">
+    <>
+      {isAllowedState ? (
+        <article className="w-[80%] mx-auto mt-6 mb-8 flex gap-6 min-h-[800px]">
           <aside className="w-[40%] h-full">
-              <HomeLeaderboard selectedLeaderboardId={"76b8f84d-df4e-4d49-b662-bcde71a8764f"} />
+            <HomeLeaderboard selectedLeaderboardId={id} />
           </aside>
           <section className="w-[60%] flex flex-col gap-6 h-full">
             <section className="h-[33%] flex gap-6">
@@ -31,6 +52,10 @@ export default function GameLeaderboard({id}: {id: string}) {
               <GraphRender />
             </section>
           </section>
-      </article>
+        </article>
+      ) : (
+        <div className="text-center mt-20 font-semibold">Not authorized</div>
+      )}
+    </>
   );
 }
