@@ -4,9 +4,7 @@ import WelcomeMessage from "../../components/WelcomeMessage";
 import OngoingPreview from "../../components/ongoing-leaderboard/OngoingPreview";
 import ConcludedPreview from "../../components/concluded-leaderboard/ConcludedPreview";
 import UpcomingMatches from "../../components/UpcomingMatches";
-import GameSpecificLeaderboard from "../../components/GameSpecificLeaderboard";
 import Announcements from "../../components/Announcements";
-import GraphRender from "../../components/GraphRender";
 import HomeLeaderboard from "@/app/components/HomeLeaderboard";
 import { useAuth } from "@/hooks/useAuth";
 import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
@@ -61,7 +59,7 @@ export default function GameLeaderboard({id}: {id: string}) {
               </article>
             </section>
             <section className="h-[67%]">
-              <GraphRender />
+              
             </section>
           </section>
         </article>

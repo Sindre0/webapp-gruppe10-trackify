@@ -22,6 +22,7 @@ import NewLeaderboard from "./app/pages/leaderboard/manage-leaderboard/NewLeader
 import UpdateLeaderboard from "./app/pages/leaderboard/manage-leaderboard/UpdateLeaderboard";
 import AddLeaderboardData from "./app/pages/leaderboard/manage-leaderboard/AddLeaderboardData";
 import Announcements from "./app/components/Announcements";
+import MyLeaderboards from "./app/pages/leaderboard/manage-leaderboard/MyLeaderboards";
 
 
 export interface Env {
@@ -107,6 +108,11 @@ export default defineApp([
           return (  
             <NewLeaderboard />
           );  
+        }),
+        route("/my-leaderboards", async () => {
+          return (
+              <MyLeaderboards />
+          );
         }),
         route("/my-leaderboards/:id/update-leaderboard", async ({params}) => {
           const leaderboardId = params.id;

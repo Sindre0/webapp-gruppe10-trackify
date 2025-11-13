@@ -9,7 +9,7 @@ export default function LeaderboardMenu() {
                 <LeaderboardButton href="leaderboard/concluded-leaderboards">Concluded Leaderboards</LeaderboardButton>
                 <LeaderboardButton href="leaderboard/create-leaderboard">Create a Leaderboard</LeaderboardButton>
                 <LeaderboardButton href="#">Join a Leaderboard</LeaderboardButton>
-                <LeaderboardButton href="#">My Leaderboards</LeaderboardButton>
+                <LeaderboardButton href="leaderboard/my-leaderboards">My Leaderboards</LeaderboardButton>
             </section>
         </section>
     );
