@@ -4,6 +4,7 @@ import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
 import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
+import { navigate } from "rwsdk/client";
 
 export default function ConcludedPreview() {
     const user = useAuth();
@@ -50,7 +51,12 @@ export default function ConcludedPreview() {
                         <li className="border shadow-md border-gray-200 rounded-3xl bg-gray-50 px-6 py-4 hover:bg-gray-100 cursor-pointer text-lg font-medium mb-4" 
                         key={leaderboard.id}
                         >
-                            {leaderboard.name}
+                            <button 
+                            onClick={() => navigate(`/leaderboard/concluded-leaderboards/${leaderboard.id}`)}
+                            className="w-full text-left"
+                            >
+                                {leaderboard.name}
+                            </button>
                         </li>
                     ))
                 )}

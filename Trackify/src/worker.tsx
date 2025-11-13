@@ -130,7 +130,13 @@ export default defineApp([
             <ConcludedLeaderboards />
           );
         }),
-        route("/:id", async ({params}) => { 
+        route("/ongoing-leaderboards/:id", async ({params}) => { 
+          const leaderboardId = params.id;
+          return (  
+            <GameLeaderboard id={leaderboardId} />
+          );
+        }),
+        route("/concluded-leaderboards/:id", async ({params}) => { 
           const leaderboardId = params.id;
           return (  
             <GameLeaderboard id={leaderboardId} />

@@ -8,12 +8,12 @@ export default function Breadcrumbs() {
 
     const updateBreadcrumbs = () => {
       const segments = window.location.pathname.split("/").filter(Boolean);
-      if (segments[1] !== undefined) {
-        console.log("Fetching leaderboard details for ID:", segments[1].length);
-        if (segments[1].length === 36) {
-            getLeaderboardDetails(segments[1]).then(details => {
+      if (segments[2] !== undefined) {
+        console.log("Fetching leaderboard details for ID:", segments[2].length);
+        if (segments[2].length === 36) {
+            getLeaderboardDetails(segments[2]).then(details => {
             if (details.name !== undefined) {
-              segments[1] = details.name;
+              segments[2] = details.name;
               console.log("Updated segment with leaderboard name:", details.name);
               setPathSegments(segments);
               return;
