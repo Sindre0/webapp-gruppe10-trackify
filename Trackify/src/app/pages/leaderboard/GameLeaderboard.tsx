@@ -15,7 +15,7 @@ import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
 import { check } from "drizzle-orm/gel-core";
 
 export default function GameLeaderboard({id}: {id: string}) {
-  const [isAllowedState, setIsAllowedState] = useState<boolean>(false);
+  const [isAllowedState, setIsAllowedState] = useState<boolean>(true);
   const user = useAuth();
 
   async function checkAuthorization() {

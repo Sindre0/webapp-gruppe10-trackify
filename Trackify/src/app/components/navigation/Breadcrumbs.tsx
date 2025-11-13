@@ -8,17 +8,27 @@ export default function Breadcrumbs() {
 
     const updateBreadcrumbs = () => {
       const segments = window.location.pathname.split("/").filter(Boolean);
-      if (segments[0] === "leaderboard" && segments[1].length === 36) {
-          getLeaderboardDetails(segments[1]).then(details => {
-          if (details.name !== undefined) {
-            segments[1] = details.name;
-            setPathSegments(segments);
-          } else {
-            segments[1] = "Game Leaderboard";
-            setPathSegments(segments);
-          }})
+      if (segments[1] !== undefined) {
+        console.log("Fetching leaderboard details for ID:", segments[1].length);
+        if (segments[1].length === 36) {
+            getLeaderboardDetails(segments[1]).then(details => {
+            if (details.name !== undefined) {
+              segments[1] = details.name;
+              console.log("Updated segment with leaderboard name:", details.name);
+              setPathSegments(segments);
+              return;
+            } else {
+              setPathSegments(segments);
+              return;
+            }});
+        }
+        else {
+          setPathSegments(segments);
         };
+      } else {
+        setPathSegments(segments);
       };
+    };
 
     const prettifySegment = (segment: string) => {
       return segment.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());

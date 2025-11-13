@@ -120,13 +120,7 @@ export default defineApp([
             <AddLeaderboardData id={leaderboardId} />
           );  
         }),
-        route("/:id", async ({params}) => { 
-          const leaderboardId = params.id;
-          return (  
-            <GameLeaderboard id={leaderboardId} />
-          );
-        }),
-        route("/ongoing-leaderboards", async () => {
+        route("/ongoing-leaderboards", async () => {  // OBS: Keep ongoing- and concluded-leaderboards above the :id route
           return (
               <OngoingLeaderboards />
           );
@@ -134,6 +128,12 @@ export default defineApp([
         route("/concluded-leaderboards", async () => {
           return (
             <ConcludedLeaderboards />
+          );
+        }),
+        route("/:id", async ({params}) => { 
+          const leaderboardId = params.id;
+          return (  
+            <GameLeaderboard id={leaderboardId} />
           );
         }),
       ]),
