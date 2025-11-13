@@ -69,7 +69,7 @@ export default function HomeLeaderboard({ selectedLeaderboardId }: HomeLeaderboa
     }, [selectedLeaderboardId]);
 
     return (
-        <section className="block w-[60%]">
+        <section className="block w-full">
             <h2 className="text-2xl font-semibold mb-6">
                 {selectedLeaderboardId ? (leaderboardName ?? "Loading...") : "Home Leaderboard"}
             </h2>

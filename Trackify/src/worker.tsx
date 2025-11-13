@@ -2,6 +2,8 @@ import { defineApp } from "rwsdk/worker";
 import { layout, prefix, render, route } from "rwsdk/router";
 import { Document } from "@/app/Document";
 import MainLayout from "./app/components/layouts/MainLayout";
+import { leaderboardRoutes } from "./api/leaderboards/leaderboardRoutes";
+import { userRoutes } from "./api/users/userRoutes";
 
 import { seedData } from "./db/seed";
 import { User, users } from "./db/schema/user-schema";
@@ -19,8 +21,6 @@ import Profile from "./app/components/Profile";
 import NewLeaderboard from "./app/pages/leaderboard/manage-leaderboard/NewLeaderboard";
 import UpdateLeaderboard from "./app/pages/leaderboard/manage-leaderboard/UpdateLeaderboard";
 import AddLeaderboardData from "./app/pages/leaderboard/manage-leaderboard/AddLeaderboardData";
-import { leaderboardRoutes } from "./api/leaderboards/leaderboardRoutes";
-import { userRoutes } from "./api/users/userRoutes";
 import Announcements from "./app/components/Announcements";
 
 
@@ -108,21 +108,22 @@ export default defineApp([
             <NewLeaderboard />
           );  
         }),
-        route("/my-leaderboards/:id/update-leaderboard", ({params}) => {
+        route("/my-leaderboards/:id/update-leaderboard", async ({params}) => {
           const leaderboardId = params.id;
           return (  
             <UpdateLeaderboard id={leaderboardId} />
           );  
         }),
-        route("/my-leaderboards/:id/add-data", ({params}) => {
+        route("/my-leaderboards/:id/add-data", async ({params}) => {
           const leaderboardId = params.id;
           return (  
             <AddLeaderboardData id={leaderboardId} />
           );  
         }),
-        route("/game-leaderboard", async () => { 
+        route("/:id", async ({params}) => { 
+          const leaderboardId = params.id;
           return (  
-            <GameLeaderboard />
+            <GameLeaderboard id={leaderboardId} />
           );
         }),
         route("/ongoing-leaderboards", async () => {

@@ -1,5 +1,6 @@
 "use client";
 
+import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
 import React, {useEffect, useState } from "react";
 
 export default function Breadcrumbs() {
@@ -7,8 +8,17 @@ export default function Breadcrumbs() {
 
     const updateBreadcrumbs = () => {
       const segments = window.location.pathname.split("/").filter(Boolean);
-      setPathSegments(segments);
-    };
+      if (segments[0] === "leaderboard" && segments[1].length === 36) {
+          getLeaderboardDetails(segments[1]).then(details => {
+          if (details.name !== undefined) {
+            segments[1] = details.name;
+            setPathSegments(segments);
+          } else {
+            segments[1] = "Game Leaderboard";
+            setPathSegments(segments);
+          }})
+        };
+      };
 
     const prettifySegment = (segment: string) => {
       return segment.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
