@@ -1,6 +1,6 @@
 export default function Profile() {
   return (
-    <main className="flex flex-col items-center mt-6">
+    <main className="flex flex-col items-center space-y-4 max-w-[80%] mx-auto mt-8">
       <div className="w-full mt-3 flex gap-10 px-16">
         <div className="w-[30%] gap-8 mr-10">
           <h2 className="m-2 text-lg">Account</h2>

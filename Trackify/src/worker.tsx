@@ -8,17 +8,17 @@ import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
 import { env } from "cloudflare:workers";
 import { drizzle } from "drizzle-orm/d1";
-import LeaderboardMenu from "./app/pages/LeaderboardMenu";
+import LeaderboardMenu from "./app/pages/leaderboard/LeaderboardMenu";
 import Home from "./app/pages/Home";
-import LoginSite from "./app/pages/LoginSite";
-import CreateAccount from "./app/pages/CreateAccount";
-import OngoingLeaderboards from "./app/components/OngoingLeaderboards";
-import ConcludedLeaderboards from "./app/components/ConcludedLeaderboards";
-import GameLeaderboard from "./app/pages/GameLeaderboard";
-import ProfilePage from "./app/pages/ProfilePage";
-import NewLeaderboard from "./app/pages/NewLeaderboard";
-import UpdateLeaderboard from "./app/pages/UpdateLeaderboard";
-import AddLeaderboardData from "./app/pages/AddLeaderboardData";
+import LoginSite from "./app/pages/user/LoginSite";
+import CreateAccount from "./app/pages/user/CreateAccount";
+import OngoingLeaderboards from "./app/components/ongoing-leaderboard/OngoingLeaderboards";
+import ConcludedLeaderboards from "./app/components/concluded-leaderboard/ConcludedLeaderboards";
+import GameLeaderboard from "./app/pages/leaderboard/GameLeaderboard";
+import Profile from "./app/components/Profile";
+import NewLeaderboard from "./app/pages/leaderboard/manage-leaderboard/NewLeaderboard";
+import UpdateLeaderboard from "./app/pages/leaderboard/manage-leaderboard/UpdateLeaderboard";
+import AddLeaderboardData from "./app/pages/leaderboard/manage-leaderboard/AddLeaderboardData";
 import { leaderboardRoutes } from "./api/leaderboards/leaderboardRoutes";
 import { userRoutes } from "./api/users/userRoutes";
 import Announcements from "./app/components/Announcements";
@@ -143,7 +143,7 @@ export default defineApp([
       }),
       route("/profile", async () => { 
         return (  
-          <ProfilePage />
+          <Profile />
         );  
       }),
       route("/announcements", async () => { 

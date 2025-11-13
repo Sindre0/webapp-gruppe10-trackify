@@ -1,11 +1,11 @@
-import WelcomeMessage from "../components/WelcomeMessage";
-import OngoingPreview from "../components/OngoingPreview";
-import ConcludedPreview from "../components/ConcludedPreview";
-import RecentLeaderboard from "../components/RecentLeaderboard";
-import UpcomingMatches from "../components/UpcomingMatches";
-import GameSpecificLeaderboard from "../components/GameSpecificLeaderboard";
-import Announcements from "../components/Announcements";
-import GraphRender from "../components/GraphRender";
+import WelcomeMessage from "../../components/WelcomeMessage";
+import OngoingPreview from "../../components/ongoing-leaderboard/OngoingPreview";
+import ConcludedPreview from "../../components/concluded-leaderboard/ConcludedPreview";
+import RecentLeaderboard from "../../components/RecentLeaderboard";
+import UpcomingMatches from "../../components/UpcomingMatches";
+import GameSpecificLeaderboard from "../../components/GameSpecificLeaderboard";
+import Announcements from "../../components/Announcements";
+import GraphRender from "../../components/GraphRender";
 
 
 

@@ -1,8 +1,8 @@
 "use client";
 
 import WelcomeMessage from "../components/WelcomeMessage";
-import OngoingPreview from "../components/OngoingPreview";
-import ConcludedPreview from "../components/ConcludedPreview";
+import OngoingPreview from "../components/ongoing-leaderboard/OngoingPreview";
+import ConcludedPreview from "../components/concluded-leaderboard/ConcludedPreview";
 import UpcomingMatches from "../components/UpcomingMatches";
 import HomeLeaderboard from "../components/HomeLeaderboard";
 import { useState } from "react";
