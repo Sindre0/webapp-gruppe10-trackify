@@ -2,7 +2,6 @@ import { route } from "rwsdk/router";
 import { leaderboardController } from "./leaderboardController";
 
 export const leaderboardRoutes = [
-    // Define leaderboard related routes here
     route("/", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
         console.log("Leaderboard route accessed with method:", method);

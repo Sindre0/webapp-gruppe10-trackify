@@ -12,6 +12,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
 import { useEffect, useState } from "react";
 import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
+import { check } from "drizzle-orm/gel-core";
 
 export default function GameLeaderboard({id}: {id: string}) {
   const [isAllowedState, setIsAllowedState] = useState<boolean>(false);
@@ -22,14 +23,25 @@ export default function GameLeaderboard({id}: {id: string}) {
     await getUserLeaderboards(user.id).then(leaderboards => {
       leaderboards.forEach(async (leaderboard: any) => {
         if (leaderboard.leaderboard_id !== id) return;
-        console.log("Authorization status update: ", isAllowedState);
-        setIsAllowedState(false);
+        setIsAllowedState(true);
       });
     });
   }
+
+  async function checkVisibility() {
+    await getLeaderboardDetails(id).then(details => {
+      if (details.visibility === "public") {
+        setIsAllowedState(true);
+      }
+    });
+  }
+
   useEffect(() => {
-    checkAuthorization();
-    console.log("Authorization status: ", isAllowedState);
+    checkVisibility();
+    if (isAllowedState) {
+    } else {
+      checkAuthorization()
+    };
   }, [user?.id]);
 
   return (
