@@ -13,7 +13,7 @@ import Home from "./app/pages/Home";
 import LoginSite from "./app/pages/LoginSite";
 import CreateAccount from "./app/pages/CreateAccount";
 import OngoingLeaderboards from "./app/components/OngoingLeaderboards";
-import ConcludedLeaderboards from "./app/pages/ConcludedLeaderboards";
+import ConcludedLeaderboards from "./app/components/ConcludedLeaderboards";
 import GameLeaderboard from "./app/pages/GameLeaderboard";
 import ProfilePage from "./app/pages/ProfilePage";
 import NewLeaderboard from "./app/pages/NewLeaderboard";
@@ -127,9 +127,7 @@ export default defineApp([
         }),
         route("/ongoing-leaderboards", async () => {
           return (
-            <section className="space-y-4 max-w-[80%] mx-auto mt-8">
               <OngoingLeaderboards />
-            </section>
           );
         }),
         route("/concluded-leaderboards", async () => {
