@@ -5,34 +5,21 @@ import React, {useEffect, useState } from "react";
 
 export default function Breadcrumbs() {
     const [pathSegments, setPathSegments] = useState<string[]>([]);
+    const [leaderboardName, setLeaderboardName] = useState<string | null>(null);
 
     const updateBreadcrumbs = () => {
       const segments = window.location.pathname.split("/").filter(Boolean);
-      if (segments[2] !== undefined) {
-        console.log("Fetching leaderboard details for ID:", segments[2].length);
-        if (segments[2].length === 36) {
-            getLeaderboardDetails(segments[2]).then(details => {
-            if (details.name !== undefined) {
-              segments[2] = details.name;
-              console.log("Updated segment with leaderboard name:", details.name);
-              setPathSegments(segments);
-              return;
-            } else {
-              setPathSegments(segments);
-              return;
-            }});
-        }
-        else {
-          setPathSegments(segments);
-        };
-      } else {
-        setPathSegments(segments);
-      };
+      setPathSegments(segments);
     };
-
-    const prettifySegment = (segment: string) => {
-      return segment.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+    
+  const prettifySegment = (segment: string, index: number) => {
+    if (index === 2) {
+      if (leaderboardName) {
+        return leaderboardName;
+      }
     }
+    return segment.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  };
 
     useEffect(() => {
         updateBreadcrumbs();
@@ -40,8 +27,21 @@ export default function Breadcrumbs() {
         return () => window.removeEventListener("popstate", updateBreadcrumbs);
     }, []);
 
+    useEffect(() => {
+      if (pathSegments[2] && pathSegments[2].length === 36) {
+        getLeaderboardDetails(pathSegments[2])
+          .then((details: any) => {
+            if (details?.name) {
+              setLeaderboardName(details.name);
+            }
+          });
+      } else {
+        setLeaderboardName(null);
+      }
+    }, [pathSegments]);
+
   return (
-    <div className="bg-gray-100 font-semibold p-1">
+    <div className="bg-gray-100 py-2 px-4 rounded-md mb-4">
       <ul className="list-none m-0 px-4 font-normal">
         <li className="inline">
           <a href="/">Home</a>
@@ -54,10 +54,10 @@ export default function Breadcrumbs() {
             <li key={index} className="inline">
               {!isLast ? (
                 <>
-                  <a href={pathUpToHere}>{prettifySegment(segment)}</a> /{" "}
+                  <a href={pathUpToHere}>{prettifySegment(segment, index)}</a> /{" "}
                 </>
               ) : (
-                <span>{prettifySegment(segment)}</span>
+                <span>{prettifySegment(segment, index)}</span>
               )}
             </li>
           );
