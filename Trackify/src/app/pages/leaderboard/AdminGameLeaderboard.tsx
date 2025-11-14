@@ -10,7 +10,9 @@ import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
 import { navigate } from "rwsdk/client";
 
 export default function AdminGameLeaderboard({id}: {id: string}) {
-  const [isAllowedState, setIsAllowedState] = useState<boolean>(true);
+  const [isBlockedState, setIsBlockedState] = useState<boolean>(true);
+  const [isOwner, setIsOwner] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const user = useAuth();
 
   async function checkAuthorization() {
@@ -18,30 +20,31 @@ export default function AdminGameLeaderboard({id}: {id: string}) {
     await getUserLeaderboards(user.id).then(leaderboards => {
       leaderboards.forEach(async (leaderboard: any) => {
         if (leaderboard.leaderboard_id !== id) return;
-        setIsAllowedState(true);
+        if (leaderboard.is_owner) {
+          setIsBlockedState(false);
+          setIsOwner(true);
+        }
+        else if (leaderboard.is_mod) {
+          setIsBlockedState(false);
+        }
+        return;
       });
     });
   }
 
-  async function checkVisibility() {
-    await getLeaderboardDetails(id).then(details => {
-      if (details.visibility === "public") {
-        setIsAllowedState(true);
-      }
-    });
-  }
-
   useEffect(() => {
-    checkVisibility();
-    if (isAllowedState) {
-    } else {
-      checkAuthorization()
-    };
+    checkAuthorization()
+    setLoading(false);
   }, [user?.id]);
 
   return (
     <>
-      {isAllowedState ? (
+    {loading ? <div>Loading...</div> : (
+      isBlockedState ? (
+        <div>
+          <h1 className="text-center mt-20 font-semibold">Not authorized</h1>
+        </div>
+      ) : (
         <article className="w-[80%] mx-auto mt-6 mb-8 gap-6 min-h-[800px]">
             <h1 className="text-2xl font-semibold mb-2">Admin Desk</h1>
             <section className="flex bg-gray-50 border border-gray-800 shadow-2xl h-35">
@@ -55,17 +58,18 @@ export default function AdminGameLeaderboard({id}: {id: string}) {
                 className="w-full border border-gray-200 hover:bg-gray-100 cursor-pointer text-lg font-medium">
                     Change Settings
                 </button>
+                {isOwner && (
                 <button 
                 onClick={() => navigate(`/leaderboard/my-leaderboards/${id}/update-leaderboard`)}
-                className="w-full border border-gray-200 hover:bg-gray-100 cursor-pointer text-lg font-medium">
+                className="w-full border text-red-500 border-gray-200 hover:bg-gray-100 cursor-pointer text-lg font-medium">
                     Delete Leaderboard
                 </button>
-
+                )}
             </section>
         </article>
-      ) : (
-        <div className="text-center mt-20 font-semibold">Not authorized</div>
-      )}
+      )
+    )}
+      
     </>
   );
 }
