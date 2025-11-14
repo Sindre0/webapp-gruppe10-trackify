@@ -40,6 +40,16 @@ export default function Breadcrumbs() {
       }
     }, [pathSegments]);
 
+    useEffect(() => {
+      if (!pathSegments || pathSegments.length === 0) {
+        document.title = "Trackify";
+        return;
+      }
+      const index = pathSegments.length - 1;
+      const title = prettifySegment(pathSegments[index], index);
+      document.title = title;
+    }, [pathSegments, leaderboardName]);
+
   return (
     <div className="bg-gray-100 py-2 px-4 rounded-md mb-4">
       <ul className="list-none m-0 px-4 font-normal">
