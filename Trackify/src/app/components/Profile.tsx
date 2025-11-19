@@ -10,11 +10,9 @@ export default function Profile() {
           <section className="shadow-md border border-gray-200 px-6 py-4 mb-8">
             <ul className="text-sm">
               <li className="py-1 border-b border-gray-400">Profile</li>
-              <li className="py-1 text-red-600">
-                <DeleteAccountButton />
-              </li>
-              <li className="py-1 mt-3">
+              <li className="py-1 mt-3 flex gap-3">
                 <DeleteCookieButton label="Log out" />
+                <DeleteAccountButton />
               </li>
             </ul>
           </section>

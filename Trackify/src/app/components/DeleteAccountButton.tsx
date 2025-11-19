@@ -79,9 +79,13 @@ export default function DeleteAccountButton() {
 
   return (
     <>
-      <span onClick={handleDeleteClick} className="cursor-pointer">
+      <button 
+        type="button" 
+        onClick={handleDeleteClick}
+        className="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 transition-colors"
+      >
         Delete account
-      </span>
+      </button>
 
       {/* Confirm N1 popup */}
       {showFirstConfirm && (
