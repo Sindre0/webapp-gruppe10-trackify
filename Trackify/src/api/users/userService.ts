@@ -17,6 +17,7 @@ export interface UserService {
     registerUser(register: UserRegisterParams): Promise<Result<any>>;
     getLeaderboards(userID: string): Promise<Result<any>>;
     getUsername(userID: string): Promise<Result<any>>;
+    getUserByEmail(email: string): Promise<Result<any>>;
 }
 
 export function createUserService(userRepository: UserRepository): UserService {
@@ -42,6 +43,10 @@ export function createUserService(userRepository: UserRepository): UserService {
         async getUsername(userID: string): Promise<Result<any>> {
             userID = decodeURIComponent(userID);
             return await userRepository.getUsername(userID);
+        },
+        async getUserByEmail(email: string): Promise<Result<any>> {
+            email = decodeURIComponent(email);
+            return await userRepository.getUserByEmail(email);
         }
     };
 }

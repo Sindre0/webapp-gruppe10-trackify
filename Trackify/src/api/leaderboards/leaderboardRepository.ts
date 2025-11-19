@@ -14,7 +14,8 @@ export interface LeaderboardRepository {
     findEntriesByLeaderboardId(id: string): Promise<Result<any[]>>;
     createLeaderboard(params: CreateQueryParams): Promise<Result<any>>;
     deleteLeaderboard(id: string): Promise<Result<any>>;
-    attachUser(leaderboardId: string, userId: string): Promise<Result<any>>;
+    isUserAttached(leaderboardId: string, userId: string): Promise<Result<any>>;
+    attachUser(leaderboardId: string, userId: string, isOwner: boolean, isMod: boolean): Promise<Result<any>>;
     removeUser(leaderboardId: string, userId: string): Promise<Result<any>>;
     removeAllUsers(leaderboardId: string): Promise<Result<any>>;
     checkOwnerStatus(leaderboardId: string, userId: string): Promise<Result<any>>;
@@ -89,14 +90,24 @@ export function createLeaderboardRepository(): LeaderboardRepository {
             const result = await db.delete(leaderboards).where(eq(leaderboards.id, id));
             return { success: true, data: result };
         },
-        async attachUser(leaderboardId: string, userId: string) {
+        async isUserAttached(leaderboardId: string, userId: string) {
             const db = drizzle(env.DB);
-
+            const result = await db.select().from(leaderboard_has_user).where((
+                eq(leaderboard_has_user.leaderboard_id, leaderboardId),
+                eq(leaderboard_has_user.user_id, userId))
+            );
+            if (result.length > 0)
+                return { success: true, data: true };
+            return { success: true, data: false };
+        },
+        async attachUser(leaderboardId: string, userId: string, isOwner: boolean, isMod: boolean) {
+            const db = drizzle(env.DB);
+            console.log("Attaching user to leaderboard in repository:", leaderboardId, userId, isOwner, isMod);
             const result = await db.insert(leaderboard_has_user).values({ 
                 leaderboard_id: leaderboardId, 
                 user_id: userId,
-                is_owner: true,
-                is_mod: true
+                is_owner: isOwner,
+                is_mod: isMod
             });
 
             return { success: true, data: result };

@@ -73,6 +73,21 @@ export function createUserController(userService: UserService) {
                 ...dataFromService,
             }), { status: 200, headers: { "Content-Type": "application/json" }  
             });   
+        },
+        async getUserByEmail(context: RequestInfo) {
+            const email = context.params.email;
+
+            const dataFromService = await userService.getUserByEmail(email);
+            if (!dataFromService.success) {
+                return new Response(JSON.stringify(dataFromService), { 
+                status: dataFromService.error.code || 500 ,
+                headers: { "Content-Type": "application/json" }
+                })
+            }
+            return new Response(JSON.stringify({
+                ...dataFromService,
+            }), { status: 200, headers: { "Content-Type": "application/json" }  
+            });
         }
     }
 }

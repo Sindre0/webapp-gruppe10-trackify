@@ -5,54 +5,83 @@ import { navigate } from "rwsdk/client";
 
 export default function AddLeaderboardData({id}: {id: string}) {
 
-  // fetch leaderboard by id...
-
   async function handleAddLeaderboardData(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     alert("Adding leaderboard data...");
     const formData = new FormData(event.currentTarget);
     const name = String(formData.get("name") ?? "").trim();
   }
-    async function addContestant(event: React.FormEvent<HTMLFormElement>) {
-      event.preventDefault();
-      const formData = new FormData(event.currentTarget);
-      const username = String(formData.get("username") ?? "").trim();
-      alert("Adding contestant: " + username);
-    }
+  
+  async function addContestant(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const email = String(formData.get("email") ?? "").trim();
+
+    const response = await fetch("/api/v1/users/email/" + encodeURIComponent(email), {
+      method: "GET"
+    });
+    if (response.ok) {
+      const userData = JSON.parse(await response.text());
+      console.log("User data fetched by email:", userData.data.id);
+      await fetch("/api/v1/leaderboards/" + id + "/add-user/" + userData.data.id, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+      });
+
+    alert("Adding contestant: " + email);
+  }
+  }
+
+  async function removeContestant(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const username = String(formData.get("email") ?? "").trim();
+    alert("Removing contestant: " + username);
+  }
 
   return (
     <section className="max-w-[80%] mx-auto mt-10 space-y-4">
       <h1 className="text-xl m-1 font-semibold">Add data</h1>
       <div className="bg-white shadow-md p-6 space-y-6">
-        {/* Add participant/team */}
+        {/* Add participant */}
         <section className="bg-gray-100 p-4">
-          <form className="flex items-center justify-between ">
-
-            <h2 className="font-medium text-gray-800">Add participant/Team</h2>
-            <button
-              type="button"
-              className="border p-1 border-black bg-white"
-            >
-              ➕
-            </button>
-
-
+          <form onSubmit={addContestant}>
+            <label className="grid grid-cols-8 items-center justify-between gap-4">
+              <h2 className="font-medium text-gray-800 col-span-5">Add participant</h2>
+              <input
+              type="text"
+              name="email"
+              placeholder="Email"
+              className="border col-span-2 bg-white border-black text-sm px-3 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+              <button
+                type="submit"
+                className="border p-1 border-black bg-white cursor-pointer"
+              >
+                ➕
+              </button>
+            </label>
           </form>
         </section>
 
-        {/* Remove participant/team */}
+        {/* Remove participant */}
         <section className="bg-gray-100 p-4">
-          <form className="flex items-center justify-between ">
-
-            <h2 className="font-medium text-gray-800">Remove participant/Team</h2>
-            <button
-              type="button"
-              className="border p-1 border-black bg-white"
-            >
-              ➖
-            </button>
-
-
+          <form onSubmit={removeContestant}>
+            <label className="grid grid-cols-8 items-center justify-between gap-4">
+              <h2 className="font-medium text-gray-800 col-span-5">Remove participant</h2>
+              <input
+              type="text"
+              name="email"
+              placeholder="Email"
+              className="border col-span-2 bg-white border-black text-sm px-3 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+              <button
+                type="submit"
+                className="border p-1 border-black bg-white cursor-pointer"
+              >
+                ➖
+              </button>
+            </label>
           </form>
         </section>
 

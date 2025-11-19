@@ -19,6 +19,7 @@ export interface LeaderboardService {
     getEntries(id: string): Promise<Result<any[]>>;
     create(params?: CreateQueryParams, userId?: string): Promise<Result<any>>;
     delete(leaderboardId: string, userId: string): Promise<Result<any>>;
+    addUser(leaderboardId: string, userId: string): Promise<Result<any>>;
 }
 
 export function createLeaderboardService(leaderboardRepository: LeaderboardRepository): LeaderboardService {
@@ -43,7 +44,7 @@ export function createLeaderboardService(leaderboardRepository: LeaderboardRepos
                 return result;
             }
             console.log("Attaching user to leaderboard:", userId, result.data[0].id);
-            const secondResult = await leaderboardRepository.attachUser(result.data[0].id, userId);
+            const secondResult = await leaderboardRepository.attachUser(result.data[0].id, userId, true, true);
             if (!secondResult.success) {
                 return secondResult;
             }
@@ -68,6 +69,17 @@ export function createLeaderboardService(leaderboardRepository: LeaderboardRepos
             }
 
             return result;
+        },
+        async addUser(leaderboardId: string, userId: string): Promise<Result<any>> {
+            const isAttached = await leaderboardRepository.isUserAttached(leaderboardId, userId);
+            if (!isAttached.success) {
+                return { success: false, error: { message: "Failed to verify user attachment", code: 500 } };
+            }
+            if (isAttached.data) {
+                return { success: false, error: { message: "User is already attached to the leaderboard", code: 409 } };
+            }
+            
+            return await leaderboardRepository.attachUser(leaderboardId, userId, false, false);
         }
     };
 }

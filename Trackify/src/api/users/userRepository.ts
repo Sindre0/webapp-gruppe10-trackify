@@ -11,6 +11,7 @@ export interface UserRepository {
     createUser(register: UserRegisterParams): Promise<Result<any>>;
     getAllUserLeaderboards(userID: string): Promise<Result<any>>;
     getUsername(userID: string): Promise<Result<any>>;
+    getUserByEmail(email: string): Promise<Result<any>>;
 }
 
 export function createUserRepository(): UserRepository {
@@ -77,6 +78,18 @@ export function createUserRepository(): UserRepository {
             }
 
             return { success: true, data: user };
+        },
+        async getUserByEmail(email: string) {
+            const db = drizzle(env.DB);
+            const user = await db.select({
+                id: users.id,
+                username: users.username
+            }).from(users).where(eq(users.email, email));
+            if (user.length == 0) {
+                return { success: false, error: { message: "User not found", code: 404 } };
+            }
+
+            return { success: true, data: user[0] };
         }
     };
 }

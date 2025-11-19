@@ -125,6 +125,21 @@ export function createLeaderboardController(leaderboardService: LeaderboardServi
             }), { status: 200 , headers: { "Content-Type": "application/json" }  
             });
         },
+        async addUserToLeaderboard(context: RequestInfo) {
+            const userId = context.params.userId;
+            const leaderboardId = context.params.id;
+
+            const dataFromService = await leaderboardService.addUser(leaderboardId, userId);
+            if (!dataFromService.success) {
+                return new Response(JSON.stringify(dataFromService), { 
+                    status: dataFromService.error.code || 500 ,
+                    headers: { "Content-Type": "application/json" }})
+            }
+            return new Response(JSON.stringify({
+                ...dataFromService,
+            }), { status: 200 , headers: { "Content-Type": "application/json" }  
+            });
+        },
     };
 };
 
