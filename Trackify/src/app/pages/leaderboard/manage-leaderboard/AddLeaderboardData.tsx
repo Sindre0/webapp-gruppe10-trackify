@@ -112,9 +112,48 @@ export default function AddLeaderboardData({id}: {id: string}) {
           </form>
         </section>
 
-        {/* Make announcement */}
+        {/* Add match results */}
         <section className="bg-gray-100 p-4">
           <details open>
+            <summary className="font-medium text-gray-800 cursor-pointer mb-3">
+              Add match results
+            </summary>
+            <form className="space-y-3">
+              <label className="block">
+                <span className="text-sm text-gray-700">Select the winner:</span>
+                <input
+                  type="text"
+                  name="winner"
+                  placeholder="Winner name"
+                  className="mt-1 w-full border border-black bg-white px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
+                />
+              </label>
+
+              <label className="block">
+                <span className="text-sm text-gray-700">Select the loser:</span>
+                <input
+                  type="text"
+                  name="loser"
+                  placeholder="Loser name"
+                  className="mt-1 w-full border border-black bg-white px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
+                />
+              </label>
+
+              <div className="flex justify-end">
+                <button
+                  type="submit"
+                  className="px-4 py-1 border text-sm border-black bg-white"
+                >
+                  Post
+                </button>
+              </div>
+            </form>
+          </details>
+        </section>
+
+        {/* Make announcement */}
+        <section className="bg-gray-100 p-4">
+          <details>
             <summary className="font-medium text-gray-800 cursor-pointer mb-3">
               Make announcement
             </summary>
@@ -187,59 +226,6 @@ export default function AddLeaderboardData({id}: {id: string}) {
                   className="px-4 py-1 border text-sm border-black bg-white"
                 >
                   Schedule
-                </button>
-              </div>
-            </form>
-          </details>
-        </section>
-
-        {/* Add match results */}
-        <section className="bg-gray-100 p-4">
-          <details>
-            <summary className="font-medium text-gray-800 cursor-pointer mb-3">
-              Add match results
-            </summary>
-            <form className="space-y-3">
-              <label className="block">
-                <span className="text-sm text-gray-700">Select a completed match:</span>
-                <select
-                  name="completedMatch"
-                  className="mt-1 w-full border border-black bg-white px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">-- Choose match --</option>
-                  <option>Dummy Match 1</option>
-                  <option>Dummy Match 2</option>
-                </select>
-              </label>
-
-              <label className="block">
-                <span className="text-sm text-gray-700">Select the winner:</span>
-                <input
-                  type="text"
-                  name="winner"
-                  placeholder="Winner name"
-                  className="mt-1 w-full border border-black bg-white px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
-                />
-              </label>
-
-              <label className="block">
-                <span className="text-sm text-gray-700">
-                  Award score for each participant:
-                </span>
-                <input
-                  type="text"
-                  name="scores"
-                  placeholder="e.g. 10, 5, 3"
-                  className="mt-1 w-full border border-black bg-white px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
-                />
-              </label>
-
-              <div className="flex justify-end">
-                <button
-                  type="submit"
-                  className="px-4 py-1 border text-sm border-black bg-white"
-                >
-                  Post
                 </button>
               </div>
             </form>
