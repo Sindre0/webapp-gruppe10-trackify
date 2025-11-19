@@ -68,11 +68,10 @@ export default function AdminGameLeaderboard({id}: {id: string}) {
         </div>
       ) : (
         <article className="w-[80%] mx-auto mt-6 mb-8 gap-6 min-h-[800px]">
-            <h1 className="text-2xl font-semibold mb-2">Admin Desk</h1>
-            <LeaderboardButton
-              href = {`/leaderboard/ongoing-leaderboards/${id}`}>
+            <LeaderboardButton href = {`/leaderboard/ongoing-leaderboards/${id}`}>
               <h2>View Leaderboard</h2>
             </LeaderboardButton>
+            <h1 className="text-2xl font-semibold mb-2">Admin Desk</h1>
             <section className="flex bg-gray-50 border border-gray-800 shadow-2xl h-35 mt-6">
                 <button 
                 onClick={() => navigate(`/leaderboard/my-leaderboards/${id}/add-data`)}
