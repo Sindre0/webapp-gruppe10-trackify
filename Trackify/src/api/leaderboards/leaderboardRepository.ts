@@ -13,7 +13,11 @@ export interface LeaderboardRepository {
     findById(id: string): Promise<Result<any>>;
     findEntriesByLeaderboardId(id: string): Promise<Result<any[]>>;
     createLeaderboard(params: CreateQueryParams): Promise<Result<any>>;
+    deleteLeaderboard(id: string): Promise<Result<any>>;
     attachUser(leaderboardId: string, userId: string): Promise<Result<any>>;
+    removeUser(leaderboardId: string, userId: string): Promise<Result<any>>;
+    removeAllUsers(leaderboardId: string): Promise<Result<any>>;
+    checkOwnerStatus(leaderboardId: string, userId: string): Promise<Result<any>>;
 }
 
 export function createLeaderboardRepository(): LeaderboardRepository {
@@ -80,6 +84,11 @@ export function createLeaderboardRepository(): LeaderboardRepository {
                 }).returning();
             return { success: true, data: result };
         },
+        async deleteLeaderboard(id: string) {
+            const db = drizzle(env.DB);
+            const result = await db.delete(leaderboards).where(eq(leaderboards.id, id));
+            return { success: true, data: result };
+        },
         async attachUser(leaderboardId: string, userId: string) {
             const db = drizzle(env.DB);
 
@@ -91,6 +100,42 @@ export function createLeaderboardRepository(): LeaderboardRepository {
             });
 
             return { success: true, data: result };
+        },
+        async removeUser(leaderboardId: string, userId: string) {
+            const db = drizzle(env.DB);
+
+            const result = await db.delete(leaderboard_has_user).where((
+                eq(leaderboard_has_user.leaderboard_id, leaderboardId),
+                eq(leaderboard_has_user.user_id, userId))
+            );
+
+            return { success: true, data: result };
+        },
+        async removeAllUsers(leaderboardId: string) {
+            const db = drizzle(env.DB);
+            const result = await db.delete(leaderboard_has_user).where(eq(leaderboard_has_user.leaderboard_id, leaderboardId));
+
+            return { success: true, data: result };
+        },
+        async checkOwnerStatus(leaderboardId: string, userId: string) {
+            const db = drizzle(env.DB);
+            const result = await db.select({
+                is_owner: leaderboard_has_user.is_owner
+            }
+            ).from(leaderboard_has_user).where((
+                eq(leaderboard_has_user.leaderboard_id, leaderboardId), eq(leaderboard_has_user.user_id, userId))
+            );
+
+            if (result.length === 0) {
+                return {
+                    success: false,
+                    error: {
+                        code: 404,
+                        message: "No ownership record found"
+                    }
+                };
+            }
+            return { success: true, data: result[0] }; 
         }
     };
 }

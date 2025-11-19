@@ -9,7 +9,7 @@ export type CreateQueryParams = {
     name: string;
     description: string;
     visibility: string;
-    startDate: string | null;
+    startDate: string | undefined;
     endDate: string;
 };
 
@@ -18,6 +18,7 @@ export interface LeaderboardService {
     getById(id: string): Promise<Result<any>>;
     getEntries(id: string): Promise<Result<any[]>>;
     create(params?: CreateQueryParams, userId?: string): Promise<Result<any>>;
+    delete(leaderboardId: string, userId: string): Promise<Result<any>>;
 }
 
 export function createLeaderboardService(leaderboardRepository: LeaderboardRepository): LeaderboardService {
@@ -34,7 +35,7 @@ export function createLeaderboardService(leaderboardRepository: LeaderboardRepos
         },
         async create(params: CreateQueryParams, userId: string): Promise<Result<any>> {
             if (params.startDate === '') {
-                params.startDate = null;
+                params.startDate = undefined;
             }
             const result = await leaderboardRepository.createLeaderboard(params);
             console.log("Created leaderboard:", result);
@@ -46,6 +47,26 @@ export function createLeaderboardService(leaderboardRepository: LeaderboardRepos
             if (!secondResult.success) {
                 return secondResult;
             }
+            return result;
+        },
+        async delete(leaderboardId: string, userId: string): Promise<Result<any>> {
+            const ownerCheck = await leaderboardRepository.checkOwnerStatus(leaderboardId, userId);
+            if (!ownerCheck.success) {
+                return { success: false, error: { message: "Failed to verify owner status", code: 500 } };
+            }
+            if (!ownerCheck.data.is_owner) {
+                return { success: false, error: { message: "User is not the owner of the leaderboard", code: 403 } };
+            }
+            
+            const result = await leaderboardRepository.deleteLeaderboard(leaderboardId);
+            if (!result.success) {
+                return result;
+            }
+            const secondResult = await leaderboardRepository.removeAllUsers(leaderboardId);
+            if (!secondResult.success) {
+                return secondResult;
+            }
+
             return result;
         }
     };

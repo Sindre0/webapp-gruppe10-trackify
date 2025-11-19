@@ -97,7 +97,35 @@ export function createLeaderboardController(leaderboardService: LeaderboardServi
             }), { status: 201 , headers: { "Content-Type": "application/json" }  
             });
         },
-    }
-}
+        async deleteLeaderboard(context: RequestInfo) {
+            const body = await context.request.json();
+            const parameters = JSON.parse(JSON.stringify(body));
+
+            let userId;
+            let leaderboardId;
+            try {
+                userId = parameters.userId as string;
+                leaderboardId = parameters.leaderboardId as string;
+            } catch {
+                return new Response(JSON.stringify({
+                    error: "Invalid parameters", code: 400, success: false
+                }), { status: 400 , headers: { "Content-Type": "application/json" }  
+                });
+            }
+
+            const dataFromService = await leaderboardService.delete(leaderboardId, userId);
+            
+            if (!dataFromService.success) {
+                return new Response(JSON.stringify(dataFromService), { 
+                    status: dataFromService.error.code || 500 ,
+                    headers: { "Content-Type": "application/json" }})
+            }
+            return new Response(JSON.stringify({
+                ...dataFromService,
+            }), { status: 200 , headers: { "Content-Type": "application/json" }  
+            });
+        },
+    };
+};
 
 export const leaderboardController = createLeaderboardController(leaderboardService); 

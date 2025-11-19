@@ -37,6 +37,26 @@ export default function AdminGameLeaderboard({id}: {id: string}) {
     setLoading(false);
   }, [user?.id]);
 
+  function confirmDelete() {
+    const confirmation = window.confirm("Are you sure you want to delete this leaderboard? This action cannot be undone.");
+    return confirmation;
+  }
+
+  async function handleDelete() {
+    if (!confirmDelete()) return;
+    const response = await fetch(`/api/v1/leaderboards/delete`, {
+      method: "DELETE",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        leaderboardId: id,
+        userId: user?.id,
+      }),
+    });
+    if (response.ok) {
+      navigate("/leaderboard/my-leaderboards");
+    }
+  }
+
   return (
     <>
     {loading ? <div>Loading...</div> : (
@@ -60,7 +80,7 @@ export default function AdminGameLeaderboard({id}: {id: string}) {
                 </button>
                 {isOwner && (
                 <button 
-                onClick={() => navigate(`/leaderboard/my-leaderboards/${id}/update-leaderboard`)}
+                onClick={() => handleDelete()}
                 className="w-full border text-red-500 border-gray-200 hover:bg-gray-100 cursor-pointer text-lg font-medium">
                     Delete Leaderboard
                 </button>
