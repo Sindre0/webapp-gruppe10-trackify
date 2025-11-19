@@ -55,7 +55,7 @@ export default function CreateAccount() {
   }
 
   return (
-    <main className="flex items-center justify-center min-h-screen bg-gray-50">
+    <main className="flex items-center justify-center min-h-screen bg-gray-50 animate-fadeIn">
       <section className="bg-white shadow-lg p-8 w-full max-w-sm text-center">
         <h1 className="mb-6 text-2xl font-semibold">Trackify</h1>
 
@@ -113,7 +113,7 @@ export default function CreateAccount() {
 
           <button
             type="submit"
-            className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md transition-colors"
+            className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md transition-colors animate-fadeIn"
           >
             Create account
           </button>

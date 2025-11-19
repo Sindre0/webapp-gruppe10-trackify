@@ -18,6 +18,7 @@ export interface UserService {
     getLeaderboards(userID: string): Promise<Result<any>>;
     getUsername(userID: string): Promise<Result<any>>;
     getUserByEmail(email: string): Promise<Result<any>>;
+    deleteUser(userID: string): Promise<Result<any>>;
 }
 
 export function createUserService(userRepository: UserRepository): UserService {
@@ -47,6 +48,9 @@ export function createUserService(userRepository: UserRepository): UserService {
         async getUserByEmail(email: string): Promise<Result<any>> {
             email = decodeURIComponent(email);
             return await userRepository.getUserByEmail(email);
+        async deleteUser(userID: string): Promise<Result<any>> {
+            userID = decodeURIComponent(userID);
+            return await userRepository.deleteUser(userID);
         }
     };
 }

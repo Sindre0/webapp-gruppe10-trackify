@@ -67,7 +67,7 @@ export default function AdminGameLeaderboard({id}: {id: string}) {
           <h1 className="text-center mt-20 font-semibold">Not authorized</h1>
         </div>
       ) : (
-        <article className="w-[80%] mx-auto mt-6 mb-8 gap-6 min-h-[800px]">
+        <article className="w-[80%] mx-auto mt-6 mb-8 gap-6 min-h-[800px] animate-fadeIn">
             <LeaderboardButton href = {`/leaderboard/ongoing-leaderboards/${id}`}>
               <h2>View Leaderboard</h2>
             </LeaderboardButton>
@@ -75,12 +75,12 @@ export default function AdminGameLeaderboard({id}: {id: string}) {
             <section className="flex bg-gray-50 border border-gray-800 shadow-2xl h-35 mt-6">
                 <button 
                 onClick={() => navigate(`/leaderboard/my-leaderboards/${id}/add-data`)}
-                className="w-full border border-gray-200 hover:bg-gray-100 cursor-pointer text-lg font-medium">
+                className="w-full border border-gray-200 hover:bg-gray-100 cursor-pointer text-lg font-medium animate-fadeIn">
                     Add Data
                 </button>
                 <button 
                 onClick={() => navigate(`/leaderboard/my-leaderboards/${id}/update-leaderboard`)}
-                className="w-full border border-gray-200 hover:bg-gray-100 cursor-pointer text-lg font-medium">
+                className="w-full border border-gray-200 hover:bg-gray-100 cursor-pointer text-lg font-medium animate-fadeIn">
                     Change Settings
                 </button>
                 {isOwner && (

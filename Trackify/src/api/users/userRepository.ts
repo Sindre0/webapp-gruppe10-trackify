@@ -12,6 +12,7 @@ export interface UserRepository {
     getAllUserLeaderboards(userID: string): Promise<Result<any>>;
     getUsername(userID: string): Promise<Result<any>>;
     getUserByEmail(email: string): Promise<Result<any>>;
+    deleteUser(userID: string): Promise<Result<any>>;
 }
 
 export function createUserRepository(): UserRepository {
@@ -90,6 +91,21 @@ export function createUserRepository(): UserRepository {
             }
 
             return { success: true, data: user[0] };
+        async deleteUser(userID: string) {
+            const db = drizzle(env.DB);
+            
+            const user = await db.select().from(users).where(eq(users.id, userID));
+            if (user.length === 0) {
+                return { success: false, error: { message: "User not found", code: 404 } };
+            }
+
+            try {
+                await db.delete(users).where(eq(users.id, userID));
+                return { success: true, data: { message: "User deleted successfully" } };
+            } catch (error) {
+                console.error("Error deleting user:", error);
+                return { success: false, error: { message: "Failed to delete user", code: 500 } };
+            }
         }
     };
 }

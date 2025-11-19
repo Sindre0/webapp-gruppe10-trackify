@@ -67,7 +67,7 @@ export default function AddLeaderboardData({id}: {id: string}) {
   }
 
   return (
-    <section className="max-w-[80%] mx-auto mt-10 space-y-4">
+    <section className="max-w-[80%] mx-auto mt-10 space-y-4 animate-fadeIn">
       <h1 className="text-xl m-1 font-semibold">Add data</h1>
       <div className="bg-white shadow-md p-6 space-y-6">
         {/* Add participant */}

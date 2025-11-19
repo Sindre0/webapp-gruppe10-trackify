@@ -42,7 +42,7 @@ export default function ConcludedPreview() {
     }, [user?.id]);
 
     return (
-        <section className="space-y-4 max-w-[80%] mx-auto mt-8">
+        <section className="space-y-4 max-w-[80%] mx-auto mt-8 animate-fadeIn">
             <h2 className="text-2xl font-semibold mb-4">Concluded Leaderboards</h2>
             <ul className="mx-auto">
                 {leaderboards.length === 0 ? (

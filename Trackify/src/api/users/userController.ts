@@ -78,6 +78,11 @@ export function createUserController(userService: UserService) {
             const email = context.params.email;
 
             const dataFromService = await userService.getUserByEmail(email);
+        async deleteUser(context: RequestInfo) {
+            const userID = context.params.userID;
+            console.log("Delete user with userID:", userID);
+            const dataFromService = await userService.deleteUser(userID);
+            
             if (!dataFromService.success) {
                 return new Response(JSON.stringify(dataFromService), { 
                 status: dataFromService.error.code || 500 ,
