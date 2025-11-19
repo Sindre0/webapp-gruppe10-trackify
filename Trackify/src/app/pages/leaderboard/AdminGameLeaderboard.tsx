@@ -8,6 +8,8 @@ import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
 import { useEffect, useState } from "react";
 import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
 import { navigate } from "rwsdk/client";
+import LeaderboardButton from "@/app/components/LeaderboardButton";
+import { ArrowRight } from "react-feather";
 
 export default function AdminGameLeaderboard({id}: {id: string}) {
   const [isBlockedState, setIsBlockedState] = useState<boolean>(true);
@@ -37,6 +39,26 @@ export default function AdminGameLeaderboard({id}: {id: string}) {
     setLoading(false);
   }, [user?.id]);
 
+  function confirmDelete() {
+    const confirmation = window.confirm("Are you sure you want to delete this leaderboard? This action cannot be undone.");
+    return confirmation;
+  }
+
+  async function handleDelete() {
+    if (!confirmDelete()) return;
+    const response = await fetch(`/api/v1/leaderboards/delete`, {
+      method: "DELETE",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        leaderboardId: id,
+        userId: user?.id,
+      }),
+    });
+    if (response.ok) {
+      navigate("/leaderboard/my-leaderboards");
+    }
+  }
+
   return (
     <>
     {loading ? <div>Loading...</div> : (
@@ -46,8 +68,11 @@ export default function AdminGameLeaderboard({id}: {id: string}) {
         </div>
       ) : (
         <article className="w-[80%] mx-auto mt-6 mb-8 gap-6 min-h-[800px] animate-fadeIn">
+            <LeaderboardButton href = {`/leaderboard/ongoing-leaderboards/${id}`}>
+              <h2>View Leaderboard</h2>
+            </LeaderboardButton>
             <h1 className="text-2xl font-semibold mb-2">Admin Desk</h1>
-            <section className="flex bg-gray-50 border border-gray-800 shadow-2xl h-35">
+            <section className="flex bg-gray-50 border border-gray-800 shadow-2xl h-35 mt-6">
                 <button 
                 onClick={() => navigate(`/leaderboard/my-leaderboards/${id}/add-data`)}
                 className="w-full border border-gray-200 hover:bg-gray-100 cursor-pointer text-lg font-medium animate-fadeIn">
@@ -60,12 +85,12 @@ export default function AdminGameLeaderboard({id}: {id: string}) {
                 </button>
                 {isOwner && (
                 <button 
-                onClick={() => navigate(`/leaderboard/my-leaderboards/${id}/update-leaderboard`)}
-                className="w-full border text-red-500 border-gray-200 hover:bg-gray-100 cursor-pointer text-lg font-medium animate-fadeIn">
+                onClick={() => handleDelete()}
+                className="w-full border text-red-500 border-gray-200 hover:bg-gray-100 cursor-pointer text-lg font-medium">
                     Delete Leaderboard
                 </button>
                 )}
-            </section>
+            </section>            
         </article>
       )
     )}

@@ -5,6 +5,7 @@ import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
 import { useEffect, useState } from "react";
 import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
 import { navigate } from "rwsdk/client";
+import LeaderboardButton from "@/app/components/LeaderboardButton";
 
 export default function MyLeaderboards() {
     const user = useAuth();
@@ -46,17 +47,13 @@ export default function MyLeaderboards() {
             <h2 className="text-2xl font-semibold mb-4">My Leaderboards</h2>
             <ul className="mx-auto">
                 {leaderboards.length === 0 ? (
-                    <li>You don't own any leaderboards.</li>
+                    <li>You don't own any leaderboards. Add one <a className="text-blue-700" href="/leaderboard/create-leaderboard">here.</a></li>
                 ) : (
                     leaderboards.map((leaderboard) => (
-                        <li
-                            key={leaderboard.id}
-                        >
-                            <button 
-                            onClick={() => navigate(`/leaderboard/my-leaderboards/${leaderboard.id}`)}
-                            className="w-full text-left border shadow-md border-gray-200 rounded-3xl bg-gray-50 px-6 py-4 hover:bg-gray-100 cursor-pointer text-lg font-medium mb-4 animate-fadeIn">
+                        <li key={leaderboard.id}>
+                            <LeaderboardButton href={`/leaderboard/concluded-leaderboards/${leaderboard.id}`}>
                                 {leaderboard.name}
-                            </button>
+                            </LeaderboardButton>
                         </li>
                     ))
                 )}

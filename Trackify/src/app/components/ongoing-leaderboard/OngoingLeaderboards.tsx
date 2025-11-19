@@ -5,6 +5,7 @@ import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
 import { useEffect, useState } from "react";
 import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
 import { navigate } from "rwsdk/client";
+import LeaderboardButton from "../LeaderboardButton";
 
 export default function OngoingLeaderboards() {
     const user = useAuth();
@@ -49,14 +50,10 @@ export default function OngoingLeaderboards() {
                     <li>No ongoing leaderboards.</li>
                 ) : (
                     leaderboards.map((leaderboard) => (
-                        <li key={leaderboard.id}
-                        >
-                            <button 
-                            onClick={() => navigate(`/leaderboard/ongoing-leaderboards/${leaderboard.id}`)}
-                            className="w-full text-left border shadow-md border-gray-200 rounded-3xl bg-gray-50 px-6 py-4 hover:bg-gray-100 cursor-pointer text-lg font-medium mb-4 animate-fadeIn"
-                            >
+                        <li key={leaderboard.id}>
+                            <LeaderboardButton href={`/leaderboard/ongoing-leaderboards/${leaderboard.id}`}>
                                 {leaderboard.name}
-                            </button>
+                            </LeaderboardButton>
                         </li>
                     ))
                 )}

@@ -4,12 +4,21 @@ import type { Result } from "../../types/result";
 import { leaderboards } from "@/db/schema/leaderboard-schema";
 import { env } from "cloudflare:workers";
 import { leaderboard_entry } from "@/db/schema/leaderboardEntry";
+import { CreateQueryParams } from "./leaderboardService";
+import { leaderboard_has_user } from "@/db/schema/leaderboardHasUser-schema";
 
 
 export interface LeaderboardRepository {
     findMany(params?: any): Promise<Result<any[]>>;
     findById(id: string): Promise<Result<any>>;
     findEntriesByLeaderboardId(id: string): Promise<Result<any[]>>;
+    createLeaderboard(params: CreateQueryParams): Promise<Result<any>>;
+    deleteLeaderboard(id: string): Promise<Result<any>>;
+    isUserAttached(leaderboardId: string, userId: string): Promise<Result<any>>;
+    attachUser(leaderboardId: string, userId: string, isOwner: boolean, isMod: boolean): Promise<Result<any>>;
+    removeUser(leaderboardId: string, userId: string): Promise<Result<any>>;
+    removeAllUsers(leaderboardId: string): Promise<Result<any>>;
+    checkOwnerStatus(leaderboardId: string, userId: string): Promise<Result<any>>;
 }
 
 export function createLeaderboardRepository(): LeaderboardRepository {
@@ -63,6 +72,81 @@ export function createLeaderboardRepository(): LeaderboardRepository {
             }
 
             return {success: true, data: entries};
+        },
+        async createLeaderboard(params: CreateQueryParams) {
+            const db = drizzle(env.DB);
+            const result = await db.insert(leaderboards).values({
+                        id: crypto.randomUUID(),
+                        name: params.name,
+                        description: params.description,
+                        visibility: params.visibility,
+                        createdAt: params.startDate,
+                        endDate: params.endDate
+                }).returning();
+            return { success: true, data: result };
+        },
+        async deleteLeaderboard(id: string) {
+            const db = drizzle(env.DB);
+            const result = await db.delete(leaderboards).where(eq(leaderboards.id, id));
+            return { success: true, data: result };
+        },
+        async isUserAttached(leaderboardId: string, userId: string) {
+            const db = drizzle(env.DB);
+            const result = await db.select().from(leaderboard_has_user).where((
+                eq(leaderboard_has_user.leaderboard_id, leaderboardId),
+                eq(leaderboard_has_user.user_id, userId))
+            );
+            if (result.length > 0)
+                return { success: true, data: true };
+            return { success: true, data: false };
+        },
+        async attachUser(leaderboardId: string, userId: string, isOwner: boolean, isMod: boolean) {
+            const db = drizzle(env.DB);
+            console.log("Attaching user to leaderboard in repository:", leaderboardId, userId, isOwner, isMod);
+            const result = await db.insert(leaderboard_has_user).values({ 
+                leaderboard_id: leaderboardId, 
+                user_id: userId,
+                is_owner: isOwner,
+                is_mod: isMod
+            });
+
+            return { success: true, data: result };
+        },
+        async removeUser(leaderboardId: string, userId: string) {
+            const db = drizzle(env.DB);
+
+            const result = await db.delete(leaderboard_has_user).where((
+                eq(leaderboard_has_user.leaderboard_id, leaderboardId),
+                eq(leaderboard_has_user.user_id, userId))
+            );
+
+            return { success: true, data: result };
+        },
+        async removeAllUsers(leaderboardId: string) {
+            const db = drizzle(env.DB);
+            const result = await db.delete(leaderboard_has_user).where(eq(leaderboard_has_user.leaderboard_id, leaderboardId));
+
+            return { success: true, data: result };
+        },
+        async checkOwnerStatus(leaderboardId: string, userId: string) {
+            const db = drizzle(env.DB);
+            const result = await db.select({
+                is_owner: leaderboard_has_user.is_owner
+            }
+            ).from(leaderboard_has_user).where((
+                eq(leaderboard_has_user.leaderboard_id, leaderboardId), eq(leaderboard_has_user.user_id, userId))
+            );
+
+            if (result.length === 0) {
+                return {
+                    success: false,
+                    error: {
+                        code: 404,
+                        message: "No ownership record found"
+                    }
+                };
+            }
+            return { success: true, data: result[0] }; 
         }
     };
 }

@@ -42,6 +42,16 @@ export const userRoutes = [
                 return new Response("Method Not Allowed", { status: 405 });
         }
     }),
+    route("/email/:email", async (ctx: any) => {
+        const method = ctx.request.method.toLowerCase();
+        console.log("User route accessed with method:", method);
+        switch (method) {
+            case "get":
+                return await userController.getUserByEmail(ctx);
+            default:
+                return new Response("Method Not Allowed", { status: 405 });
+        }
+    }),
     route("/:userID", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
         console.log("User route accessed with method:", method);

@@ -5,15 +5,12 @@ import { useAuth } from "@/hooks/useAuth";
 export default function WelcomeMessage() {
     const user = useAuth();
 
-    const username = user?.username || "Unknown";
-    const rank = 1;
-    const recentLeaderboard = "Sjakk HIOF sesong 4";
-    
+    const username = user?.username;
     return (
-        <section className="flex justify-center mt-8 mb-8">
-            <section className = "block w-[60%] border border-gray-300 shadow-md rounded-3xl px-5 py-3">
-                <p>Welcome, {username}! You are ranked #{rank} on the {recentLeaderboard}</p>
-            </section>
+        // center section
+        <section className = "mt-8 mb-8 block w-[60%] border border-gray-300 shadow-md rounded-3xl px-5 py-3 mx-auto text-center text-lg font-medium">
+            <p>Welcome, {username}!</p>
         </section>
+
     )
 }

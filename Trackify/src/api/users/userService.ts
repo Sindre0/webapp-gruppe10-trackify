@@ -17,6 +17,7 @@ export interface UserService {
     registerUser(register: UserRegisterParams): Promise<Result<any>>;
     getLeaderboards(userID: string): Promise<Result<any>>;
     getUsername(userID: string): Promise<Result<any>>;
+    getUserByEmail(email: string): Promise<Result<any>>;
     deleteUser(userID: string): Promise<Result<any>>;
 }
 
@@ -44,6 +45,9 @@ export function createUserService(userRepository: UserRepository): UserService {
             userID = decodeURIComponent(userID);
             return await userRepository.getUsername(userID);
         },
+        async getUserByEmail(email: string): Promise<Result<any>> {
+            email = decodeURIComponent(email);
+            return await userRepository.getUserByEmail(email);
         async deleteUser(userID: string): Promise<Result<any>> {
             userID = decodeURIComponent(userID);
             return await userRepository.deleteUser(userID);
