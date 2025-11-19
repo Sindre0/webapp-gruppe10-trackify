@@ -14,16 +14,16 @@ export default function Home() {
   return (
     <main >
       <WelcomeMessage />
-      <div className="flex gap-8 mb-8 w-[70%] mx-auto">
-        <div className="space-y-4"> 
+      <article className="flex gap-8 mb-8 w-[80%] mx-auto">
+        <section className="space-y-4 w-[30%]"> 
           <OngoingPreview onSelect={setSelectedLeaderboard} />
           <ConcludedPreview onSelect={setSelectedLeaderboard} />
-        </div>
-      <HomeLeaderboard selectedLeaderboardId={selectedLeaderboard} />
-      <section className="w-[30%] space-y-4">
-        <UpcomingMatches />
-      </section>
-      </div>
+        </section>
+        <HomeLeaderboard selectedLeaderboardId={selectedLeaderboard} />
+        <section className="w-[35%] hidden md:block">
+          <UpcomingMatches />
+        </section>
+      </article>
     </main>
   );
 }

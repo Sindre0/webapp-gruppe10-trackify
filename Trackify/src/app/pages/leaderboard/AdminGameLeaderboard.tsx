@@ -8,6 +8,8 @@ import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
 import { useEffect, useState } from "react";
 import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
 import { navigate } from "rwsdk/client";
+import LeaderboardButton from "@/app/components/LeaderboardButton";
+import { ArrowRight } from "react-feather";
 
 export default function AdminGameLeaderboard({id}: {id: string}) {
   const [isBlockedState, setIsBlockedState] = useState<boolean>(true);
@@ -67,7 +69,11 @@ export default function AdminGameLeaderboard({id}: {id: string}) {
       ) : (
         <article className="w-[80%] mx-auto mt-6 mb-8 gap-6 min-h-[800px]">
             <h1 className="text-2xl font-semibold mb-2">Admin Desk</h1>
-            <section className="flex bg-gray-50 border border-gray-800 shadow-2xl h-35">
+            <LeaderboardButton
+              href = {`/leaderboard/ongoing-leaderboards/${id}`}>
+              <h2>View Leaderboard</h2>
+            </LeaderboardButton>
+            <section className="flex bg-gray-50 border border-gray-800 shadow-2xl h-35 mt-6">
                 <button 
                 onClick={() => navigate(`/leaderboard/my-leaderboards/${id}/add-data`)}
                 className="w-full border border-gray-200 hover:bg-gray-100 cursor-pointer text-lg font-medium">
@@ -85,7 +91,7 @@ export default function AdminGameLeaderboard({id}: {id: string}) {
                     Delete Leaderboard
                 </button>
                 )}
-            </section>
+            </section>            
         </article>
       )
     )}

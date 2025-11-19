@@ -46,7 +46,7 @@ export default function OngoingPreview({ onSelect }: OngoingPreviewProps) {
         
     return (
         <section className="w-full">
-            <h2 className="text-2xl font-semibold mb-6">Ongoing Leaderboards</h2>
+            <h2 className="text-2xl font-semibold mb-6">Ongoing</h2>
             <ul className="px-5 py-3 border border-gray-300 shadow-md mx-auto">
                 {leaderboards.length === 0 ? (
                     <li>No ongoing leaderboards.</li>

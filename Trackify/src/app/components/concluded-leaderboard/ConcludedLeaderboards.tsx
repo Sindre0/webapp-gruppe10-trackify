@@ -5,6 +5,7 @@ import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { navigate } from "rwsdk/client";
+import LeaderboardButton from "../LeaderboardButton";
 
 export default function ConcludedPreview() {
     const user = useAuth();
@@ -49,12 +50,9 @@ export default function ConcludedPreview() {
                 ) : (
                     leaderboards.map((leaderboard) => (
                         <li key={leaderboard.id}>
-                            <button 
-                            onClick={() => navigate(`/leaderboard/concluded-leaderboards/${leaderboard.id}`)}
-                            className="w-full text-left border shadow-md border-gray-200 rounded-3xl bg-gray-50 px-6 py-4 hover:bg-gray-100 cursor-pointer text-lg font-medium mb-4"
-                            >
+                            <LeaderboardButton href={`/leaderboard/concluded-leaderboards/${leaderboard.id}`}>
                                 {leaderboard.name}
-                            </button>
+                            </LeaderboardButton>
                         </li>
                     ))
                 )}
