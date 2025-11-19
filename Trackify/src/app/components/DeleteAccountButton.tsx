@@ -82,7 +82,7 @@ export default function DeleteAccountButton() {
       <button 
         type="button" 
         onClick={handleDeleteClick}
-        className="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 transition-colors"
+        className="bg-red-500 text-white px-8 py-3 text-base rounded hover:bg-red-600 transition-colors"
       >
         Delete account
       </button>
