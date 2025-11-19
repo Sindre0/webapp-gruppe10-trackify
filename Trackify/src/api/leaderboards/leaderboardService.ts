@@ -9,7 +9,7 @@ export type CreateQueryParams = {
     name: string;
     description: string;
     visibility: string;
-    startDate: string;
+    startDate: string | null;
     endDate: string;
 };
 
@@ -33,7 +33,9 @@ export function createLeaderboardService(leaderboardRepository: LeaderboardRepos
             return await leaderboardRepository.findEntriesByLeaderboardId(id);
         },
         async create(params: CreateQueryParams, userId: string): Promise<Result<any>> {
-
+            if (params.startDate === '') {
+                params.startDate = null;
+            }
             const result = await leaderboardRepository.createLeaderboard(params);
             console.log("Created leaderboard:", result);
             if (!result.success) {

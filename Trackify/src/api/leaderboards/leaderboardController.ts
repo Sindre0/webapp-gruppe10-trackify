@@ -62,18 +62,19 @@ export function createLeaderboardController(leaderboardService: LeaderboardServi
             });
         },
         async createLeaderboard(context: RequestInfo) {
-            const searchParams = new URL(context.request.url).searchParams;
-            const searchEntries = Object.fromEntries(searchParams.entries());
+            const body = await context.request.json();
+            const parameters = JSON.parse(JSON.stringify(body));
+
             let params;
             let userID;
             try {
-                userID = searchEntries.userID as string;
+                userID = parameters.userId as string;
                 params = {
-                    name: searchEntries.name as string,
-                    description: searchEntries.description as string,
-                    visibility: searchEntries.visibility as string,
-                    startDate: searchEntries.startDate as string,
-                    endDate: searchEntries.endDate as string,
+                    name: parameters.name as string,
+                    description: parameters.description as string,
+                    visibility: parameters.visibility as string,
+                    startDate: parameters.startDate as string,
+                    endDate: parameters.endDate as string,
                 };
             } catch {
                 return new Response(JSON.stringify({

@@ -1,14 +1,46 @@
 "use client";
 
+import { useAuth } from "@/hooks/useAuth";
 import React from "react";
 import { navigate } from "rwsdk/client";
 
 export default function NewLeaderboard() {
+  const user = useAuth();
+
   async function handleCreateLeaderboard(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    alert("Creating leaderboard...");
+
     const formData = new FormData(event.currentTarget);
     const name = String(formData.get("name") ?? "").trim();
+    const description = String(formData.get("description") ?? "").trim();
+    const startDateValue = formData.get("start-date");
+    const indefinite = formData.get("indefinite") === "on";
+    let endDateValue = formData.get("end-date");
+    if (indefinite === true) {
+        endDateValue = 'indefinite';
+    }
+    const isPrivate = formData.get("visibility") === "on";
+    let visibility;
+    isPrivate ? visibility = "private" : visibility = "public";
+
+    console.log("Testing form data:", { name, description, startDateValue, endDateValue, indefinite });
+
+    const response = await fetch("/api/v1/leaderboards/create", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        name,
+        description,
+        visibility,
+        startDate: startDateValue,
+        endDate: endDateValue,
+        userId: user?.id,
+      }),
+    });
+    console.log("Create leaderboard response:", response);
+    if (response.ok) {
+      navigate("/leaderboard/my-leaderboards");
+    }
   }
 
   return (
@@ -67,6 +99,16 @@ export default function NewLeaderboard() {
           </label>
         </fieldset>
 
+        {/* VISIBILITY */}
+        <label className="flex items-center justify-between bg-gray-100 hover:bg-gray-200 p-4 cursor-pointer">
+          <span className="text-gray-700 font-medium">Leaderboard visible to only invited users?</span>
+          <input
+            type="checkbox"
+            name="visibility"
+            className="border bg-white border-black text-sm px-3 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          />
+        </label>
+
         {/* DESCRIPTION */}
         <label className="bg-gray-100 p-4 space-y-2 block">
           <span className="text-gray-700 font-medium">Description</span>
@@ -81,7 +123,7 @@ export default function NewLeaderboard() {
         <footer className="flex justify-end">
           <button
             type="submit"
-            className="border border-gray-400 px-6 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+            className="border border-gray-400 px-6 py-2 text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer"
           >
             Create
           </button>
