@@ -45,16 +45,16 @@ export default function GameLeaderboard({id}: {id: string}) {
   return (
     <>
       {isAllowedState ? (
-        <article className="w-[80%] mx-auto mt-6 mb-8 flex gap-6 min-h-[800px]">
-          <aside className="w-[40%] h-full">
+        <article className="w-[80%] mx-auto mt-6 mb-8 flex flex-col md:flex-row gap-6 min-h-[800px]">
+          <aside className="w-full md:w-[40%] h-full">
             <HomeLeaderboard selectedLeaderboardId={id} />
           </aside>
-          <section className="w-[60%] flex flex-col gap-6 h-full">
-            <section className="h-[33%] flex gap-6">
-              <article className="w-1/2 h-full">
+          <section className="w-full md:w-[60%] flex flex-col gap-6 h-full">
+            <section className="h-[33%] flex flex-col md:flex-row gap-6">
+              <article className="w-full md:w-1/2 h-full">
                 <Announcements />
               </article>
-              <article className="w-1/2 h-full">
+              <article className="w-full md:w-1/2 h-full">
                 <UpcomingMatches />
               </article>
             </section>

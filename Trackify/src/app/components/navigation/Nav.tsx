@@ -17,9 +17,9 @@ export default function Nav() {
   } 
 
   return (
-    <header className="pb-6">
+    <header className="pb-10">
       <nav className = "h-12">
-          <div className="mx-auto lg:px-8 flex h-12 items-center justify-between">
+          <div className="mx-auto px-8 flex h-12 items-center justify-between">
             {/* Logo */}
             <h1 className="text-3xl font-semibold tracking-tight">
               <a href="/">Trackify</a>
