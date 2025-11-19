@@ -82,7 +82,7 @@ export default function DeleteAccountButton() {
       <button 
         type="button" 
         onClick={handleDeleteClick}
-        className="bg-red-500 text-white px-8 py-3 text-base rounded hover:bg-red-600 transition-colors"
+        className="bg-red-500 text-white px-8 py-3 text-base rounded hover:bg-red-600 transition-colors animate-fadeIn"
       >
         Delete account
       </button>
@@ -104,13 +104,13 @@ export default function DeleteAccountButton() {
             <div className="flex gap-4 justify-end">
               <button
                 onClick={handleFirstCancel}
-                className="px-6 py-2 bg-gray-300 hover:bg-gray-400 rounded transition-colors"
+                className="px-6 py-2 bg-gray-300 hover:bg-gray-400 rounded transition-colors animate-fadeIn"
               >
                 Cancel
               </button>
               <button
                 onClick={handleFirstConfirm}
-                className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded transition-colors"
+                className="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded transition-colors animate-fadeIn"
               >
                 Yes, Delete
               </button>
@@ -137,14 +137,14 @@ export default function DeleteAccountButton() {
               <button
                 onClick={handleSecondCancel}
                 disabled={isDeleting}
-                className="px-6 py-2 bg-gray-300 hover:bg-gray-400 rounded transition-colors disabled:opacity-50"
+                className="px-6 py-2 bg-gray-300 hover:bg-gray-400 rounded transition-colors disabled:opacity-50 animate-fadeIn"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSecondConfirm}
                 disabled={isDeleting}
-                className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition-colors disabled:opacity-50"
+                className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded transition-colors disabled:opacity-50 animate-fadeIn"
               >
                 {isDeleting ? "Deleting" : "Permanently Delete"}
               </button>

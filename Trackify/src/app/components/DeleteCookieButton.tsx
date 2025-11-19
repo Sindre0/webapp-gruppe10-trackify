@@ -34,7 +34,7 @@ export default function DeleteCookieButton({
     <button 
       type="button" 
       onClick={handleClick}
-      className="bg-blue-400 text-white px-8 py-3 text-base rounded hover:bg-blue-500 transition-colors"
+      className="bg-blue-400 text-white px-8 py-3 text-base rounded hover:bg-blue-500 transition-colors animate-fadeIn"
     >
       {label}
     </button>
