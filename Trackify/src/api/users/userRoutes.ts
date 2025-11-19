@@ -41,5 +41,15 @@ export const userRoutes = [
             default:
                 return new Response("Method Not Allowed", { status: 405 });
         }
+    }),
+    route("/:userID", async (ctx: any) => {
+        const method = ctx.request.method.toLowerCase();
+        console.log("User route accessed with method:", method);
+        switch (method) {
+            case "delete":
+                return await userController.deleteUser(ctx);
+            default:
+                return new Response("Method Not Allowed", { status: 405 });
+        }
     }), 
 ];

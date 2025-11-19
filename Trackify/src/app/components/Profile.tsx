@@ -1,3 +1,6 @@
+import DeleteCookieButton from "./DeleteCookieButton";
+import DeleteAccountButton from "./DeleteAccountButton";
+
 export default function Profile() {
   return (
     <main className="flex flex-col items-center space-y-4 max-w-[80%] mx-auto mt-8">
@@ -7,9 +10,12 @@ export default function Profile() {
           <section className="shadow-md border border-gray-200 px-6 py-4 mb-8">
             <ul className="text-sm">
               <li className="py-1 border-b border-gray-400">Profile</li>
-              <li className="py-1 border-b border-gray-400">Security</li>
-              <li className="py-1 border-b border-gray-400">Privacy</li>
-              <li className="py-1 text-red-600">Delete account</li>
+              <li className="py-1 text-red-600">
+                <DeleteAccountButton />
+              </li>
+              <li className="py-1 mt-3">
+                <DeleteCookieButton label="Log out" />
+              </li>
             </ul>
           </section>
           

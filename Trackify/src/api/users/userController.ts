@@ -76,6 +76,22 @@ export function createUserController(userService: UserService) {
                 ...dataFromService,
             }), { status: 200, headers: { "Content-Type": "application/json" }  
             });   
+        },
+        async deleteUser(context: RequestInfo) {
+            const userID = context.params.userID;
+            console.log("Delete user with userID:", userID);
+            const dataFromService = await userService.deleteUser(userID);
+            
+            if (!dataFromService.success) {
+                return new Response(JSON.stringify(dataFromService), { 
+                status: dataFromService.error.code || 500 ,
+                headers: { "Content-Type": "application/json" }
+                })
+            }
+            return new Response(JSON.stringify({
+                ...dataFromService,
+            }), { status: 200, headers: { "Content-Type": "application/json" }  
+            });   
         }
     }
 }
