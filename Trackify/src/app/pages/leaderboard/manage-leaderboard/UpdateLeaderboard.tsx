@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { navigate } from "rwsdk/client";
 
 export default function UpdateLeaderboard({id}: {id: string}) {
 
-  // fetch leaderboard by id...
+
 
   async function handleUpdateLeaderboard(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

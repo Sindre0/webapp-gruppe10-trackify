@@ -2,26 +2,28 @@ import { defineApp } from "rwsdk/worker";
 import { layout, prefix, render, route } from "rwsdk/router";
 import { Document } from "@/app/Document";
 import MainLayout from "./app/components/layouts/MainLayout";
+import { leaderboardRoutes } from "./api/leaderboards/leaderboardRoutes";
+import { userRoutes } from "./api/users/userRoutes";
 
 import { seedData } from "./db/seed";
 import { User, users } from "./db/schema/user-schema";
 import { setCommonHeaders } from "./app/headers";
 import { env } from "cloudflare:workers";
 import { drizzle } from "drizzle-orm/d1";
-import LeaderboardMenu from "./app/pages/LeaderboardMenu";
+import LeaderboardMenu from "./app/pages/leaderboard/LeaderboardMenu";
 import Home from "./app/pages/Home";
-import LoginSite from "./app/pages/LoginSite";
-import CreateAccount from "./app/pages/CreateAccount";
-import OngoingLeaderboards from "./app/pages/OngoingLeaderboards";
-import ConcludedLeaderboards from "./app/pages/ConcludedLeaderboards";
-import GameLeaderboard from "./app/pages/GameLeaderboard";
-import ProfilePage from "./app/pages/ProfilePage";
-import NewLeaderboard from "./app/pages/NewLeaderboard";
-import UpdateLeaderboard from "./app/pages/UpdateLeaderboard";
-import AddLeaderboardData from "./app/pages/AddLeaderboardData";
-import { leaderboardRoutes } from "./api/leaderboards/leaderboardRoutes";
-import { userRoutes } from "./api/users/userRoutes";
+import LoginSite from "./app/pages/user/LoginSite";
+import CreateAccount from "./app/pages/user/CreateAccount";
+import OngoingLeaderboards from "./app/components/ongoing-leaderboard/OngoingLeaderboards";
+import ConcludedLeaderboards from "./app/components/concluded-leaderboard/ConcludedLeaderboards";
+import GameLeaderboard from "./app/pages/leaderboard/GameLeaderboard";
+import Profile from "./app/components/Profile";
+import NewLeaderboard from "./app/pages/leaderboard/manage-leaderboard/NewLeaderboard";
+import UpdateLeaderboard from "./app/pages/leaderboard/manage-leaderboard/UpdateLeaderboard";
+import AddLeaderboardData from "./app/pages/leaderboard/manage-leaderboard/AddLeaderboardData";
 import Announcements from "./app/components/Announcements";
+import MyLeaderboards from "./app/pages/leaderboard/manage-leaderboard/MyLeaderboards";
+import AdminGameLeaderboard from "./app/pages/leaderboard/AdminGameLeaderboard";
 
 
 export interface Env {
@@ -108,31 +110,49 @@ export default defineApp([
             <NewLeaderboard />
           );  
         }),
-        route("/my-leaderboards/:id/update-leaderboard", ({params}) => {
+        route("/my-leaderboards", async () => {
+          return (
+              <MyLeaderboards />
+          );
+        }),
+        route("/my-leaderboards/:id", async ({params}) => {
+          const leaderboardId = params.id;
+          return (
+              <AdminGameLeaderboard id={leaderboardId} />
+          );
+        }),
+        route("/my-leaderboards/:id/update-leaderboard", async ({params}) => {
           const leaderboardId = params.id;
           return (  
             <UpdateLeaderboard id={leaderboardId} />
           );  
         }),
-        route("/my-leaderboards/:id/add-data", ({params}) => {
+        route("/my-leaderboards/:id/add-data", async ({params}) => {
           const leaderboardId = params.id;
           return (  
             <AddLeaderboardData id={leaderboardId} />
           );  
         }),
-        route("/game-leaderboard", async () => { 
-          return (  
-            <GameLeaderboard />
-          );
-        }),
-        route("/ongoing-leaderboards", async () => {
+        route("/ongoing-leaderboards", async () => {  // OBS: Keep ongoing- and concluded-leaderboards above the :id route
           return (
-            <OngoingLeaderboards />
+              <OngoingLeaderboards />
           );
         }),
         route("/concluded-leaderboards", async () => {
           return (
             <ConcludedLeaderboards />
+          );
+        }),
+        route("/ongoing-leaderboards/:id", async ({params}) => { 
+          const leaderboardId = params.id;
+          return (  
+            <GameLeaderboard id={leaderboardId} />
+          );
+        }),
+        route("/concluded-leaderboards/:id", async ({params}) => { 
+          const leaderboardId = params.id;
+          return (  
+            <GameLeaderboard id={leaderboardId} />
           );
         }),
       ]),
@@ -143,7 +163,7 @@ export default defineApp([
       }),
       route("/profile", async () => { 
         return (  
-          <ProfilePage />
+          <Profile />
         );  
       }),
       route("/announcements", async () => { 
