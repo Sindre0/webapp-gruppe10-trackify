@@ -91,6 +91,7 @@ export function createUserRepository(): UserRepository {
             }
 
             return { success: true, data: user[0] };
+        },
         async deleteUser(userID: string) {
             const db = drizzle(env.DB);
             

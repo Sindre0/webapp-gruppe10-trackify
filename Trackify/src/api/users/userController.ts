@@ -1,6 +1,6 @@
 import type { RequestInfo } from "rwsdk/worker";
 import { userService, UserService } from "./userService";
-import { error } from "console";
+import { useAuth } from "@/hooks/useAuth";
 
 
 export function createUserController(userService: UserService) {
@@ -78,11 +78,43 @@ export function createUserController(userService: UserService) {
             const email = context.params.email;
 
             const dataFromService = await userService.getUserByEmail(email);
+            if (!dataFromService.success) {
+                return new Response(JSON.stringify(dataFromService), { 
+                status: dataFromService.error.code || 500 ,
+                headers: { "Content-Type": "application/json" }
+                })
+            }
+            return new Response(JSON.stringify({
+                ...dataFromService,
+            }), { status: 200, headers: { "Content-Type": "application/json" }  
+            });
+        },
         async deleteUser(context: RequestInfo) {
             const userID = context.params.userID;
-            console.log("Delete user with userID:", userID);
-            const dataFromService = await userService.deleteUser(userID);
             
+            const authenticatedUser = useAuth();
+            if (!authenticatedUser) {
+                return new Response(JSON.stringify({
+                    success: false,
+                    error: { message: "Account is not authenticated", code: 401 }
+                }), { 
+                    status: 401,
+                    headers: { "Content-Type": "application/json" }
+                });
+            }
+
+            if (authenticatedUser.id !== userID) {
+                return new Response(JSON.stringify({
+                    success: false,
+                    error: { message: "Account is not authorized to delete this user", code: 403 }
+                }), { 
+                    status: 403,
+                    headers: { "Content-Type": "application/json" }
+                });
+            }
+
+            const dataFromService = await userService.deleteUser(userID);
+
             if (!dataFromService.success) {
                 return new Response(JSON.stringify(dataFromService), { 
                 status: dataFromService.error.code || 500 ,

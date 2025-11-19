@@ -52,7 +52,7 @@ export const userRoutes = [
                 return new Response("Method Not Allowed", { status: 405 });
         }
     }),
-    route("/:userID", async (ctx: any) => {
+    route("/delete/:userID", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
         console.log("User route accessed with method:", method);
         switch (method) {

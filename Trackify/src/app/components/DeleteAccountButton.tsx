@@ -47,7 +47,7 @@ export default function DeleteAccountButton() {
         return;
       }
 
-      const response = await fetch(`/api/v1/users/${userId}`, {
+      const response = await fetch(`/api/v1/users/delete/${userId}`, {
         method: "DELETE",
       });
 
