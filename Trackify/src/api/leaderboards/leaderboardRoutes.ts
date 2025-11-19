@@ -52,6 +52,16 @@ export const leaderboardRoutes = [
                 return new Response("Method Not Allowed", { status: 405 });
         }
     }),
+    route("/:id/remove-user/:userId", async (ctx: any) => {
+        const method = ctx.request.method.toLowerCase();
+        console.log("Leaderboard route accessed with method:", method);
+        switch (method) {
+            case "post":
+                return await leaderboardController.removeUserFromLeaderboard(ctx);
+            default:
+                return new Response("Method Not Allowed", { status: 405 });
+        }
+    }),
     route("/:id", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
         console.log("Leaderboard route accessed with method:", method);

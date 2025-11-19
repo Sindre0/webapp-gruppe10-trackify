@@ -23,20 +23,47 @@ export default function AddLeaderboardData({id}: {id: string}) {
     if (response.ok) {
       const userData = JSON.parse(await response.text());
       console.log("User data fetched by email:", userData.data.id);
-      await fetch("/api/v1/leaderboards/" + id + "/add-user/" + userData.data.id, {
+      const addUserResponse = await fetch("/api/v1/leaderboards/" + id + "/add-user/" + userData.data.id, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
       });
-
-    alert("Adding contestant: " + email);
-  }
+      if (addUserResponse.ok) {
+        alert("User added to leaderboard successfully.");
+      }
+      else {
+        alert("Failed to add user to leaderboard.");
+      }
+    }
+    else {
+      alert("Failed to add contestant. User not found.");
+    }
   }
 
   async function removeContestant(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const username = String(formData.get("email") ?? "").trim();
-    alert("Removing contestant: " + username);
+    const email = String(formData.get("email") ?? "").trim();
+
+    const response = await fetch("/api/v1/users/email/" + encodeURIComponent(email), {
+      method: "GET"
+    });
+    if (response.ok) {
+      const userData = JSON.parse(await response.text());
+      console.log("User data fetched by email:", userData.data.id);
+      const addUserResponse = await fetch("/api/v1/leaderboards/" + id + "/remove-user/" + userData.data.id, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+      });
+      if (addUserResponse.ok) {
+        alert("User removed from leaderboard successfully.");
+      }
+      else {
+        alert("Failed to remove user from leaderboard.");
+      }
+    }
+    else {
+      alert("Failed to remove contestant. User not found.");
+    }
   }
 
   return (

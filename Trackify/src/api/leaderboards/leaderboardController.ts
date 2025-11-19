@@ -137,9 +137,23 @@ export function createLeaderboardController(leaderboardService: LeaderboardServi
             }
             return new Response(JSON.stringify({
                 ...dataFromService,
-            }), { status: 200 , headers: { "Content-Type": "application/json" }  
+            }), { status: 201, headers: { "Content-Type": "application/json" }  
             });
         },
+        async removeUserFromLeaderboard(context: RequestInfo) {
+            const userId = context.params.userId;
+            const leaderboardId = context.params.id;
+            const dataFromService = await leaderboardService.removeUser(leaderboardId, userId);
+            if (!dataFromService.success) {
+                return new Response(JSON.stringify(dataFromService), { 
+                    status: dataFromService.error.code || 500 ,
+                    headers: { "Content-Type": "application/json" }})
+            }
+            return new Response(JSON.stringify({
+                ...dataFromService,
+            }), { status: 200 , headers: { "Content-Type": "application/json" }  
+            });
+        }
     };
 };
 

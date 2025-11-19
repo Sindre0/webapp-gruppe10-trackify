@@ -20,6 +20,7 @@ export interface LeaderboardService {
     create(params?: CreateQueryParams, userId?: string): Promise<Result<any>>;
     delete(leaderboardId: string, userId: string): Promise<Result<any>>;
     addUser(leaderboardId: string, userId: string): Promise<Result<any>>;
+    removeUser(leaderboardId: string, userId: string): Promise<Result<any>>;
 }
 
 export function createLeaderboardService(leaderboardRepository: LeaderboardRepository): LeaderboardService {
@@ -80,6 +81,17 @@ export function createLeaderboardService(leaderboardRepository: LeaderboardRepos
             }
             
             return await leaderboardRepository.attachUser(leaderboardId, userId, false, false);
+        },
+        async removeUser(leaderboardId: string, userId: string): Promise<Result<any>> {
+            const isAttached = await leaderboardRepository.isUserAttached(leaderboardId, userId);
+            if (!isAttached.success) {
+                return { success: false, error: { message: "Failed to verify user attachment", code: 500 } };
+            }
+            if (!isAttached.data) {
+                return { success: false, error: { message: "User is not attached to the leaderboard", code: 404 } };
+            }
+            
+            return await leaderboardRepository.removeUser(leaderboardId, userId);
         }
     };
 }
