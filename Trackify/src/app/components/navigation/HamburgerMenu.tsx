@@ -1,4 +1,5 @@
 import { CornerDownRight } from "react-feather";
+import DeleteCookieButton from "../DeleteCookieButton";
 
 export default function HamburgerMenu({ hamburgerToggle }: { hamburgerToggle: () => void }) {
     return (
@@ -29,6 +30,9 @@ export default function HamburgerMenu({ hamburgerToggle }: { hamburgerToggle: ()
                 </li>
                 <li className="block w-full font-medium text-2xl text-blue-600 cursor-pointer">
                     <a href="/announcements">Announcements</a>
+                </li>
+                <li className="mt-auto">
+                    <DeleteCookieButton />
                 </li>
             </ul>
         </aside>
