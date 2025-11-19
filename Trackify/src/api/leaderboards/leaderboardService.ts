@@ -5,10 +5,19 @@ export type LeaderboardQueryParams = {
     active?: boolean;
 };
 
+export type CreateQueryParams = {
+    name: string;
+    description: string;
+    visibility: string;
+    startDate: string;
+    endDate: string;
+};
+
 export interface LeaderboardService {
     list(params?: LeaderboardQueryParams): Promise<Result<any[]>>;
     getById(id: string): Promise<Result<any>>;
     getEntries(id: string): Promise<Result<any[]>>;
+    create(params?: CreateQueryParams, userId?: string): Promise<Result<any>>;
 }
 
 export function createLeaderboardService(leaderboardRepository: LeaderboardRepository): LeaderboardService {
@@ -22,6 +31,20 @@ export function createLeaderboardService(leaderboardRepository: LeaderboardRepos
         },
         async getEntries(id: string): Promise<Result<any[]>> {
             return await leaderboardRepository.findEntriesByLeaderboardId(id);
+        },
+        async create(params: CreateQueryParams, userId: string): Promise<Result<any>> {
+
+            const result = await leaderboardRepository.createLeaderboard(params);
+            console.log("Created leaderboard:", result);
+            if (!result.success) {
+                return result;
+            }
+            console.log("Attaching user to leaderboard:", userId, result.data[0].id);
+            const secondResult = await leaderboardRepository.attachUser(result.data[0].id, userId);
+            if (!secondResult.success) {
+                return secondResult;
+            }
+            return result;
         }
     };
 }

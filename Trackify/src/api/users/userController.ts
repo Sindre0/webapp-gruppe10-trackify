@@ -8,7 +8,6 @@ export function createUserController(userService: UserService) {
         async loginUser(context: RequestInfo) {
             const [email, password] = context.params.login.split(":");
             const login = { email, password };
-            console.log("Login parameter received:", login);
             const dataFromService = await userService.getByLogin(login);
 
                 if (!dataFromService.success) {
@@ -26,8 +25,6 @@ export function createUserController(userService: UserService) {
         async registerUser(context: RequestInfo) {
             const [username, email, password] = context.params.register.split(":");
             const register = { username, email, password };
-            console.log("Register parameter received:", register);
-
 
             const dataFromService = await userService.registerUser(register);
             

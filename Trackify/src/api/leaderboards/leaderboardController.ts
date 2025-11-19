@@ -2,7 +2,6 @@ import type { RequestInfo } from "rwsdk/worker";
 import { leaderboardService, LeaderboardService } from "./leaderboardService";
 import { error } from "console";
 
-
 export function createLeaderboardController(leaderboardService: LeaderboardService) {
     return {
         async listLeaderboards(context: RequestInfo) {
@@ -23,14 +22,13 @@ export function createLeaderboardController(leaderboardService: LeaderboardServi
                 }), { status: 200 , headers: { "Content-Type": "application/json" }  
                 });
                 }
-                catch {
-                    return new Response(JSON.stringify({
-                        error: "Failed to list leaderboards",
-                        success: false
-                    }), { status: 500 , headers: { "Content-Type": "application/json" }  
-                    });
-                }
-            
+            catch {
+                return new Response(JSON.stringify({
+                    error: "Failed to list leaderboards",
+                    success: false
+                }), { status: 500 , headers: { "Content-Type": "application/json" }  
+                });
+            }     
         },
         async getLeaderboardById(context: RequestInfo) {
             const id  = context.params.id;
@@ -62,8 +60,43 @@ export function createLeaderboardController(leaderboardService: LeaderboardServi
                 ...dataFromService,
             }), { status: 200 , headers: { "Content-Type": "application/json" }  
             });
+        },
+        async createLeaderboard(context: RequestInfo) {
+            const searchParams = new URL(context.request.url).searchParams;
+            const searchEntries = Object.fromEntries(searchParams.entries());
+            let params;
+            let userID;
+            try {
+                userID = searchEntries.userID as string;
+                params = {
+                    name: searchEntries.name as string,
+                    description: searchEntries.description as string,
+                    visibility: searchEntries.visibility as string,
+                    startDate: searchEntries.startDate as string,
+                    endDate: searchEntries.endDate as string,
+                };
+            } catch {
+                return new Response(JSON.stringify({
+                    error: "Invalid parameters", code: 400, success: false
+                }), { status: 400 , headers: { "Content-Type": "application/json" }  
+                });
+            }
+
+            const dataFromService = await leaderboardService.create(params, userID);
+              
+            if (!dataFromService.success) {
+                return new Response(JSON.stringify(dataFromService), { 
+                    status: dataFromService.error.code || 500 ,
+                    headers: { "Content-Type": "application/json" }})
+            };
+
+            return new Response(JSON.stringify({
+                ...dataFromService,
+                params: params
+            }), { status: 201 , headers: { "Content-Type": "application/json" }  
+            });
+        },
     }
-}
 }
 
 export const leaderboardController = createLeaderboardController(leaderboardService); 

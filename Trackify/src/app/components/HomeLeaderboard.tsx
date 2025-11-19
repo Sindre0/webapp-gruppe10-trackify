@@ -63,7 +63,7 @@ export default function HomeLeaderboard({ selectedLeaderboardId }: HomeLeaderboa
             } catch (error) {
                 console.error("Error fetching leaderboard data:", error);
                 setPlayerStats([]);
-                setLeaderboardName("Error loading leaderboard");
+                setLeaderboardName("Failed to load leaderboard");
             }
         })();
     }, [selectedLeaderboardId]);

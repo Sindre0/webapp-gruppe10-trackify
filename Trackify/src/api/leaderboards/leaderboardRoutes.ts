@@ -12,6 +12,16 @@ export const leaderboardRoutes = [
                 return new Response("Method Not Allowed", { status: 405 });
         }
     }),
+    route("/create", async (ctx: any) => {
+        const method = ctx.request.method.toLowerCase();
+        console.log("Leaderboard route accessed with method:", method);
+        switch (method) {
+            case "post":
+                return await leaderboardController.createLeaderboard(ctx);
+            default:
+                return new Response("Method Not Allowed", { status: 405 });
+        }
+    }),
     route("/:id", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
         console.log("Leaderboard route accessed with method:", method);
@@ -22,7 +32,7 @@ export const leaderboardRoutes = [
                 return new Response("Method Not Allowed", { status: 405 });
         }
     }),
-        route("/:id/entries", async (ctx: any) => {
+    route("/:id/entries", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
         console.log("Leaderboard route accessed with method:", method);
         switch (method) {
@@ -31,5 +41,6 @@ export const leaderboardRoutes = [
             default:
                 return new Response("Method Not Allowed", { status: 405 });
         }
-    })
+    }),
+
 ];

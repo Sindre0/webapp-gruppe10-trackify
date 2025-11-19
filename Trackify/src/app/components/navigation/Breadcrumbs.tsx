@@ -1,7 +1,7 @@
 "use client";
 
 import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
-import React, {useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 
 export default function Breadcrumbs() {
     const [pathSegments, setPathSegments] = useState<string[]>([]);
