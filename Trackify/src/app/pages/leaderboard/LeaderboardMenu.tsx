@@ -2,7 +2,7 @@ import LeaderboardButton from "../../components/LeaderboardButton";
 
 export default function LeaderboardMenu() {
     return (
-        <section className='space-y-4 max-w-[80%] mx-auto mt-8'>
+        <section className='space-y-4 max-w-[80%] mx-auto mt-8 animate-fadeIn'>
             <h1 className="text-2xl font-semibold mb-4">Leaderboard Menu</h1>
             <section>
                 <LeaderboardButton href="leaderboard/ongoing-leaderboards">Ongoing Leaderboards</LeaderboardButton>

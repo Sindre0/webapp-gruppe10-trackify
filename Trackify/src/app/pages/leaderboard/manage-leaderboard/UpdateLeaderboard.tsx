@@ -15,7 +15,7 @@ export default function UpdateLeaderboard({id}: {id: string}) {
   }
 
   return (
-    <section className="max-w-[80%] mx-auto mt-10 space-y-4">
+    <section className="max-w-[80%] mx-auto mt-10 space-y-4 animate-fadeIn">
       <h1 className="text-xl m-1 font-semibold">Update leaderboard for {id}</h1>
 
       <form
@@ -84,7 +84,7 @@ export default function UpdateLeaderboard({id}: {id: string}) {
         <footer className="flex justify-end">
           <button
             type="submit"
-            className="border border-gray-400 px-6 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+            className="border border-gray-400 px-6 py-2 text-gray-700 hover:bg-gray-100 transition-colors animate-fadeIn"
           >
             Update
           </button>

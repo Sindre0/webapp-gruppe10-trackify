@@ -36,7 +36,7 @@ export default function LoginSite() {
     }
 
   return (
-    <main className="flex items-center justify-center min-h-screen bg-gray-50">
+    <main className="flex items-center justify-center min-h-screen bg-gray-50 animate-fadeIn">
       <section className="bg-white shadow-lg p-8 w-full max-w-sm text-center">
             <h1 className="text-2xl font-semibold mb-6">Trackify</h1>
             <h2 className="text-xl font-medium mb-4">Sign in</h2>
@@ -59,7 +59,7 @@ export default function LoginSite() {
                     No account? <a href="/create-account" className="text-blue-500 hover:underline">Make one here!</a>
                 </p>
 
-                <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md transition-colors">
+                <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md transition-colors animate-fadeIn">
                     Login
                 </button>
             </form>

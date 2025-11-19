@@ -1,7 +1,7 @@
 import React from "react";
 
 const buttonStyle =
-  "block border shadow-md border-gray-200 rounded-3xl bg-gray-50 px-6 py-4 hover:bg-gray-100 cursor-pointer text-lg font-medium mb-4"
+  "block border shadow-md border-gray-200 rounded-3xl bg-gray-50 px-6 py-4 hover:bg-gray-100 cursor-pointer text-lg font-medium mb-4 animate-fadeIn"
 
 type Props = {
   children: string;          // button text

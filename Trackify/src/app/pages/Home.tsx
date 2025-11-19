@@ -12,7 +12,7 @@ export default function Home() {
 
 
   return (
-    <main >
+    <main className="animate-fadeIn">
       <WelcomeMessage />
       <div className="flex gap-8 mb-8 w-[70%] mx-auto">
         <div className="space-y-4"> 

@@ -12,7 +12,7 @@ export default function NewLeaderboard() {
   }
 
   return (
-    <section className="max-w-[80%] mx-auto mt-10 space-y-4">
+    <section className="max-w-[80%] mx-auto mt-10 space-y-4 animate-fadeIn">
       <h1 className="text-xl m-1 font-semibold">Create leaderboard</h1>
 
       <form
@@ -81,7 +81,7 @@ export default function NewLeaderboard() {
         <footer className="flex justify-end">
           <button
             type="submit"
-            className="border border-gray-400 px-6 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+            className="border border-gray-400 px-6 py-2 text-gray-700 hover:bg-gray-100 transition-colors animate-fadeIn"
           >
             Create
           </button>

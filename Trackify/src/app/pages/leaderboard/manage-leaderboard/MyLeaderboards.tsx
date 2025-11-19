@@ -42,7 +42,7 @@ export default function MyLeaderboards() {
     }, [user?.id]);
         
     return (
-        <section className="space-y-4 max-w-[80%] mx-auto mt-8">
+        <section className="space-y-4 max-w-[80%] mx-auto mt-8 animate-fadeIn">
             <h2 className="text-2xl font-semibold mb-4">My Leaderboards</h2>
             <ul className="mx-auto">
                 {leaderboards.length === 0 ? (
@@ -54,7 +54,7 @@ export default function MyLeaderboards() {
                         >
                             <button 
                             onClick={() => navigate(`/leaderboard/my-leaderboards/${leaderboard.id}`)}
-                            className="w-full text-left border shadow-md border-gray-200 rounded-3xl bg-gray-50 px-6 py-4 hover:bg-gray-100 cursor-pointer text-lg font-medium mb-4">
+                            className="w-full text-left border shadow-md border-gray-200 rounded-3xl bg-gray-50 px-6 py-4 hover:bg-gray-100 cursor-pointer text-lg font-medium mb-4 animate-fadeIn">
                                 {leaderboard.name}
                             </button>
                         </li>

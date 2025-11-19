@@ -45,7 +45,7 @@ export default function GameLeaderboard({id}: {id: string}) {
   return (
     <>
       {isAllowedState ? (
-        <article className="w-[80%] mx-auto mt-6 mb-8 flex gap-6 min-h-[800px]">
+        <article className="w-[80%] mx-auto mt-6 mb-8 flex gap-6 min-h-[800px] animate-fadeIn">
           <aside className="w-[40%] h-full">
             <HomeLeaderboard selectedLeaderboardId={id} />
           </aside>
