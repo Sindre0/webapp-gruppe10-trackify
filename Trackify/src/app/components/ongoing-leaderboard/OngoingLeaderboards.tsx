@@ -33,10 +33,10 @@ export default function OngoingLeaderboards() {
                     );
                     setLeaderboards(leaderboardID.filter((item: any) => item !== null));
                 } else {
-                    console.error("Failed to fetch ongoing leaderboards: " + data.error?.message);
+                    console.log("Failed to fetch ongoing leaderboards: " + data.error?.message);
                 }
-            } catch (err) {
-                console.error("Error fetching ongoing leaderboards:", err);
+            } catch  {
+                console.log("No ongoing leaderboards for this user");
             }
         };
         fetchLeaderboards();

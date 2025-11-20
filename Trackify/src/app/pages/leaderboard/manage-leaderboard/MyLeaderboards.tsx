@@ -35,8 +35,8 @@ export default function MyLeaderboards() {
                 } else {
                     console.error("Failed to fetch owned leaderboards: " + data.error?.message);
                 }
-            } catch (err) {
-                console.error("Error fetching owned leaderboards:", err);
+            } catch  {
+                console.log("No owned leaderboards for this user");
             }
         };
         fetchLeaderboards();

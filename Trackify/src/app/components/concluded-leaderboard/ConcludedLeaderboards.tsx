@@ -34,8 +34,8 @@ export default function ConcludedPreview() {
                 } else {
                     console.error("Failed to fetch concluded leaderboards: " + data.error?.message);
                 }
-            } catch (err) {
-                console.error("Error fetching concluded leaderboards:", err);
+            } catch  {
+                console.log("No concluded leaderboards for this user");
             }
         };
         fetchLeaderboards();

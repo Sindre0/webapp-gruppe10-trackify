@@ -6,7 +6,7 @@ export function getUserLeaderboards(userID: string) {
                 console.log("Fetched the user's leaderboards:", data.data);
                 return data.data;
             } else {
-                console.error("Failed to fetch the user's leaderboards: " + data.error.message);
+                console.log("Failed to fetch the user's leaderboards: " + data.error.message);
                 return "Unknown Leaderboard";
             }
         });

@@ -34,10 +34,10 @@ export default function ConcludedPreview({ onSelect }: ConcludedPreviewProps) {
                     );
                     setLeaderboards(leaderboardID.filter((item: any) => item !== null));
                 } else {
-                    console.error("Failed to fetch concluded leaderboards: " + data.error?.message);
+                    console.error("no concluded leaderboards for this user ");
                 }
-            } catch (err) {
-                console.error("Error fetching concluded leaderboards:", err);
+            } catch {
+                console.log("no concluded leaderboards for this user",);
             }
         };
         fetchLeaderboards();

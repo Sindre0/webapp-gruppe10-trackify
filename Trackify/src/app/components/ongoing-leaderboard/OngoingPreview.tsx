@@ -35,10 +35,10 @@ export default function OngoingPreview({ onSelect }: OngoingPreviewProps) {
                     );
                     setLeaderboards(leaderboardID.filter((item: any) => item !== null));
                 } else {
-                    console.error("Failed to fetch ongoing leaderboards: " + data.error?.message);
+                    console.log("No ongoing leaderboards for this user");
                 }
-            } catch (err) {
-                console.error("Error fetching ongoing leaderboards:", err);
+            } catch  {
+                console.log("No ongoing leaderboards for this user");
             }
         };
         fetchLeaderboards();
