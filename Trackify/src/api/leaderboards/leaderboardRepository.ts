@@ -1,5 +1,5 @@
 import { drizzle } from "drizzle-orm/d1";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import type { Result } from "../../types/result";
 import { leaderboards } from "@/db/schema/leaderboard-schema";
 import { env } from "cloudflare:workers";
@@ -92,7 +92,7 @@ export function createLeaderboardRepository(): LeaderboardRepository {
         },
         async isUserAttached(leaderboardId: string, userId: string) {
             const db = drizzle(env.DB);
-            const result = await db.select().from(leaderboard_has_user).where((
+            const result = await db.select().from(leaderboard_has_user).where(and(
                 eq(leaderboard_has_user.leaderboard_id, leaderboardId),
                 eq(leaderboard_has_user.user_id, userId))
             );
@@ -115,9 +115,11 @@ export function createLeaderboardRepository(): LeaderboardRepository {
         async removeUser(leaderboardId: string, userId: string) {
             const db = drizzle(env.DB);
 
-            const result = await db.delete(leaderboard_has_user).where((
-                eq(leaderboard_has_user.leaderboard_id, leaderboardId),
-                eq(leaderboard_has_user.user_id, userId))
+            const result = await db.delete(leaderboard_has_user).where(
+                and(
+                    eq(leaderboard_has_user.leaderboard_id, leaderboardId),
+                    eq(leaderboard_has_user.user_id, userId)
+                )
             );
 
             return { success: true, data: result };
@@ -133,7 +135,7 @@ export function createLeaderboardRepository(): LeaderboardRepository {
             const result = await db.select({
                 is_owner: leaderboard_has_user.is_owner
             }
-            ).from(leaderboard_has_user).where((
+            ).from(leaderboard_has_user).where(and(
                 eq(leaderboard_has_user.leaderboard_id, leaderboardId), eq(leaderboard_has_user.user_id, userId))
             );
 
