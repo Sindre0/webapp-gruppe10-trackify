@@ -1,8 +1,10 @@
 import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
 import { getLeaderboardEntries } from "@/hooks/getLeaderboardEntries";
 import { getUsername } from "@/hooks/getUsername";
+import { is } from "drizzle-orm";
 import { useEffect, useState } from "react";
 import { ArrowLeft } from "react-feather";
+import { navigate } from "rwsdk/client";
 
 type HomeLeaderboardProps = {
     selectedLeaderboardId: string | null;
@@ -19,6 +21,8 @@ type PlayerStats = {
 export default function HomeLeaderboard({ selectedLeaderboardId }: HomeLeaderboardProps) {
     const [playerStats, setPlayerStats] = useState<PlayerStats[]>([]);
     const [leaderboardName, setLeaderboardName] = useState<string | null>(null);
+    const [leaderboardState, setLeaderboardState] = useState<string>("");
+    const [isHomePage, setIsHomePage] = useState<boolean>(false);
 
     useEffect(() => {
         if (!selectedLeaderboardId) {
@@ -26,6 +30,10 @@ export default function HomeLeaderboard({ selectedLeaderboardId }: HomeLeaderboa
             setPlayerStats([]);
             return;
         }
+
+        if (window.location.pathname === "/") {
+            setIsHomePage(true);
+        } 
 
         (async () => {
             try {
@@ -35,6 +43,7 @@ export default function HomeLeaderboard({ selectedLeaderboardId }: HomeLeaderboa
                 ]);
 
                 setLeaderboardName(details?.name ?? "Unnamed leaderboard");
+                details?.active ? setLeaderboardState("ongoing") : setLeaderboardState("concluded");
 
                 const matchResultsMap = new Map<string, { wins: number; losses: number }>();
                 (entries as any[]).forEach((entry: any) => {
@@ -61,18 +70,35 @@ export default function HomeLeaderboard({ selectedLeaderboardId }: HomeLeaderboa
                 savingPlayerStats.sort((a, b) => b.winRatio === a.winRatio ? b.wins - a.wins : b.winRatio - a.winRatio);
                 setPlayerStats(savingPlayerStats);
             } catch (error) {
-                console.error("Error fetching leaderboard data:", error);
-                setPlayerStats([]);
-                setLeaderboardName("Failed to load leaderboard");
+                try {
+                    const details = await getLeaderboardDetails(selectedLeaderboardId);
+                    setPlayerStats([]);
+                    setLeaderboardName(details?.name);
+                } catch {
+                    console.error("Error fetching leaderboard data:", error);
+                    setPlayerStats([]);
+                    setLeaderboardName("Empty leaderboard");
+                }
             }
         })();
     }, [selectedLeaderboardId]);
 
     return (
         <section className="block w-full">
-            <h2 className="text-2xl font-semibold mb-6">
-                {selectedLeaderboardId ? (leaderboardName ?? "Loading...") : "Home Leaderboard"}
-            </h2>
+
+            {selectedLeaderboardId ? ( isHomePage ? (
+                <button
+                    onClick={() => {navigate(`/leaderboard/${leaderboardState}-leaderboards/${selectedLeaderboardId}`)}}>
+                    <h2 className="text-blue-600 underline cursor-pointer text-2xl font-semibold mb-6">
+                        {leaderboardName ?? "Loading..."}
+                    </h2>
+                </button>
+                ) : (
+                    <h2 className="text-2xl font-semibold mb-6">
+                        {leaderboardName ?? "Loading..."}
+                    </h2> )
+            ) : <h2 className="text-2xl font-semibold mb-6">Home Page</h2>}
+
             {selectedLeaderboardId ? (
                 <div className="p-4 border border-gray-300 shadow-sm rounded bg-white">
                     {playerStats.length > 0 ? (
@@ -99,7 +125,7 @@ export default function HomeLeaderboard({ selectedLeaderboardId }: HomeLeaderboa
                             ))}
                         </ul>
                     ) : (
-                        <p className="text-gray-500 w-[80%] text-center">No entries found for this leaderboard.</p>
+                        <p className="text-gray-500 text-center">No entries found for this leaderboard.</p>
                     )}
                 </div>
             ) : (
