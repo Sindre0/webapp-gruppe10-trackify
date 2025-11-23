@@ -11,7 +11,7 @@ type Props = {
 
 
 function deleteCookieByName(name: string) {
-  document.cookie = `${name}=; expires=Thu, 01 Jan 2000 00:00:00 GMT; path=/;`;
+  document.cookie = `${name}=; Max-Age=0; Path=/;`;
 }
 
 export default function DeleteCookieButton({
