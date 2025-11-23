@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
+import React, { use, useState, useEffect,} from "react";
 import { navigate } from "rwsdk/client";
 
 export default function UpdateLeaderboard({id}: {id: string}) {
 
+  const [leaderboardName, setLeaderboardName] = useState<string>("");
 
 
   async function handleUpdateLeaderboard(event: React.FormEvent<HTMLFormElement>) {
@@ -14,9 +16,18 @@ export default function UpdateLeaderboard({id}: {id: string}) {
     const name = String(formData.get("name") ?? "").trim();
   }
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const leaderboardDetails =  await getLeaderboardDetails(id);
+      setLeaderboardName(leaderboardDetails.name);
+    };
+    fetchData();
+
+  }, [id]);
+
   return (
     <section className="max-w-[80%] mx-auto mt-10 space-y-4 animate-fadeIn">
-      <h1 className="text-xl m-1 font-semibold">Update leaderboard for {id}</h1>
+      <h1 className="text-xl m-1 font-semibold">Update leaderboard for {leaderboardName}</h1>
 
       <form
         onSubmit={handleUpdateLeaderboard}
