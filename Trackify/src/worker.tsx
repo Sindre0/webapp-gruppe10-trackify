@@ -25,7 +25,6 @@ import Announcements from "./app/components/leaderboard/Announcements";
 import MyLeaderboards from "./app/pages/leaderboard/manage-leaderboard/MyLeaderboards";
 import AdminGameLeaderboard from "./app/pages/leaderboard/AdminGameLeaderboard";
 
-
 export interface Env {
   DB: D1Database;
 }
@@ -94,6 +93,13 @@ export default defineApp([
       return <CreateAccount />;
     }),
     layout(MainLayout, [
+      async (context) => {
+        const user = context.ctx.user;
+        if (!user) {
+          // Makes sure that context is loaded before html renders. Avoids flickering.
+          return <Home />;
+        };
+      },
       route("/", async () => {
         return (
           <Home />
