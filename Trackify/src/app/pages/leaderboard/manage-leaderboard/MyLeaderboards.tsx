@@ -1,11 +1,11 @@
 "use client";
 
 import { useAuth } from "@/hooks/useAuth";
-import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
+import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
 import { useEffect, useState } from "react";
-import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
+import { getUserLeaderboards } from "@/app/lib/api/getUserLeaderboards";
 import { navigate } from "rwsdk/client";
-import LeaderboardButton from "@/app/components/LeaderboardButton";
+import LeaderboardButton from "@/app/components/leaderboard/LeaderboardButton";
 
 export default function MyLeaderboards() {
     const user = useAuth();

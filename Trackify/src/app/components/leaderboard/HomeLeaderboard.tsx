@@ -1,7 +1,6 @@
-import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
-import { getLeaderboardEntries } from "@/hooks/getLeaderboardEntries";
-import { getUsername } from "@/hooks/getUsername";
-import { is } from "drizzle-orm";
+import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
+import { getLeaderboardEntries } from "@/app/lib/api/getLeaderboardEntries";
+import { getUsername } from "@/app/lib/api/getUsername";
 import { useEffect, useState } from "react";
 import { ArrowLeft } from "react-feather";
 import { navigate } from "rwsdk/client";

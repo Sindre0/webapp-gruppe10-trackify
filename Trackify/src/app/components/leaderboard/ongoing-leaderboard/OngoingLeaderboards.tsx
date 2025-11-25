@@ -1,29 +1,28 @@
 "use client";
 
-import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
-import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
 import { useAuth } from "@/hooks/useAuth";
+import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
 import { useEffect, useState } from "react";
+import { getUserLeaderboards } from "@/app/lib/api/getUserLeaderboards";
+import { navigate } from "rwsdk/client";
+import LeaderboardButton from "../LeaderboardButton";
 
-type ConcludedPreviewProps = {
-    onSelect?: (id: string) => void;
-};
-
-export default function ConcludedPreview({ onSelect }: ConcludedPreviewProps) {
+export default function OngoingLeaderboards() {
     const user = useAuth();
     const [leaderboards, setLeaderboards] = useState<{ id: string; name: string }[]>([]);
 
     useEffect(() => {
         const fetchLeaderboards = async () => {
             if (!user?.id) return;
-            try {       
+            try {
                 const data: any = await getUserLeaderboards(user.id);
+
                 if (data.length > 0) {
-                    console.log("Fetched concluded leaderboards.");
+                    console.log("Fetched ongoing leaderboards.");
                     const leaderboardID = await Promise.all(
                         data.map(async (item: any) => {
                             const details = await getLeaderboardDetails(item.leaderboard_id);
-                            if (details.active === true) {
+                            if (details.active === false) {
                                 return null;
                             }
                             return {
@@ -34,35 +33,30 @@ export default function ConcludedPreview({ onSelect }: ConcludedPreviewProps) {
                     );
                     setLeaderboards(leaderboardID.filter((item: any) => item !== null));
                 } else {
-                    console.error("no concluded leaderboards for this user ");
+                    console.log("Failed to fetch ongoing leaderboards: " + data.error?.message);
                 }
-            } catch {
-                console.log("no concluded leaderboards for this user",);
+            } catch  {
+                console.log("No ongoing leaderboards for this user");
             }
         };
         fetchLeaderboards();
     }, [user?.id]);
-
+        
     return (
-        <section className="block w-64">
-            <h2 className="text-2xl font-semibold mb-6">Concluded</h2>
-            <ul className="px-5 py-3 border border-gray-300 shadow-md mx-auto mb-2">
+        <section className="space-y-4 max-w-[80%] mx-auto mt-8 animate-fadeIn">
+            <h2 className="text-2xl font-semibold mb-4">Ongoing Leaderboards</h2>
+            <ul className="mx-auto">
                 {leaderboards.length === 0 ? (
-                    <li>No concluded leaderboards.</li>
+                    <li>No ongoing leaderboards.</li>
                 ) : (
                     leaderboards.map((leaderboard) => (
-                        <li className="border-b border-black/20 mb-2 mt-2" key={leaderboard.id}>
-                            <button
-                                type="button"
-                                className="text-left w-full hover:underline cursor-pointer"
-                                onClick={() => onSelect?.(leaderboard.id)}
-                            >
+                        <li key={leaderboard.id}>
+                            <LeaderboardButton href={`/leaderboard/ongoing-leaderboards/${leaderboard.id}`}>
                                 {leaderboard.name}
-                            </button>
+                            </LeaderboardButton>
                         </li>
                     ))
                 )}
-                <a className="block mt-4 text-blue-600 text-sm" href="/leaderboard/concluded-leaderboards">View All </a>
             </ul>
         </section>
     );

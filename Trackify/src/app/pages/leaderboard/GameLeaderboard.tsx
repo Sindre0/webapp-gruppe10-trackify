@@ -1,17 +1,17 @@
 "use client";
 
-import WelcomeMessage from "../../components/WelcomeMessage";
+import WelcomeMessage from "../../components/user/WelcomeMessage";
 import OngoingPreview from "../../components/ongoing-leaderboard/OngoingPreview";
 import ConcludedPreview from "../../components/concluded-leaderboard/ConcludedPreview";
-import UpcomingMatches from "../../components/UpcomingMatches";
-import Announcements from "../../components/Announcements";
-import HomeLeaderboard from "@/app/components/HomeLeaderboard";
+import UpcomingMatches from "../../components/leaderboard/UpcomingMatches";
+import Announcements from "../../components/leaderboard/Announcements";
+import HomeLeaderboard from "@/app/components/leaderboard/HomeLeaderboard";
 import { useAuth } from "@/hooks/useAuth";
-import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
+import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
 import { useEffect, useState } from "react";
-import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
+import { getUserLeaderboards } from "@/app/lib/api/getUserLeaderboards";
 import { check } from "drizzle-orm/gel-core";
-import LeaderboardButton from "@/app/components/LeaderboardButton";
+import LeaderboardButton from "@/app/components/leaderboard/LeaderboardButton";
 
 export default function GameLeaderboard({id}: {id: string}) {
   const [isAllowedState, setIsAllowedState] = useState<boolean>(false);

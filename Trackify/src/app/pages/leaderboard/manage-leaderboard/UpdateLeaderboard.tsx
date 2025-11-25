@@ -1,6 +1,6 @@
 "use client";
 
-import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
+import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
 import React, { use, useState, useEffect,} from "react";
 import { navigate } from "rwsdk/client";
 

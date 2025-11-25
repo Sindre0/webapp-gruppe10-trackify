@@ -1,14 +1,14 @@
 "use client";
 
-import UpcomingMatches from "../../components/UpcomingMatches";
-import Announcements from "../../components/Announcements";
-import HomeLeaderboard from "@/app/components/HomeLeaderboard";
+import UpcomingMatches from "../../components/leaderboard/UpcomingMatches";
+import Announcements from "../../components/leaderboard/Announcements";
+import HomeLeaderboard from "@/app/components/leaderboard/HomeLeaderboard";
 import { useAuth } from "@/hooks/useAuth";
-import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
+import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
 import { useEffect, useState } from "react";
-import { getUserLeaderboards } from "@/hooks/getUserLeaderboards";
+import { getUserLeaderboards } from "@/app/lib/api/getUserLeaderboards";
 import { navigate } from "rwsdk/client";
-import LeaderboardButton from "@/app/components/LeaderboardButton";
+import LeaderboardButton from "@/app/components/leaderboard/LeaderboardButton";
 import { ArrowRight } from "react-feather";
 
 export default function AdminGameLeaderboard({id}: {id: string}) {

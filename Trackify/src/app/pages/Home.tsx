@@ -1,10 +1,10 @@
 "use client";
 
-import WelcomeMessage from "../components/WelcomeMessage";
-import OngoingPreview from "../components/ongoing-leaderboard/OngoingPreview";
-import ConcludedPreview from "../components/concluded-leaderboard/ConcludedPreview";
-import UpcomingMatches from "../components/UpcomingMatches";
-import HomeLeaderboard from "../components/HomeLeaderboard";
+import WelcomeMessage from "../components/user/WelcomeMessage";
+import OngoingPreview from "../components/leaderboard/ongoing-leaderboard/OngoingPreview";
+import ConcludedPreview from "../components/leaderboard/concluded-leaderboard/ConcludedPreview";
+import UpcomingMatches from "../components/leaderboard/UpcomingMatches";
+import HomeLeaderboard from "../components/leaderboard/HomeLeaderboard";
 import { useState } from "react";
 
 export default function Home() {

@@ -1,5 +1,5 @@
 import { CornerDownRight } from "react-feather";
-import DeleteCookieButton from "../DeleteCookieButton";
+import DeleteCookieButton from "../user/DeleteCookieButton";
 
 export default function HamburgerMenu({ hamburgerToggle }: { hamburgerToggle: () => void }) {
     return (
