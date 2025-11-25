@@ -1,4 +1,4 @@
-import LeaderboardButton from "../../components/LeaderboardButton";
+import LeaderboardButton from "../../components/leaderboard/LeaderboardButton";
 
 export default function LeaderboardMenu() {
     return (

@@ -14,17 +14,16 @@ import LeaderboardMenu from "./app/pages/leaderboard/LeaderboardMenu";
 import Home from "./app/pages/Home";
 import LoginSite from "./app/pages/user/LoginSite";
 import CreateAccount from "./app/pages/user/CreateAccount";
-import OngoingLeaderboards from "./app/components/ongoing-leaderboard/OngoingLeaderboards";
-import ConcludedLeaderboards from "./app/components/concluded-leaderboard/ConcludedLeaderboards";
+import OngoingLeaderboards from "./app/components/leaderboard/ongoing-leaderboard/OngoingLeaderboards";
+import ConcludedLeaderboards from "./app/components/leaderboard/concluded-leaderboard/ConcludedLeaderboards";
 import GameLeaderboard from "./app/pages/leaderboard/GameLeaderboard";
-import Profile from "./app/components/Profile";
+import Profile from "./app/components/user/Profile";
 import NewLeaderboard from "./app/pages/leaderboard/manage-leaderboard/NewLeaderboard";
 import UpdateLeaderboard from "./app/pages/leaderboard/manage-leaderboard/UpdateLeaderboard";
 import AddLeaderboardData from "./app/pages/leaderboard/manage-leaderboard/AddLeaderboardData";
-import Announcements from "./app/components/Announcements";
+import Announcements from "./app/components/leaderboard/Announcements";
 import MyLeaderboards from "./app/pages/leaderboard/manage-leaderboard/MyLeaderboards";
 import AdminGameLeaderboard from "./app/pages/leaderboard/AdminGameLeaderboard";
-
 
 export interface Env {
   DB: D1Database;
@@ -94,6 +93,13 @@ export default defineApp([
       return <CreateAccount />;
     }),
     layout(MainLayout, [
+      async (context) => {
+        const user = context.ctx.user;
+        if (!user) {
+          // Makes sure that context is loaded before html renders. Avoids flickering.
+          return <Home />;
+        };
+      },
       route("/", async () => {
         return (
           <Home />

@@ -1,6 +1,6 @@
 "use client";
 
-import { getLeaderboardDetails } from "@/hooks/getLeaderboardDetails";
+import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
 import {useEffect, useState } from "react";
 
 export default function Breadcrumbs() {
