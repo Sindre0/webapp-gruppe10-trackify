@@ -28,9 +28,7 @@ export function createUserRepository(): UserRepository {
             return {success: true, data: user[0]};
         },
         async createUser(register: UserRegisterParams) {
-            console.log("Creating user with data:", register.username, register.email);
             const db = drizzle(env.DB);
-
             const existingUser = await db.select().from(users).where((eq(users.email, register.email)));
             if (existingUser.length > 0) {
                 return { success: false, error: { message: "Email already in use", code: 409 } };

@@ -1,15 +1,14 @@
 import type { RequestInfo } from "rwsdk/worker";
-import { userService, UserService } from "./userService";
+import { UserLoginParams, UserRegisterParams, userService, UserService } from "./userService";
 import { useAuth } from "@/hooks/useAuth";
-
 
 export function createUserController(userService: UserService) {
     return {
         async loginUser(context: RequestInfo) {
-            const [email, password] = context.params.login.split(":");
-            const login = { email, password };
-            const dataFromService = await userService.getByLogin(login);
+            const body = await context.request.json();
+            const parameters: UserLoginParams = JSON.parse(JSON.stringify(body));
 
+            const dataFromService = await userService.getByLogin(parameters);
                 if (!dataFromService.success) {
                     return new Response(JSON.stringify(dataFromService), { 
                     status: dataFromService.error.code || 500 ,
@@ -23,11 +22,10 @@ export function createUserController(userService: UserService) {
                 });
         },
         async registerUser(context: RequestInfo) {
-            const [username, email, password] = context.params.register.split(":");
-            const register = { username, email, password };
+            const body = await context.request.json();
+            const parameters: UserRegisterParams = JSON.parse(JSON.stringify(body));
 
-            const dataFromService = await userService.registerUser(register);
-            
+            const dataFromService = await userService.registerUser(parameters);
             if (!dataFromService.success) {
                 return new Response(JSON.stringify(dataFromService), { 
                 status: dataFromService.error.code || 500 ,

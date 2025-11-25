@@ -8,12 +8,12 @@ export default function CreateAccount() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
-    const name = String(formData.get("name") ?? "").trim();
+    const username = String(formData.get("name") ?? "").trim();
     const email = String(formData.get("email") ?? "").trim();
     const password = String(formData.get("password") ?? "");
     const confirm = String(formData.get("confirm") ?? "");
 
-    if (!name || !email || !password) {
+    if (!username || !email || !password) {
       alert("Please fill in all required fields");
       return;
     }
@@ -24,15 +24,21 @@ export default function CreateAccount() {
     }
 
     try {
-      // Register new user via API
-      const response = await fetch(`/api/v1/users/register/${name}:${email}:${password}`, {
+      const response = await fetch(`/api/v1/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-        }
+        },
+        body: JSON.stringify({ username, email, password })
       });
 
-      fetch(`/api/v1/users/login/${encodeURIComponent(email)}:${encodeURIComponent(password)}`)
+      fetch(`/api/v1/users/login/`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+      })
         .then(response => response.json())
         .then((data: any) => {
             if (data.success) {

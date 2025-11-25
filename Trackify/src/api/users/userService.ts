@@ -24,16 +24,9 @@ export interface UserService {
 export function createUserService(userRepository: UserRepository): UserService {
     return {
         async getByLogin(login: UserLoginParams): Promise<Result<any>> {
-            login.email = decodeURIComponent(login.email);
-            login.password = decodeURIComponent(login.password);
-
             return await userRepository.findByLogin(login);
         },
         async registerUser(register: UserRegisterParams): Promise<Result<any>> {
-            register.email = decodeURIComponent(register.email);
-            register.password = decodeURIComponent(register.password);
-            register.username = decodeURIComponent(register.username);
-
             return await userRepository.createUser(register);
         },
         async getLeaderboards(userID: string): Promise<Result<any>> {
