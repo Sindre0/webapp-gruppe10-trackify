@@ -87,19 +87,20 @@ export default function HomeLeaderboard({ selectedLeaderboardId }: HomeLeaderboa
 
             {selectedLeaderboardId ? ( isHomePage ? (
                 <button
+                    className="w-full text-left"
                     onClick={() => {navigate(`/leaderboard/${leaderboardState}-leaderboards/${selectedLeaderboardId}`)}}>
-                    <h2 className="text-blue-600 underline cursor-pointer text-2xl font-semibold mb-6">
+                    <h2 className="text-blue-600 underline cursor-pointer text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">
                         {leaderboardName ?? "Loading..."}
                     </h2>
                 </button>
                 ) : (
-                    <h2 className="text-2xl font-semibold mb-6">
+                    <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">
                         {leaderboardName ?? "Loading..."}
                     </h2> )
-            ) : <h2 className="text-2xl font-semibold mb-6">Home Page</h2>}
+            ) : <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Home Page</h2>}
 
             {selectedLeaderboardId ? (
-                <div className="p-4 border border-gray-300 shadow-sm rounded bg-white">
+                <div className="p-2 sm:p-4 border border-gray-300 shadow-sm rounded bg-white">
                     {playerStats.length > 0 ? (
                         <ul className="space-y-2">
                             {playerStats.map((player, index) => (

@@ -13,8 +13,8 @@ export default function Announcements() {
 
     return (
         <section className="w-full h-full">
-            <h2 className="text-2xl font-semibold mb-6">Announcements</h2>
-            <ul className="px-5 py-3 border border-gray-300 shadow-md mx-auto mb-6 space-y-3">
+            <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Announcements</h2>
+            <ul className="px-3 sm:px-5 py-3 border border-gray-300 shadow-md mx-auto mb-6 space-y-3">
                 {announcements.map((element) => (
                     <li className="border-b border-black/10 pb-2" key={element.id}>
                         {element.name}

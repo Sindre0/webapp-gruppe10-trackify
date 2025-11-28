@@ -44,9 +44,9 @@ export default function ConcludedPreview({ onSelect }: ConcludedPreviewProps) {
     }, [user?.id]);
 
     return (
-        <section className="block w-64">
-            <h2 className="text-2xl font-semibold mb-6">Concluded</h2>
-            <ul className="px-5 py-3 border border-gray-300 shadow-md mx-auto mb-2">
+        <section className="block w-full">
+            <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Concluded</h2>
+            <ul className="px-3 sm:px-5 py-3 border border-gray-300 shadow-md mx-auto mb-2">
                 {leaderboards.length === 0 ? (
                     <li>No concluded leaderboards.</li>
                 ) : (
@@ -54,7 +54,7 @@ export default function ConcludedPreview({ onSelect }: ConcludedPreviewProps) {
                         <li className="border-b border-black/20 mb-2 mt-2" key={leaderboard.id}>
                             <button
                                 type="button"
-                                className="text-left w-full hover:underline cursor-pointer"
+                                className="text-left w-full hover:underline cursor-pointer text-sm sm:text-base"
                                 onClick={() => onSelect?.(leaderboard.id)}
                             >
                                 {leaderboard.name}
