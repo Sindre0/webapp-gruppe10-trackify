@@ -1,6 +1,5 @@
 import type { RequestInfo } from "rwsdk/worker";
 import { UserLoginParams, UserRegisterParams, userService, UserService } from "./userService";
-import { useAuth } from "@/hooks/useAuth";
 
 export function createUserController(userService: UserService) {
     return {
@@ -90,8 +89,25 @@ export function createUserController(userService: UserService) {
         async deleteUser(context: RequestInfo) {
             const userID = context.params.userID;
             
-            const authenticatedUser = useAuth();
-            if (!authenticatedUser) {
+            // Get user session from cookies
+            const cookieHeader = context.request.headers.get("Cookie") || "";
+            const cookies = cookieHeader.split(";").map((c) => c.trim());
+            let authenticatedUserId: string | null = null;
+            
+            for (const cookie of cookies) {
+                const [name, value] = cookie.split("=");
+                if (name === "user_session") {
+                    try {
+                        const userData = JSON.parse(decodeURIComponent(value));
+                        authenticatedUserId = userData.id;
+                    } catch (e) {
+                        console.error("Error parsing user session:", e);
+                    }
+                    break;
+                }
+            }
+
+            if (!authenticatedUserId) {
                 return new Response(JSON.stringify({
                     success: false,
                     error: { message: "Account is not authenticated", code: 401 }
@@ -101,7 +117,7 @@ export function createUserController(userService: UserService) {
                 });
             }
 
-            if (authenticatedUser.id !== userID) {
+            if (authenticatedUserId !== userID) {
                 return new Response(JSON.stringify({
                     success: false,
                     error: { message: "Account is not authorized to delete this user", code: 403 }
