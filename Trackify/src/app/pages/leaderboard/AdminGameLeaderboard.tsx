@@ -67,26 +67,26 @@ export default function AdminGameLeaderboard({id}: {id: string}) {
           <h1 className="text-center mt-20 font-semibold">Not authorized</h1>
         </div>
       ) : (
-        <article className="w-[80%] mx-auto mt-6 mb-8 gap-6 min-h-[800px] animate-fadeIn">
+        <article className="w-[95%] sm:w-[90%] lg:w-[80%] mx-auto mt-6 mb-8 gap-6 min-h-[400px] lg:min-h-[800px] animate-fadeIn">
             <LeaderboardButton href = {`/leaderboard/ongoing-leaderboards/${id}`}>
               <h2>View Leaderboard</h2>
             </LeaderboardButton>
-            <h1 className="text-2xl font-semibold mb-2">Admin Desk</h1>
-            <section className="flex bg-gray-50 border border-gray-800 shadow-2xl h-35 mt-6">
+            <h1 className="text-xl sm:text-2xl font-semibold mb-2">Admin Desk</h1>
+            <section className="flex flex-col sm:flex-row bg-gray-50 border border-gray-800 shadow-2xl mt-6">
                 <button 
                 onClick={() => navigate(`/leaderboard/my-leaderboards/${id}/add-data`)}
-                className="w-full border border-gray-200 hover:bg-gray-100 cursor-pointer text-lg font-medium animate-fadeIn">
+                className="w-full border border-gray-200 hover:bg-gray-100 cursor-pointer text-base sm:text-lg font-medium py-3 sm:py-4 animate-fadeIn">
                     Add Data
                 </button>
                 <button 
                 onClick={() => navigate(`/leaderboard/my-leaderboards/${id}/update-leaderboard`)}
-                className="w-full border border-gray-200 hover:bg-gray-100 cursor-pointer text-lg font-medium animate-fadeIn">
+                className="w-full border border-gray-200 hover:bg-gray-100 cursor-pointer text-base sm:text-lg font-medium py-3 sm:py-4 animate-fadeIn">
                     Change Settings
                 </button>
                 {isOwner && (
                 <button 
                 onClick={() => handleDelete()}
-                className="w-full border text-red-500 border-gray-200 hover:bg-gray-100 cursor-pointer text-lg font-medium">
+                className="w-full border text-red-500 border-gray-200 hover:bg-gray-100 cursor-pointer text-base sm:text-lg font-medium py-3 sm:py-4">
                     Delete Leaderboard
                 </button>
                 )}
