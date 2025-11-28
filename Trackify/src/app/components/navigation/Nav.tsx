@@ -18,23 +18,23 @@ export default function Nav() {
 
   return (
     <header className="pb-10">
-      <nav className = "h-12">
-          <div className="mx-auto px-8 flex h-12 items-center justify-between">
+      <nav className="h-12">
+          <div className="mx-auto px-4 sm:px-8 flex h-12 items-center justify-between">
             {/* Logo */}
-            <h1 className="text-3xl font-semibold tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">
               <a href="/">Trackify</a>
             </h1>
 
             {/* Ikoner */}
-            <ul className="flex items-center gap-4">
+            <ul className="flex items-center gap-2 sm:gap-4">
               <li>
                 <a href="/#" className="rounded-md p-1">
-                  <Settings size={22} />
+                  <Settings size={20} className="sm:w-[22px] sm:h-[22px]" />
                 </a>
               </li>
               <li>
                 <a href="/profile" className="rounded-md p-1">
-                  <User size={22} />
+                  <User size={20} className="sm:w-[22px] sm:h-[22px]" />
                 </a>
               </li>
               <li>
@@ -44,7 +44,7 @@ export default function Nav() {
                   aria-expanded={hamburgerOpened}
                   aria-controls="mobile-menu"
                 >
-                  <Menu size={26} aria-label="Toggle menu" />
+                  <Menu size={24} className="sm:w-[26px] sm:h-[26px]" aria-label="Toggle menu" />
                 </button>
               </li>
             </ul>
