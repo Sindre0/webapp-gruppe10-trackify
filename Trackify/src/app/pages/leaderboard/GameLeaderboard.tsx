@@ -1,8 +1,8 @@
 "use client";
 
 import WelcomeMessage from "../../components/user/WelcomeMessage";
-import OngoingPreview from "../../components/ongoing-leaderboard/OngoingPreview";
-import ConcludedPreview from "../../components/concluded-leaderboard/ConcludedPreview";
+import OngoingPreview from "../../components/leaderboard/ongoing-leaderboard/OngoingPreview";
+import ConcludedPreview from "../../components/leaderboard/concluded-leaderboard/ConcludedPreview";
 import UpcomingMatches from "../../components/leaderboard/UpcomingMatches";
 import Announcements from "../../components/leaderboard/Announcements";
 import HomeLeaderboard from "@/app/components/leaderboard/HomeLeaderboard";
@@ -53,26 +53,26 @@ export default function GameLeaderboard({id}: {id: string}) {
   return (
     <>
       {isModerator && (
-      <section className="w-[80%] mx-auto mt-6">
+      <section className="w-[95%] sm:w-[90%] lg:w-[80%] mx-auto mt-6">
         <LeaderboardButton href={`/leaderboard/my-leaderboards/${id}`}>You are an admin. Go to moderator page?</LeaderboardButton>
       </section>
       )}
       
       {isAllowedState ? (
-        <article className="w-[80%] mx-auto mt-6 flex flex-col md:flex-row gap-6 min-h-[800px]">
-          <aside className="w-full md:w-[40%] h-full">
+        <article className="w-[95%] sm:w-[90%] lg:w-[80%] mx-auto mt-6 flex flex-col lg:flex-row gap-4 sm:gap-6 min-h-[400px] lg:min-h-[800px]">
+          <aside className="w-full lg:w-[40%] h-full">
             <HomeLeaderboard selectedLeaderboardId={id} />
           </aside>
-          <section className="w-full md:w-[60%] flex flex-col gap-6 h-full">
-            <section className="h-[33%] flex flex-col md:flex-row gap-6">
-              <article className="w-full md:w-1/2 h-full">
+          <section className="w-full lg:w-[60%] flex flex-col gap-4 sm:gap-6 h-full">
+            <section className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+              <article className="w-full sm:w-1/2 h-full">
                 <Announcements />
               </article>
               <article className="w-full md:w-1/2 h-full">
                 <UpcomingMatches />
               </article>
             </section>
-            <section className="h-[67%]">
+            <section className="flex-1">
               
             </section>
           </section>

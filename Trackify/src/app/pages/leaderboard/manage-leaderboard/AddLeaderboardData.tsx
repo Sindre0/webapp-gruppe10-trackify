@@ -67,23 +67,23 @@ export default function AddLeaderboardData({id}: {id: string}) {
   }
 
   return (
-    <section className="max-w-[80%] mx-auto mt-10 space-y-4 animate-fadeIn">
-      <h1 className="text-xl m-1 font-semibold">Add data</h1>
-      <div className="bg-white shadow-md p-6 space-y-6">
+    <section className="w-[95%] sm:w-[90%] lg:max-w-[80%] mx-auto mt-10 space-y-4 animate-fadeIn">
+      <h1 className="text-lg sm:text-xl m-1 font-semibold">Add data</h1>
+      <div className="bg-white shadow-md p-4 sm:p-6 space-y-6">
         {/* Add participant */}
         <section className="bg-gray-100 p-4">
           <form onSubmit={addContestant}>
-            <label className="grid grid-cols-8 items-center justify-between gap-4">
-              <h2 className="font-medium text-gray-800 col-span-5">Add participant</h2>
+            <label className="grid grid-cols-1 sm:grid-cols-8 items-center justify-between gap-4">
+              <h2 className="font-medium text-gray-800 text-sm sm:text-base col-span-1 sm:col-span-5">Add participant</h2>
               <input
               type="text"
               name="email"
               placeholder="Email"
-              className="border col-span-2 bg-white border-black text-sm px-3 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              className="border col-span-1 sm:col-span-2 bg-white border-black text-sm px-3 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
               <button
                 type="submit"
-                className="border p-1 border-black bg-white cursor-pointer"
+                className="border p-1 border-black bg-white cursor-pointer w-full sm:w-auto"
               >
                 ➕
               </button>
@@ -94,17 +94,17 @@ export default function AddLeaderboardData({id}: {id: string}) {
         {/* Remove participant */}
         <section className="bg-gray-100 p-4">
           <form onSubmit={removeContestant}>
-            <label className="grid grid-cols-8 items-center justify-between gap-4">
-              <h2 className="font-medium text-gray-800 col-span-5">Remove participant</h2>
+            <label className="grid grid-cols-1 sm:grid-cols-8 items-center justify-between gap-4">
+              <h2 className="font-medium text-gray-800 text-sm sm:text-base col-span-1 sm:col-span-5">Remove participant</h2>
               <input
               type="text"
               name="email"
               placeholder="Email"
-              className="border col-span-2 bg-white border-black text-sm px-3 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              className="border col-span-1 sm:col-span-2 bg-white border-black text-sm px-3 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               />
               <button
                 type="submit"
-                className="border p-1 border-black bg-white cursor-pointer"
+                className="border p-1 border-black bg-white cursor-pointer w-full sm:w-auto"
               >
                 ➖
               </button>
@@ -197,16 +197,16 @@ export default function AddLeaderboardData({id}: {id: string}) {
 
               <fieldset className="space-y-1">
                 <h2 className="text-sm text-gray-700">Select participants:</h2>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="text"
                     placeholder="Name 1"
-                    className="border border-black bg-white px-2 py-1 text-sm"
+                    className="border border-black bg-white px-2 py-1 text-sm w-full"
                   />
                   <input
                     type="text"
                     placeholder="Name 2"
-                    className="border border-black bg-white px-2 py-1 text-sm"
+                    className="border border-black bg-white px-2 py-1 text-sm w-full"
                   />
                 </div>
               </fieldset>
