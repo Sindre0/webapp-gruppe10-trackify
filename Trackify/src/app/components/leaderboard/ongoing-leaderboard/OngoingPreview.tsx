@@ -46,8 +46,8 @@ export default function OngoingPreview({ onSelect }: OngoingPreviewProps) {
         
     return (
         <section className="w-full">
-            <h2 className="text-2xl font-semibold mb-6">Ongoing</h2>
-            <ul className="px-5 py-3 border border-gray-300 shadow-md mx-auto">
+            <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Ongoing</h2>
+            <ul className="px-3 sm:px-5 py-3 border border-gray-300 shadow-md mx-auto">
                 {leaderboards.length === 0 ? (
                     <li>No ongoing leaderboards.</li>
                 ) : (
@@ -58,7 +58,7 @@ export default function OngoingPreview({ onSelect }: OngoingPreviewProps) {
                         >
                             <button
                                 type="button"
-                                className="text-left w-full hover:underline cursor-pointer"
+                                className="text-left w-full hover:underline cursor-pointer text-sm sm:text-base"
                                 onClick={() => onSelect?.(leaderboard.id)}
                             >
                                 {leaderboard.name}

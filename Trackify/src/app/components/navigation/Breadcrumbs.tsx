@@ -51,8 +51,8 @@ export default function Breadcrumbs() {
     }, [pathSegments, leaderboardName]);
 
   return (
-    <div className="bg-gray-100 py-2 px-4">
-      <ul className="list-none m-0 px-4 font-normal">
+    <div className="bg-gray-100 py-2 px-2 sm:px-4">
+      <ul className="list-none m-0 px-2 sm:px-4 font-normal text-xs sm:text-sm md:text-base">
         <li className="inline">
           <a href="/">Home</a>
           {pathSegments.length > 0 && " / "}
