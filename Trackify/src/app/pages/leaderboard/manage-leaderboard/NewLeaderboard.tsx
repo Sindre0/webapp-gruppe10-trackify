@@ -44,51 +44,51 @@ export default function NewLeaderboard() {
   }
 
   return (
-    <section className="max-w-[80%] mx-auto mt-10 space-y-4 animate-fadeIn">
-      <h1 className="text-xl m-1 font-semibold">Create leaderboard</h1>
+    <section className="w-[95%] sm:w-[90%] lg:max-w-[80%] mx-auto mt-10 space-y-4 animate-fadeIn">
+      <h1 className="text-lg sm:text-xl m-1 font-semibold">Create leaderboard</h1>
 
       <form
         onSubmit={handleCreateLeaderboard}
-        className="bg-white shadow-md p-6 space-y-6"
+        className="bg-white shadow-md p-4 sm:p-6 space-y-6"
       >
         {/* Leaderboard name */}
-        <label className="flex items-center justify-between bg-gray-100 p-4">
-          <span className="text-gray-700 font-medium">Leaderboard name</span>
+        <label className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:justify-between bg-gray-100 p-4">
+          <span className="text-gray-700 font-medium text-sm sm:text-base">Leaderboard name</span>
           <input
             type="text"
             name="name"
             placeholder="Name..."
-            className="border bg-white border-black text-sm px-3 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="w-full sm:w-auto border bg-white border-black text-sm px-3 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             required
           />
         </label>
 
         {/* DATES */}
-        <fieldset className="grid grid-cols-3 gap-4 bg-gray-100 p-4">
-          <label className="flex items-center gap-2">
-            <span className="font-medium text-gray-700 whitespace-nowrap">
+        <fieldset className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-gray-100 p-4">
+          <label className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+            <span className="font-medium text-gray-700 text-sm sm:text-base whitespace-nowrap">
               Start date:
             </span>
             <input
               type="date"
               name="start-date"
-              className="border border-gray-300 px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
+              className="w-full sm:w-auto border border-gray-300 px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
             />
           </label>
 
-          <label className="flex items-center gap-2">
-            <span className="font-medium text-gray-700 whitespace-nowrap">
+          <label className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+            <span className="font-medium text-gray-700 text-sm sm:text-base whitespace-nowrap">
               End date:
             </span>
             <input
               type="date"
               name="end-date"
-              className="border border-gray-300 px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
+              className="w-full sm:w-auto border border-gray-300 px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
             />
           </label>
 
           <label className="flex items-center gap-2">
-            <span className="font-medium text-gray-700 whitespace-nowrap">
+            <span className="font-medium text-gray-700 text-sm sm:text-base whitespace-nowrap">
               Indefinite:
             </span>
             <input
@@ -100,8 +100,8 @@ export default function NewLeaderboard() {
         </fieldset>
 
         {/* VISIBILITY */}
-        <label className="flex items-center justify-between bg-gray-100 hover:bg-gray-200 p-4 cursor-pointer">
-          <span className="text-gray-700 font-medium">Leaderboard visible to only invited users?</span>
+        <label className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:justify-between bg-gray-100 hover:bg-gray-200 p-4 cursor-pointer">
+          <span className="text-gray-700 font-medium text-sm sm:text-base">Leaderboard visible to only invited users?</span>
           <input
             type="checkbox"
             name="visibility"

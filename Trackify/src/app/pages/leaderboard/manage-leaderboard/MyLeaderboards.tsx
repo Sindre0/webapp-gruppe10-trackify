@@ -43,8 +43,8 @@ export default function MyLeaderboards() {
     }, [user?.id]);
         
     return (
-        <section className="space-y-4 max-w-[80%] mx-auto mt-8 animate-fadeIn">
-            <h2 className="text-2xl font-semibold mb-4">My Leaderboards</h2>
+        <section className="space-y-4 w-[95%] sm:w-[90%] lg:max-w-[80%] mx-auto mt-8 animate-fadeIn">
+            <h2 className="text-xl sm:text-2xl font-semibold mb-4">My Leaderboards</h2>
             <ul className="mx-auto">
                 {leaderboards.length === 0 ? (
                     <li>You don't own any leaderboards. Add one <a className="text-blue-700" href="/leaderboard/create-leaderboard">here.</a></li>
