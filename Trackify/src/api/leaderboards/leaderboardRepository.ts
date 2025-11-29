@@ -11,6 +11,7 @@ import { leaderboard_has_user } from "@/db/schema/leaderboardHasUser-schema";
 export interface LeaderboardRepository {
     findMany(params?: any): Promise<Result<any[]>>;
     findById(id: string): Promise<Result<any>>;
+    findUsersByLeaderboardId(id: string): Promise<Result<any[]>>;
     findEntriesByLeaderboardId(id: string): Promise<Result<any[]>>;
     createLeaderboard(params: CreateQueryParams): Promise<Result<any>>;
     deleteLeaderboard(id: string): Promise<Result<any>>;
@@ -56,6 +57,21 @@ export function createLeaderboardRepository(): LeaderboardRepository {
                 };
             }
             return {success: true, data: leaderboard[0]};
+        },
+        async findUsersByLeaderboardId(id: string) {
+            const db = drizzle(env.DB);
+            const users = await db.select({user_id: leaderboard_has_user.user_id}).
+            from(leaderboard_has_user).where(eq(leaderboard_has_user.leaderboard_id, id));
+            if (users.length === 0) {
+                return {
+                    success: false,
+                    error: {
+                        code: 404,
+                        message: "No users found"
+                    }
+                };
+            }
+            return {success: true, data: users};
         },
         async findEntriesByLeaderboardId(id: string) {
             const db = drizzle(env.DB);

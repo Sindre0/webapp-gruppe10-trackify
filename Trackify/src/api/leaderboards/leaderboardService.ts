@@ -16,6 +16,7 @@ export type CreateQueryParams = {
 export interface LeaderboardService {
     list(params?: LeaderboardQueryParams): Promise<Result<any[]>>;
     getById(id: string): Promise<Result<any>>;
+    getUsers(id: string): Promise<Result<any[]>>;
     getEntries(id: string): Promise<Result<any[]>>;
     create(params?: CreateQueryParams, userId?: string): Promise<Result<any>>;
     delete(leaderboardId: string, userId: string): Promise<Result<any>>;
@@ -31,6 +32,9 @@ export function createLeaderboardService(leaderboardRepository: LeaderboardRepos
         },
         async getById(id: string): Promise<Result<any>> {
             return await leaderboardRepository.findById(id);
+        },
+        async getUsers(id: string): Promise<Result<any[]>> {
+            return await leaderboardRepository.findUsersByLeaderboardId(id);
         },
         async getEntries(id: string): Promise<Result<any[]>> {
             return await leaderboardRepository.findEntriesByLeaderboardId(id);
