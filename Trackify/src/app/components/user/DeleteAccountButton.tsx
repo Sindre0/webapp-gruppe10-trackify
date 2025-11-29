@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuth } from "@/hooks/useAuth";
 import React, { useState } from "react";
 import { navigate } from "rwsdk/client";
 
@@ -11,6 +12,7 @@ export default function DeleteAccountButton() {
   const [showFirstConfirm, setShowFirstConfirm] = useState(false);
   const [showSecondConfirm, setShowSecondConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const user = useAuth();
 
   const handleDeleteClick = () => {
     setShowFirstConfirm(true);
@@ -27,35 +29,28 @@ export default function DeleteAccountButton() {
 
   const handleSecondConfirm = async () => {
     setIsDeleting(true);
-    
     try {
-      const cookies = document.cookie.split(";").map((c) => c.trim());
-      let userId = null;
-      
-      for (const cookie of cookies) {
-        const [name, value] = cookie.split("=");
-        if (name === "user_session") {
-          const userData = JSON.parse(decodeURIComponent(value));
-          userId = userData.id;
-          break;
-        }
-      }
-
-      if (!userId) {
-        alert("User session not found. Please log in again.");
-        navigate("/login");
+      if (!user) {
+        alert("User is not logged in.");
+        setShowSecondConfirm(false);
         return;
       }
 
-      const response = await fetch(`/api/v1/users/delete/${userId}`, {
+      const response = await fetch(`/api/v1/users/delete/${user.id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: user.email,
+          password: user.passwordHash
+        })
       });
 
       const data = await response.json() as any;
 
       if (data.success) {
         deleteCookieByName("user_session");
-        console.log("Account deleted successfully");
         
         setTimeout(() => {
           navigate("/login");

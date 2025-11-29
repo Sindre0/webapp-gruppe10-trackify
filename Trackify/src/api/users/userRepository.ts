@@ -19,7 +19,11 @@ export function createUserRepository(): UserRepository {
     return {
         async findByLogin(login: UserLoginParams) {
             const db = drizzle(env.DB);
-            const user = await db.select().from(users).where(and(eq(users.email, login.email), eq(users.passwordHash, login.password)));
+            const user = await db.select().from(users).where(
+                and(
+                    eq(users.email, login.email), 
+                    eq(users.passwordHash, login.password)
+                ));
             
             if (user.length == 0) {
                 return { success: false, error: { message: "User not found", code: 404 } };

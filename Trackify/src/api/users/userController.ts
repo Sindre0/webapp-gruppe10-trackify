@@ -1,6 +1,5 @@
 import type { RequestInfo } from "rwsdk/worker";
-import { UserLoginParams, UserRegisterParams, userService, UserService } from "./userService";
-import { useAuth } from "@/hooks/useAuth";
+import { UserDeleteParams, UserLoginParams, UserRegisterParams, userService, UserService } from "./userService";
 
 export function createUserController(userService: UserService) {
     return {
@@ -88,31 +87,11 @@ export function createUserController(userService: UserService) {
             });
         },
         async deleteUser(context: RequestInfo) {
-            const userID = context.params.userID;
+            const body = await context.request.json();
+            let parameters = JSON.parse(JSON.stringify(body));
+            parameters.userID = context.params.userID;
             
-            const authenticatedUser = useAuth();
-            if (!authenticatedUser) {
-                return new Response(JSON.stringify({
-                    success: false,
-                    error: { message: "Account is not authenticated", code: 401 }
-                }), { 
-                    status: 401,
-                    headers: { "Content-Type": "application/json" }
-                });
-            }
-
-            if (authenticatedUser.id !== userID) {
-                return new Response(JSON.stringify({
-                    success: false,
-                    error: { message: "Account is not authorized to delete this user", code: 403 }
-                }), { 
-                    status: 403,
-                    headers: { "Content-Type": "application/json" }
-                });
-            }
-
-            const dataFromService = await userService.deleteUser(userID);
-
+            const dataFromService = await userService.deleteUser(parameters);
             if (!dataFromService.success) {
                 return new Response(JSON.stringify(dataFromService), { 
                 status: dataFromService.error.code || 500 ,
