@@ -22,6 +22,16 @@ export const userRoutes = [
                 return new Response("Method Not Allowed", { status: 405 });
         }
     }),
+    route("/join-leaderboard", async (ctx: any) => {
+        const method = ctx.request.method.toLowerCase();
+        console.log("User route accessed with method:", method);
+        switch (method) {
+            case "post":
+                return await userController.joinLeaderboard(ctx);
+            default:
+                return new Response("Method Not Allowed", { status: 405 });
+        }
+    }),
     route("/:userID/leaderboards", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
         console.log("User route accessed with method:", method);
@@ -62,4 +72,5 @@ export const userRoutes = [
                 return new Response("Method Not Allowed", { status: 405 });
         }
     }), 
+
 ];

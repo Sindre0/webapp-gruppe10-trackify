@@ -13,6 +13,7 @@ export interface UserRepository {
     getUsername(userID: string): Promise<Result<any>>;
     getUserByEmail(email: string): Promise<Result<any>>;
     deleteUser(userID: string): Promise<Result<any>>;
+    joinLeaderboard(joinParams: { userID: string; leaderboardID: string }): Promise<Result<any>>;
 }
 
 export function createUserRepository(): UserRepository {
@@ -108,6 +109,21 @@ export function createUserRepository(): UserRepository {
             } catch (error) {
                 console.error("Error deleting user:", error);
                 return { success: false, error: { message: "Failed to delete user", code: 500 } };
+            }
+        },
+        async joinLeaderboard(joinParams: { userID: string; leaderboardID: string }) {
+            const db = drizzle(env.DB);
+            try {
+                await db.insert(leaderboard_has_user).values({
+                    user_id: joinParams.userID,
+                    leaderboard_id: joinParams.leaderboardID,
+                    is_owner: false,
+                    is_mod: false
+                });
+                return { success: true, data: { message: "User joined leaderboard successfully" } };
+            } catch (error) {
+                console.error("Error joining leaderboard:", error);
+                return { success: false, error: { message: "Failed to join leaderboard", code: 500 } };
             }
         }
     };

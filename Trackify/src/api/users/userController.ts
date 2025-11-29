@@ -102,6 +102,21 @@ export function createUserController(userService: UserService) {
                 ...dataFromService,
             }), { status: 200, headers: { "Content-Type": "application/json" }  
             });
+        },
+        async joinLeaderboard(context: RequestInfo) {
+            const body = await context.request.json();
+            const parameters = JSON.parse(JSON.stringify(body));
+            const dataFromService = await userService.joinLeaderboard(parameters);
+            if (!dataFromService.success) {
+                return new Response(JSON.stringify(dataFromService), { 
+                status: dataFromService.error.code || 500 ,
+                headers: { "Content-Type": "application/json" }
+                })
+            }
+            return new Response(JSON.stringify({
+                ...dataFromService,
+            }), { status: 201, headers: { "Content-Type": "application/json" }  
+            });
         }
     }
 }

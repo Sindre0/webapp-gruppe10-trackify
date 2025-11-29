@@ -25,6 +25,7 @@ export interface UserService {
     getUsername(userID: string): Promise<Result<any>>;
     getUserByEmail(email: string): Promise<Result<any>>;
     deleteUser(deleteParams: UserDeleteParams): Promise<Result<any>>;
+    joinLeaderboard(joinParams: { userID: string; leaderboardID: string }): Promise<Result<any>>;
 }
 
 export function createUserService(userRepository: UserRepository): UserService {
@@ -64,6 +65,9 @@ export function createUserService(userRepository: UserRepository): UserService {
             }
 
             return await userRepository.deleteUser(deleteParams.userID);
+        },
+        async joinLeaderboard(joinParams: { userID: string; leaderboardID: string }): Promise<Result<any>> {
+            return await userRepository.joinLeaderboard(joinParams);
         }
     };
 }
