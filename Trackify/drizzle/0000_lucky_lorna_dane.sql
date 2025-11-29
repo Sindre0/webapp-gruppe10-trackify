@@ -6,7 +6,9 @@ CREATE TABLE `users` (
 	`createdAt` text DEFAULT (CURRENT_DATE)
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `users_username_unique` ON `users` (`username`);--> statement-breakpoint
 CREATE UNIQUE INDEX `users_email_unique` ON `users` (`email`);--> statement-breakpoint
+CREATE INDEX `idx_users_username` ON `users` (`username`);--> statement-breakpoint
 CREATE TABLE `leaderboards` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
