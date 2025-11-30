@@ -24,6 +24,7 @@ import AddLeaderboardData from "./app/pages/leaderboard/manage-leaderboard/AddLe
 import Announcements from "./app/components/leaderboard/Announcements";
 import MyLeaderboards from "./app/pages/leaderboard/manage-leaderboard/MyLeaderboards";
 import AdminGameLeaderboard from "./app/pages/leaderboard/AdminGameLeaderboard";
+import JoinLeaderboard from "./app/pages/leaderboard/manage-leaderboard/JoinLeaderboard";
 
 export interface Env {
   DB: D1Database;
@@ -114,6 +115,11 @@ export default defineApp([
         route("/create-leaderboard", async () => { 
           return (  
             <NewLeaderboard />
+          );  
+        }),
+        route("/join-leaderboard", async () => { 
+          return (  
+            <JoinLeaderboard />
           );  
         }),
         route("/my-leaderboards", async () => {

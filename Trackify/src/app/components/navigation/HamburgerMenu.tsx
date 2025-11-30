@@ -20,7 +20,7 @@ export default function HamburgerMenu({ hamburgerToggle }: { hamburgerToggle: ()
                         <li><a href="/leaderboard/ongoing-leaderboards">Ongoing leaderboards</a></li>
                         <li><a href="/leaderboard/concluded-leaderboards">Concluded leaderboards</a></li>
                         <li><a href="/leaderboard/create-leaderboard">Create a Leaderboard</a></li>
-                        <li><a href="#">Join a Leaderboard</a></li>
+                        <li><a href="/leaderboard/join-leaderboard">Join a Leaderboard</a></li>
                         <li><a href="/leaderboard/my-leaderboards">My Leaderboards</a></li>
                     </ul>
                 </li>
