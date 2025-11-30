@@ -20,8 +20,10 @@ type PlayerStats = {
 export default function HomeLeaderboard({ selectedLeaderboardId }: HomeLeaderboardProps) {
     const [playerStats, setPlayerStats] = useState<PlayerStats[]>([]);
     const [leaderboardName, setLeaderboardName] = useState<string | null>(null);
+    const [leaderboardDescription, setLeaderboardDescription] = useState<string | null>(null);
     const [leaderboardState, setLeaderboardState] = useState<string>("");
     const [isHomePage, setIsHomePage] = useState<boolean>(false);
+    const [showDescriptionModal, setShowDescriptionModal] = useState<boolean>(false);
 
     useEffect(() => {
         if (!selectedLeaderboardId) {
@@ -42,6 +44,7 @@ export default function HomeLeaderboard({ selectedLeaderboardId }: HomeLeaderboa
                 ]);
 
                 setLeaderboardName(details?.name ?? "Unnamed leaderboard");
+                setLeaderboardDescription(details?.description ?? null);
                 details?.active ? setLeaderboardState("ongoing") : setLeaderboardState("concluded");
 
                 const matchResultsMap = new Map<string, { wins: number; losses: number }>();
@@ -86,17 +89,37 @@ export default function HomeLeaderboard({ selectedLeaderboardId }: HomeLeaderboa
         <section className="block w-full">
 
             {selectedLeaderboardId ? ( isHomePage ? (
-                <button
-                    className="w-full text-left"
-                    onClick={() => {navigate(`/leaderboard/${leaderboardState}-leaderboards/${selectedLeaderboardId}`)}}>
-                    <h2 className="text-blue-600 underline cursor-pointer text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">
-                        {leaderboardName ?? "Loading..."}
-                    </h2>
-                </button>
+                <div className="flex items-center gap-2 mb-4 sm:mb-6">
+                    <button
+                        className="text-left flex-1"
+                        onClick={() => {navigate(`/leaderboard/${leaderboardState}-leaderboards/${selectedLeaderboardId}`)}}>
+                        <h2 className="text-blue-600 underline cursor-pointer text-xl sm:text-2xl font-semibold">
+                            {leaderboardName ?? "Loading..."}
+                        </h2>
+                    </button>
+                    {leaderboardDescription && (
+                        <button
+                            onClick={() => setShowDescriptionModal(true)}
+                            className="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors whitespace-nowrap"
+                        >
+                            View Description
+                        </button>
+                    )}
+                </div>
                 ) : (
-                    <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">
-                        {leaderboardName ?? "Loading..."}
-                    </h2> )
+                    <div className="flex items-center gap-2 mb-4 sm:mb-6">
+                        <h2 className="text-xl sm:text-2xl font-semibold flex-1">
+                            {leaderboardName ?? "Loading."}
+                        </h2>
+                        {leaderboardDescription && (
+                            <button
+                                onClick={() => setShowDescriptionModal(true)}
+                                className="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors whitespace-nowrap"
+                            >
+                                View Description
+                            </button>
+                        )}
+                    </div> )
             ) : <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Home Page</h2>}
 
             {selectedLeaderboardId ? (
@@ -132,6 +155,30 @@ export default function HomeLeaderboard({ selectedLeaderboardId }: HomeLeaderboa
                 <div className="flex justify-center items-center flex-col h-40 border border-gray-300 shadow-sm rounded bg-white">
                     <ArrowLeft size={32} className="mx-auto mb-4" />
                     <p className="text-gray-500 w-[80%] text-center">Select a leaderboard to view details here.</p>
+                </div>
+            )}
+
+            {/* Beskrivelse vindu */}
+            {showDescriptionModal && (
+                <div 
+                    className="fixed inset-0 flex items-center justify-center z-50 animate-fadeIn backdrop-blur-sm"
+                    onClick={() => setShowDescriptionModal(false)}
+                >
+                    <div 
+                        className="bg-white/90 rounded-lg shadow-lg border border-gray-200 max-w-6xl w-[90%] max-h-[80vh] p-12 animate-fadeIn overflow-y-auto"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-xl font-semibold">Description</h3>
+                            <button
+                                onClick={() => setShowDescriptionModal(false)}
+                                className="text-gray-500 hover:text-gray-700 text-2xl leading-none"
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <p className="text-gray-700 leading-relaxed">{leaderboardDescription}</p>
+                    </div>
                 </div>
             )}
         </section>

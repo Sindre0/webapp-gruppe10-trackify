@@ -9,7 +9,7 @@ import LeaderboardButton from "@/app/components/leaderboard/LeaderboardButton";
 
 export default function MyLeaderboards() {
     const user = useAuth();
-    const [leaderboards, setLeaderboards] = useState<{ id: string; name: string }[]>([]);
+    const [leaderboards, setLeaderboards] = useState<{ id: string; name: string; description: string | null }[]>([]);
 
     useEffect(() => {
         const fetchLeaderboards = async () => {
@@ -25,7 +25,8 @@ export default function MyLeaderboards() {
                             if (item.is_owner === true || item.is_mod === true) {
                                 return {
                                     id: item.leaderboard_id,
-                                    name: details.name
+                                    name: details.name,
+                                    description: details.description
                                 };
                             }
                             return;
@@ -50,9 +51,14 @@ export default function MyLeaderboards() {
                     <li>You don't own any leaderboards. Add one <a className="text-blue-700" href="/leaderboard/create-leaderboard">here.</a></li>
                 ) : (
                     leaderboards.map((leaderboard) => (
-                        <li key={leaderboard.id}>
-                            <LeaderboardButton href={`/leaderboard/ongoing-leaderboards/${leaderboard.id}`}>
-                                {leaderboard.name}
+                        <li key={leaderboard.id} className="mb-4">
+                            <LeaderboardButton href={`/leaderboard/concluded-leaderboards/${leaderboard.id}`}>
+                                <div className="flex flex-col gap-1">
+                                    <span className="font-semibold text-xl">{leaderboard.name}</span>
+                                    {leaderboard.description && (
+                                        <span className="text-sm text-gray-600 font-normal">{leaderboard.description}</span>
+                                    )}
+                                </div>
                             </LeaderboardButton>
                         </li>
                     ))
