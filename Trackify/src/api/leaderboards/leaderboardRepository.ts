@@ -15,6 +15,7 @@ export interface LeaderboardRepository {
     findEntriesByLeaderboardId(id: string): Promise<Result<any[]>>;
     createLeaderboard(params: CreateQueryParams): Promise<Result<any>>;
     deleteLeaderboard(id: string): Promise<Result<any>>;
+    updateLeaderboard(id: string, params: CreateQueryParams): Promise<Result<any>>;
     isUserAttached(leaderboardId: string, userId: string): Promise<Result<any>>;
     attachUser(leaderboardId: string, userId: string, isOwner: boolean, isMod: boolean): Promise<Result<any>>;
     removeUser(leaderboardId: string, userId: string): Promise<Result<any>>;
@@ -104,6 +105,18 @@ export function createLeaderboardRepository(): LeaderboardRepository {
         async deleteLeaderboard(id: string) {
             const db = drizzle(env.DB);
             const result = await db.delete(leaderboards).where(eq(leaderboards.id, id));
+            return { success: true, data: result };
+        },
+        async updateLeaderboard(id: string, params: CreateQueryParams) {
+            const db = drizzle(env.DB);
+            console.log("Updating leaderboard in repository:", id, params);
+            const result = await db.update(leaderboards).set({
+                name: params.name,
+                description: params.description,
+                visibility: params.visibility,
+                createdAt: params.startDate,
+                endDate: params.endDate
+            }).where(eq(leaderboards.id, id)).returning();
             return { success: true, data: result };
         },
         async isUserAttached(leaderboardId: string, userId: string) {

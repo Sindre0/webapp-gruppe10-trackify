@@ -1,25 +1,62 @@
 "use client";
 
 import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
+import { start } from "node:repl";
 import React, { use, useState, useEffect,} from "react";
 import { navigate } from "rwsdk/client";
 
 export default function UpdateLeaderboard({id}: {id: string}) {
 
   const [leaderboardName, setLeaderboardName] = useState<string>("");
-
+  const [leaderboardDescription, setLeaderboardDescription] = useState<string>("");
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
 
   async function handleUpdateLeaderboard(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    alert("Updating leaderboard...");
     const formData = new FormData(event.currentTarget);
-    const name = String(formData.get("name") ?? "").trim();
+    
+    // Get values from form, fallback to current state if empty
+    const name = String(formData.get("name") ?? "").trim() || leaderboardName;
+    const description = String(formData.get("description") ?? "").trim() || leaderboardDescription;
+    const startDateValue = formData.get("start-date");
+    const newStartDate = startDateValue ? String(startDateValue) : startDate;
+    const endDateValue = formData.get("end-date");
+    const indefinite = formData.get("indefinite") === "on";
+    const newEndDate = indefinite ? "indefinite" : (endDateValue ? String(endDateValue) : endDate);
+    const visibilityValue = formData.get("visibility") === "on" ? "private" : "public";
+    
+    const response = await fetch("/api/v1/leaderboards/" + id + "/update", {
+      method: "PUT",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        name: name,
+        description: description,
+        visibility: visibilityValue,
+        createdAt: newStartDate,
+        endDate: newEndDate,
+      }),
+    });
+    if (response.ok) {
+      navigate("/leaderboard/my-leaderboards");
+      console.log(response)
+    }
+    else {
+      alert("Failed to update leaderboard.");
+    } 
   }
 
   useEffect(() => {
     const fetchData = async () => {
-      const leaderboardDetails =  await getLeaderboardDetails(id);
-      setLeaderboardName(leaderboardDetails.name);
+      try {
+        const leaderboardDetails =  await getLeaderboardDetails(id);
+        setLeaderboardName(leaderboardDetails.name);
+        setLeaderboardDescription(leaderboardDetails.description);
+        setStartDate(leaderboardDetails.createdAt ?? "Not set");
+        setEndDate(leaderboardDetails.endDate ?? "Not set");
+      } catch (error) {
+        console.error("Error fetching leaderboard details:", error);
+      }
     };
     fetchData();
 
@@ -39,9 +76,8 @@ export default function UpdateLeaderboard({id}: {id: string}) {
           <input
             type="text"
             name="name"
-            placeholder="Name..."
+            placeholder={leaderboardName}
             className="w-full sm:w-auto border bg-white border-black text-sm px-3 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            required
           />
         </label>
 
@@ -49,7 +85,7 @@ export default function UpdateLeaderboard({id}: {id: string}) {
         <fieldset className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-gray-100 p-4">
           <label className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
             <span className="font-medium text-gray-700 text-sm sm:text-base whitespace-nowrap">
-              Start date:
+              Start date: {startDate}
             </span>
             <input
               type="date"
@@ -60,7 +96,7 @@ export default function UpdateLeaderboard({id}: {id: string}) {
 
           <label className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
             <span className="font-medium text-gray-700 text-sm sm:text-base whitespace-nowrap">
-              End date:
+              End date: {endDate}
             </span>
             <input
               type="date"
@@ -86,8 +122,18 @@ export default function UpdateLeaderboard({id}: {id: string}) {
           <span className="text-gray-700 font-medium">Description</span>
           <textarea
             name="description"
-            placeholder="My leaderboard..."
+            placeholder={leaderboardDescription}
             className="w-full border border-black bg-white p-3 min-h-[120px] text-sm focus:ring-2 focus:ring-blue-500"
+          />
+        </label>
+
+        {/* VISIBILITY */}
+        <label className="flex items-center gap-2 justify-between bg-gray-100 hover:bg-gray-200 p-4 cursor-pointer">
+          <span className="text-gray-700 font-medium text-sm sm:text-base">Leaderboard visible to only invited users?</span>
+          <input
+            type="checkbox"
+            name="visibility"
+            className="border bg-white border-black text-sm px-3 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           />
         </label>
 

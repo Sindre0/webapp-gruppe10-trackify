@@ -51,7 +51,7 @@ export default function MyLeaderboards() {
                 ) : (
                     leaderboards.map((leaderboard) => (
                         <li key={leaderboard.id}>
-                            <LeaderboardButton href={`/leaderboard/concluded-leaderboards/${leaderboard.id}`}>
+                            <LeaderboardButton href={`/leaderboard/ongoing-leaderboards/${leaderboard.id}`}>
                                 {leaderboard.name}
                             </LeaderboardButton>
                         </li>

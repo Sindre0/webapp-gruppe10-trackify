@@ -37,7 +37,7 @@ export default function NewLeaderboard() {
         userId: user?.id,
       }),
     });
-    console.log("Create leaderboard response:", response);
+
     if (response.ok) {
       navigate("/leaderboard/my-leaderboards");
     }

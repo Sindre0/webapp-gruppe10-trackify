@@ -18,8 +18,9 @@ export interface LeaderboardService {
     getById(id: string): Promise<Result<any>>;
     getUsers(id: string): Promise<Result<any[]>>;
     getEntries(id: string): Promise<Result<any[]>>;
-    create(params?: CreateQueryParams, userId?: string): Promise<Result<any>>;
+    create(params: CreateQueryParams, userId: string): Promise<Result<any>>;
     delete(leaderboardId: string, userId: string): Promise<Result<any>>;
+    update(leaderboardId: string, params: CreateQueryParams): Promise<Result<any>>;
     addUser(leaderboardId: string, userId: string): Promise<Result<any>>;
     removeUser(leaderboardId: string, userId: string): Promise<Result<any>>;
 }
@@ -74,6 +75,9 @@ export function createLeaderboardService(leaderboardRepository: LeaderboardRepos
             }
 
             return result;
+        },
+        async update(leaderboardId: string,  params: CreateQueryParams): Promise<Result<any>> {
+            return await leaderboardRepository.updateLeaderboard(leaderboardId, params);
         },
         async addUser(leaderboardId: string, userId: string): Promise<Result<any>> {
             const isAttached = await leaderboardRepository.isUserAttached(leaderboardId, userId);
