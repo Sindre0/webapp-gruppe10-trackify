@@ -52,8 +52,8 @@ export const seedData = async (env?: Env) => {
         name: "CS:GO Tournament W44",
         description: "Description for CS:GO Tournament",
         visibility: "public",
-        createdAt: new Date().toISOString(),
-        endDate: new Date(Date.now() + 86400 * 1000).toISOString(),
+        createdAt: new Date().toISOString().split("T")[0],
+        endDate: new Date(Date.now() + 86400 * 1000).toISOString().split("T")[0],
         active: true,
       },
       {
@@ -61,8 +61,8 @@ export const seedData = async (env?: Env) => {
         name: "Chess Tournament",
         description: "Description for Chess Tournament",
         visibility: "public",
-        createdAt: new Date().toISOString(),
-        endDate: new Date(Date.now() + 86400 * 1000).toISOString(),
+        createdAt: new Date().toISOString().split("T")[0],
+        endDate: new Date(Date.now() + 86400 * 1000).toISOString().split("T")[0],
         active: true,
       },
       {
@@ -70,8 +70,8 @@ export const seedData = async (env?: Env) => {
         name: "CS:GO Tournament W40",
         description: "Description for Inactive Tournament",
         visibility: "public",
-        createdAt: new Date().toISOString(),
-        endDate: new Date(Date.now() + 86400 * 1000).toISOString(),
+        createdAt: new Date().toISOString().split("T")[0],
+        endDate: new Date(Date.now() + 86400 * 1000).toISOString().split("T")[0],
         active: false,
       }
     ];
