@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, User } from "react-feather";
+import { Menu, User, X } from "react-feather";
 import Breadcrumbs from "./Breadcrumbs";
 import HamburgerMenu from "./HamburgerMenu";
 import { useState } from "react";
@@ -13,7 +13,7 @@ export default function Nav() {
   }
 
   const displayHamburger = (state: boolean) => {
-    return state ? <HamburgerMenu hamburgerToggle={toggleHamburger} /> : null
+    return state ? <HamburgerMenu /> : null
   } 
 
   return (
@@ -34,19 +34,26 @@ export default function Nav() {
               </li>
               <li>
                 <button
-                  className="rounded-md p-1"
+                  className="rounded-md p-1 cursor-pointer"
                   onClick={toggleHamburger}
                   aria-expanded={hamburgerOpened}
-                  aria-controls="mobile-menu"
+                  aria-controls="hamburger-menu"
                 >
                   <Menu size={24} className="sm:w-[26px] sm:h-[26px]" aria-label="Toggle menu" />
                 </button>
               </li>
             </ul>
             <menu
-              id="mobile-menu"
+              id="hamburger-menu"
               className={`absolute top-0 right-0 p-1 bg-white shadow-lg ${hamburgerOpened ? "block" : "hidden"}`}
             >
+                <button
+                  className="rounded-md p-1 cursor-pointer z-20 relative right-0 top-0"
+                  onClick={toggleHamburger}
+                  aria-expanded={hamburgerOpened}
+                >
+                  <X size={40} className="right-10 absolute" aria-label="Toggle menu" />
+                </button>
               {displayHamburger(hamburgerOpened)}
             </menu>
           </div>

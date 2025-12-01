@@ -178,13 +178,6 @@ export default defineApp([
           <Profile />
         );  
       }),
-      route("/announcements", async () => { 
-        return (
-          <section className="space-y-4 max-w-[80%] mx-auto mt-8">
-            <Announcements />
-          </section>
-        );  
-      }),
     ]),
   ]),
 ]);
