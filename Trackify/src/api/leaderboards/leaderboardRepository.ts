@@ -4,7 +4,7 @@ import type { Result } from "../../types/result";
 import { leaderboards } from "@/db/schema/leaderboard-schema";
 import { env } from "cloudflare:workers";
 import { leaderboard_entry } from "@/db/schema/leaderboardEntry";
-import { CreateQueryParams } from "./leaderboardService";
+import { CreateQueryParams, WinLossParams } from "./leaderboardService";
 import { leaderboard_has_user } from "@/db/schema/leaderboardHasUser-schema";
 
 
@@ -16,6 +16,7 @@ export interface LeaderboardRepository {
     createLeaderboard(params: CreateQueryParams): Promise<Result<any>>;
     deleteLeaderboard(id: string): Promise<Result<any>>;
     updateLeaderboard(id: string, params: CreateQueryParams): Promise<Result<any>>;
+    addMatchResult(leaderboardId: string, params: WinLossParams): Promise<Result<any>>;
     isUserAttached(leaderboardId: string, userId: string): Promise<Result<any>>;
     attachUser(leaderboardId: string, userId: string, isOwner: boolean, isMod: boolean): Promise<Result<any>>;
     removeUser(leaderboardId: string, userId: string): Promise<Result<any>>;
@@ -117,6 +118,15 @@ export function createLeaderboardRepository(): LeaderboardRepository {
                 createdAt: params.startDate,
                 endDate: params.endDate
             }).where(eq(leaderboards.id, id)).returning();
+            return { success: true, data: result };
+        },
+        async addMatchResult(leaderboardId: string, params: WinLossParams) {
+            const db = drizzle(env.DB);
+            const result = await db.insert(leaderboard_entry).values({
+                leaderboard_id: leaderboardId,
+                winner_id: params.winnerId,
+                loser_id: params.loserId,
+            }).returning();
             return { success: true, data: result };
         },
         async isUserAttached(leaderboardId: string, userId: string) {
