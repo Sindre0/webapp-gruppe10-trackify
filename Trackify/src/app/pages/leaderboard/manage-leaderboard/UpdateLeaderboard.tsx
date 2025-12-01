@@ -38,7 +38,6 @@ export default function UpdateLeaderboard({id}: {id: string}) {
     });
     if (response.ok) {
       navigate("/leaderboard/my-leaderboards");
-      console.log(response)
     }
     else {
       alert("Failed to update leaderboard.");

@@ -24,12 +24,9 @@ export default function LoginSite() {
                     document.cookie = `user_session=${encodeURIComponent(
                         JSON.stringify(user)
                     )}; path=/`;
-                    console.log("Logging in user:", {user: email});
-                    console.log("Set cookie:", document.cookie);
                     document.cookie = `user_session=${encodeURIComponent(
                         JSON.stringify(user)
                         )}; path=/`;
-                        console.log("Set cookie:", document.cookie);
                     navigate("/");
                 } else {
                     alert("Login failed: " + data.error.message);

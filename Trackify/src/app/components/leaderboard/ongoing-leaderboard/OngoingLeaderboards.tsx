@@ -13,30 +13,22 @@ export default function OngoingLeaderboards() {
     useEffect(() => {
         const fetchLeaderboards = async () => {
             if (!user?.id) return;
-            try {
-                const data: any = await getUserLeaderboards(user.id);
-
-                if (data.length > 0) {
-                    console.log("Fetched ongoing leaderboards.");
-                    const leaderboardID = await Promise.all(
-                        data.map(async (item: any) => {
-                            const details = await getLeaderboardDetails(item.leaderboard_id);
-                            if (details.active === false) {
-                                return null;
-                            }
-                            return {
-                                id: item.leaderboard_id,
-                                name: details.name
-                            };
-                        })
-                    );
-                    setLeaderboards(leaderboardID.filter((item: any) => item !== null));
-                } else {
-                    console.log("Failed to fetch ongoing leaderboards: " + data.error?.message);
-                }
-            } catch  {
-                console.log("No ongoing leaderboards for this user");
-            }
+            const data: any = await getUserLeaderboards(user.id);
+            if (data.length > 0) {
+                const leaderboardID = await Promise.all(
+                    data.map(async (item: any) => {
+                        const details = await getLeaderboardDetails(item.leaderboard_id);
+                        if (details.active === false) {
+                            return null;
+                        }
+                        return {
+                            id: item.leaderboard_id,
+                            name: details.name
+                        };
+                    })
+                );
+                setLeaderboards(leaderboardID.filter((item: any) => item !== null));
+            }        
         };
         fetchLeaderboards();
     }, [user?.id]);

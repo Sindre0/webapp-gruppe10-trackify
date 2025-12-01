@@ -86,7 +86,6 @@ export default function AddLeaderboardData({id}: {id: string}) {
     });
     if (response.ok) {
       const userData = JSON.parse(await response.text());
-      console.log("User data fetched by email:", userData.data.id);
       const addUserResponse = await fetch("/api/v1/leaderboards/" + id + "/add-user/" + userData.data.id, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -113,7 +112,6 @@ export default function AddLeaderboardData({id}: {id: string}) {
     });
     if (response.ok) {
       const userData = JSON.parse(await response.text());
-      console.log("User data fetched by email:", userData.data.id);
       const addUserResponse = await fetch("/api/v1/leaderboards/" + id + "/remove-user/" + userData.data.id, {
         method: "POST",
         headers: {"Content-Type": "application/json"},

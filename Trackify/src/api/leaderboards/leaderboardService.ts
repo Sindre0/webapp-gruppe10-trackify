@@ -50,11 +50,9 @@ export function createLeaderboardService(leaderboardRepository: LeaderboardRepos
                 params.startDate = undefined;
             }
             const result = await leaderboardRepository.createLeaderboard(params);
-            console.log("Created leaderboard:", result);
             if (!result.success) {
                 return result;
             }
-            console.log("Attaching user to leaderboard:", userId, result.data[0].id);
             const secondResult = await leaderboardRepository.attachUser(result.data[0].id, userId, true, true);
             if (!secondResult.success) {
                 return secondResult;

@@ -13,28 +13,23 @@ export default function MyLeaderboards() {
     useEffect(() => {
         const fetchLeaderboards = async () => {
             if (!user?.id) return;
-            try {
-                const data: any = await getUserLeaderboards(user.id);
 
-                if (data.length > 0) {
-                    const ownedLeaderboards = data.filter((item: any) => item.is_owner === true || item.is_mod === true);
-                    const leaderboardsData = await Promise.all(
-                        ownedLeaderboards.map(async (item: any) => {
-                            const details = await getLeaderboardDetails(item.leaderboard_id);
-                            return {
-                                id: item.leaderboard_id,
-                                name: details.name,
-                                description: details.description,
-                            };
-                        })
-                    );
-                    setLeaderboards(leaderboardsData);
-                } else {
-                    console.error("Failed to fetch owned leaderboards: " + data.error?.message);
-                }
-            } catch  {
-                console.log("No owned leaderboards for this user");
-            }
+            const data: any = await getUserLeaderboards(user.id);
+
+            if (data.length > 0) {
+                const ownedLeaderboards = data.filter((item: any) => item.is_owner === true || item.is_mod === true);
+                const leaderboardsData = await Promise.all(
+                    ownedLeaderboards.map(async (item: any) => {
+                        const details = await getLeaderboardDetails(item.leaderboard_id);
+                        return {
+                            id: item.leaderboard_id,
+                            name: details.name,
+                            description: details.description,
+                        };
+                    })
+                );
+                setLeaderboards(leaderboardsData);
+            } 
         };
         fetchLeaderboards();
     }, [user?.id]);
@@ -46,7 +41,6 @@ export default function MyLeaderboards() {
                 {leaderboards.length === 0 ? (
                     <li>You don't own any leaderboards. Add one <a className="text-blue-700" href="/leaderboard/create-leaderboard">here.</a></li>
                 ) : (
-                    console.log(leaderboards[0].name),
                     leaderboards.map((leaderboard) => (
                         <li key={leaderboard.id} className="mb-4">
                             <LeaderboardButton href={`/leaderboard/ongoing-leaderboards/${leaderboard.id}`}>

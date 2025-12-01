@@ -37,7 +37,6 @@ export type AppContext = {
 
 export function extractSessionFromCookies(cookieHeader: string): string | null {
   const cookies = cookieHeader.split(";").map((c) => c.trim());
-  console.log("Extracting session from cookies:", cookies);
   for (const cookie of cookies) {
     const [name, value] = cookie.split("=");
     if (name === "user_session") {
@@ -57,8 +56,6 @@ export async function authenticationMiddleware({
 }) {
   ctx.user = null;
   try {
-    // Get session cookie
-    console.log("Authenticating request...");
     const cookies = request.headers.get("cookie");
     if (!cookies) {
       return;
@@ -70,7 +67,6 @@ export async function authenticationMiddleware({
       return;
     }
     ctx.user = JSON.parse(userData) as User;
-    console.log("Authenticated user:", ctx.user);
   } catch (error) {
     console.error("Authentication middleware error:", error);
     ctx.user = null;

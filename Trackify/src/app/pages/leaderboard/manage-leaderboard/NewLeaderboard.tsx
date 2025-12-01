@@ -22,8 +22,6 @@ export default function NewLeaderboard() {
     let visibility;
     isPrivate ? visibility = "private" : visibility = "public";
 
-    console.log("Testing form data:", { name, description, startDateValue, endDateValue, indefinite });
-
     const response = await fetch("/api/v1/leaderboards/create", {
       method: "POST",
       headers: {"Content-Type": "application/json"},

@@ -3,7 +3,6 @@ export function getUsername(userID: string) {
         .then(response => response.json())
         .then((data: any) => {
             if (data.success) {
-                console.log("Fetched username data:", data.data[0].username);
                 return data.data[0].username;
             } else {
                 console.error("Failed to fetch leaderboard details: " + data.error.message);
