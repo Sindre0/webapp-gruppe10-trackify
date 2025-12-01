@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, User, Settings } from "react-feather";
+import { Menu, User } from "react-feather";
 import Breadcrumbs from "./Breadcrumbs";
 import HamburgerMenu from "./HamburgerMenu";
 import { useState } from "react";
@@ -27,11 +27,6 @@ export default function Nav() {
 
             {/* Ikoner */}
             <ul className="flex items-center gap-2 sm:gap-4">
-              <li>
-                <a href="/#" className="rounded-md p-1">
-                  <Settings size={20} className="sm:w-[22px] sm:h-[22px]" />
-                </a>
-              </li>
               <li>
                 <a href="/profile" className="rounded-md p-1">
                   <User size={20} className="sm:w-[22px] sm:h-[22px]" />

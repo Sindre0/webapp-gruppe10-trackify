@@ -1,8 +1,7 @@
 "use client";
 
 import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
-import { start } from "node:repl";
-import React, { use, useState, useEffect,} from "react";
+import React, { useState, useEffect,} from "react";
 import { navigate } from "rwsdk/client";
 
 export default function UpdateLeaderboard({id}: {id: string}) {
@@ -16,7 +15,6 @@ export default function UpdateLeaderboard({id}: {id: string}) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     
-    // Get values from form, fallback to current state if empty
     const name = String(formData.get("name") ?? "").trim() || leaderboardName;
     const description = String(formData.get("description") ?? "").trim() || leaderboardDescription;
     const startDateValue = formData.get("start-date");

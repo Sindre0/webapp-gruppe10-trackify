@@ -1,8 +1,5 @@
 "use client";
 
-import React from "react";
-import { navigate } from "rwsdk/client";
-
 export default function AddLeaderboardData({id}: {id: string}) {
 
   async function handleAddLeaderboardData(event: React.FormEvent<HTMLFormElement>) {

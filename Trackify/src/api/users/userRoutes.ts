@@ -1,5 +1,5 @@
 import { route } from "rwsdk/router";
- import { userController } from "./userController";
+import { userController } from "./userController";
 
 export const userRoutes = [
     route("/login", async (ctx: any) => {

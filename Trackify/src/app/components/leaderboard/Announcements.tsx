@@ -1,4 +1,5 @@
 export default function Announcements() {
+    // Ikke implementert ennå - midlertidige data
     const announcements = [
         { id: 1, name: "Brus og pizza" },
         { id: 2, name: "Amogus i Aud 6.." },

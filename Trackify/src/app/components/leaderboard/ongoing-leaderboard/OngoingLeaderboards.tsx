@@ -4,7 +4,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
 import { useEffect, useState } from "react";
 import { getUserLeaderboards } from "@/app/lib/api/getUserLeaderboards";
-import { navigate } from "rwsdk/client";
 import LeaderboardButton from "../LeaderboardButton";
 
 export default function OngoingLeaderboards() {

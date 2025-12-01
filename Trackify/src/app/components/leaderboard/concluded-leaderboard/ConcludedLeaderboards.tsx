@@ -4,7 +4,6 @@ import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
 import { getUserLeaderboards } from "@/app/lib/api/getUserLeaderboards";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
-import { navigate } from "rwsdk/client";
 import LeaderboardButton from "../LeaderboardButton";
 
 export default function ConcludedPreview() {

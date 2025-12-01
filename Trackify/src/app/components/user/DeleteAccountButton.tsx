@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/hooks/useAuth";
-import React, { useState } from "react";
+import { useState } from "react";
 import { navigate } from "rwsdk/client";
 
 function deleteCookieByName(name: string) {

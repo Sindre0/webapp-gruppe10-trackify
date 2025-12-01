@@ -15,7 +15,7 @@ export default function HamburgerMenu({ hamburgerToggle }: { hamburgerToggle: ()
                     <a href="/leaderboard">Leaderboard</a>
                 </li>
                 <li className="flex flex-row gap-0">
-                    <CornerDownRight className="flex-shrink-0" />
+                    <CornerDownRight className="shrink-0" />
                     <ul className="ml-2 font-medium text-base sm:text-xl text-blue-600 cursor-pointer space-y-1">
                         <li><a href="/leaderboard/ongoing-leaderboards">Ongoing leaderboards</a></li>
                         <li><a href="/leaderboard/concluded-leaderboards">Concluded leaderboards</a></li>

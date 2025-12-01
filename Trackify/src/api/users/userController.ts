@@ -1,5 +1,5 @@
 import type { RequestInfo } from "rwsdk/worker";
-import { UserDeleteParams, UserLoginParams, UserRegisterParams, userService, UserService } from "./userService";
+import { UserLoginParams, UserRegisterParams, userService, UserService } from "./userService";
 
 export function createUserController(userService: UserService) {
     return {

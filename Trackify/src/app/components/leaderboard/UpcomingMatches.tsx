@@ -1,5 +1,5 @@
 export default function UpcomingMatches() {
-    // Dette er hardkodet da det ikke er en prioritering enda.
+    // Ikke implementert ennå - midlertidige data
     return (
         <section className="w-full">
             <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Upcoming Matches</h2>

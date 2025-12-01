@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import LeaderboardButton from "../../../components/leaderboard/LeaderboardButton";
 import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
 import { useAuth } from "@/hooks/useAuth";

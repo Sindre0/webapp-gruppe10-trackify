@@ -15,6 +15,5 @@ export function AuthProvider({user, children,}: {
             navigate("/login");
         }
     }, [user]);
-
     return <AuthContext value={user}>{children}</AuthContext>;
 }   

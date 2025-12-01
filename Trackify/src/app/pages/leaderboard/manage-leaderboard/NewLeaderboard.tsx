@@ -1,7 +1,6 @@
 "use client";
 
 import { useAuth } from "@/hooks/useAuth";
-import React from "react";
 import { navigate } from "rwsdk/client";
 
 export default function NewLeaderboard() {
