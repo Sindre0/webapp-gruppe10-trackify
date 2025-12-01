@@ -17,21 +17,18 @@ export default function MyLeaderboards() {
                 const data: any = await getUserLeaderboards(user.id);
 
                 if (data.length > 0) {
-                    console.log("Fetched owned leaderboards.");
-                    const leaderboardID = await Promise.all(
-                        data.map(async (item: any) => {
+                    const ownedLeaderboards = data.filter((item: any) => item.is_owner === true || item.is_mod === true);
+                    const leaderboardsData = await Promise.all(
+                        ownedLeaderboards.map(async (item: any) => {
                             const details = await getLeaderboardDetails(item.leaderboard_id);
-                            if (item.is_owner === true || item.is_mod === true) {
-                                return {
-                                    id: item.leaderboard_id,
-                                    name: details.name,
-                                    description: details.description
-                                };
-                            }
-                            return;
+                            return {
+                                id: item.leaderboard_id,
+                                name: details.name,
+                                description: details.description,
+                            };
                         })
                     );
-                    setLeaderboards(leaderboardID.filter((item: any) => item !== null));
+                    setLeaderboards(leaderboardsData);
                 } else {
                     console.error("Failed to fetch owned leaderboards: " + data.error?.message);
                 }
@@ -49,9 +46,10 @@ export default function MyLeaderboards() {
                 {leaderboards.length === 0 ? (
                     <li>You don't own any leaderboards. Add one <a className="text-blue-700" href="/leaderboard/create-leaderboard">here.</a></li>
                 ) : (
+                    console.log(leaderboards[0].name),
                     leaderboards.map((leaderboard) => (
                         <li key={leaderboard.id} className="mb-4">
-                            <LeaderboardButton href={`/leaderboard/concluded-leaderboards/${leaderboard.id}`}>
+                            <LeaderboardButton href={`/leaderboard/ongoing-leaderboards/${leaderboard.id}`}>
                                 <div className="flex flex-col gap-1">
                                     <span className="font-semibold text-xl">{leaderboard.name}</span>
                                     {leaderboard.description && (

@@ -33,7 +33,7 @@ export default function DeleteCookieButton({
     <button 
       type="button" 
       onClick={handleClick}
-      className="bg-indigo-50 text-indigo-700 px-8 py-3 text-base rounded hover:bg-indigo-100 transition-colors animate-fadeIn"
+      className="bg-indigo-50 text-indigo-700 px-8 py-3 text-base rounded hover:bg-indigo-100 transition-colors animate-fadeIn cursor-pointer"
     >
       {label}
     </button>

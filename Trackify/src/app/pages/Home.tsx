@@ -14,15 +14,15 @@ export default function Home() {
   return (
     <main className="animate-fadeIn">
       <WelcomeMessage />
-      <article className="flex flex-col lg:flex-row gap-4 sm:gap-6 lg:gap-8 mb-8 w-[95%] sm:w-[90%] lg:w-[80%] mx-auto">
-        <section className="space-y-4 w-full lg:w-[30%]"> 
+      <article className="flex flex-col md:flex-row gap-4 md:gap-6 w-[95%] sm:w-[90%] lg:w-[80%] mx-auto">
+        <section className="space-y-4 w-full md:w-[30%]"> 
           <OngoingPreview onSelect={setSelectedLeaderboard} />
           <ConcludedPreview onSelect={setSelectedLeaderboard} />
         </section>
-        <section className="w-full lg:w-[35%]">
+        <section className="w-full md:w-[35%]">
           <HomeLeaderboard selectedLeaderboardId={selectedLeaderboard} />
         </section>
-        <section className="w-full lg:w-[35%] hidden md:block">
+        <section className="w-full md:w-[35%] hidden md:block">
           <UpcomingMatches />
         </section>
       </article>
