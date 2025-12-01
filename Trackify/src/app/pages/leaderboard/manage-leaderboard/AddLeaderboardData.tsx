@@ -1,6 +1,56 @@
 "use client";
 
+import React, { use, useEffect, useState } from "react";
+import { API_URL } from "@/app/config/api";
+
 export default function AddLeaderboardData({id}: {id: string}) {
+
+    const [winnerValue, setWinnerValue] = useState<string>("");
+    const [winnerSuggestions, setWinnerSuggestions] = useState<string[]>([]);
+
+    const [loserValue, setLoserValue] = useState<string>("");
+    const [loserSuggestions, setLoserSuggestions] = useState<string[]>([]);
+
+    const userlist = ["Test User", "Test user2", "Test user3"];
+
+    const handleWinnerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setWinnerValue(value);
+
+      if (value.length > 0) {
+        const filtered = userlist.filter((user) =>
+          user.toLowerCase().startsWith(value.toLowerCase())
+        );
+        setWinnerSuggestions(filtered);
+      } else {
+        setWinnerSuggestions([]);
+      }
+    };
+
+    const handleWinnerSelect = (name: string) => {
+      setWinnerValue(name);
+      setWinnerSuggestions([]);
+    };
+
+    const handleLoserChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setLoserValue(value);
+
+      if (value.length > 0) {
+        const filtered = userlist.filter((user) =>
+          user.toLowerCase().startsWith(value.toLowerCase())
+        );
+        setLoserSuggestions(filtered);
+      } else {
+        setLoserSuggestions([]);
+      }
+    };
+
+    const handleLoserSelect = (name: string) => {
+      setLoserValue(name);
+      setLoserSuggestions([]);
+    };
+
 
   async function handleAddLeaderboardData(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -8,6 +58,9 @@ export default function AddLeaderboardData({id}: {id: string}) {
     const formData = new FormData(event.currentTarget);
     const name = String(formData.get("name") ?? "").trim();
   }
+
+
+    
   
   async function addContestant(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -120,20 +173,52 @@ export default function AddLeaderboardData({id}: {id: string}) {
                 <span className="text-sm text-gray-700">Select the winner:</span>
                 <input
                   type="text"
+                  value={winnerValue}
+                  onChange={handleWinnerChange}
                   name="winner"
                   placeholder="Winner name"
                   className="mt-1 w-full border border-black bg-white px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
                 />
+                 {winnerSuggestions.length > 0 && (
+                  <ul className="absolute min-w-50 md:min-w-80 bg-white border border-gray-300 rounded-md mt-1 max-h-40 overflow-y-auto shadow-md z-10">
+                    {winnerSuggestions.map((name) => (
+                      <li
+                        key={name}
+                        onClick={() => handleWinnerSelect(name)}
+                        className="px-3 py-2 cursor-pointer hover:bg-gray-100"
+                      >
+                        {name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </label>
 
               <label className="block">
                 <span className="text-sm text-gray-700">Select the loser:</span>
                 <input
                   type="text"
+                  value={loserValue}
+                  onChange={handleLoserChange}
                   name="loser"
                   placeholder="Loser name"
                   className="mt-1 w-full border border-black bg-white px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
                 />
+                {loserSuggestions.length > 0 && (
+                  <ul
+                    className="absolute min-w-50 md:min-w-80 bg-white border border-gray-300 rounded-md mt-1 max-h-40 overflow-y-auto shadow-md z-10"
+                  >
+                    {loserSuggestions.map((name) => (
+                      <li
+                        key={name}
+                        onClick={() => handleLoserSelect(name)}
+                        className="px-3 py-2 cursor-pointer hover:bg-gray-100"
+                      >
+                        {name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </label>
 
               <div className="flex justify-end">
