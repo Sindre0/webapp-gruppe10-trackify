@@ -2,23 +2,48 @@
 
 import React, { use, useEffect, useState } from "react";
 import { API_URL } from "@/app/config/api";
+import { getUsername } from "@/app/lib/api/getUsername";
 
 export default function AddLeaderboardData({id}: {id: string}) {
-
     const [winnerValue, setWinnerValue] = useState<string>("");
     const [winnerSuggestions, setWinnerSuggestions] = useState<string[]>([]);
 
     const [loserValue, setLoserValue] = useState<string>("");
     const [loserSuggestions, setLoserSuggestions] = useState<string[]>([]);
 
-    const userlist = ["Test User", "Test user2", "Test user3"];
+    const [userList, setUserList] = useState<string[]>([]);
+
+    useEffect(() => {
+      const fetchUsers = async () => {
+        try {
+          const response = await fetch(`${API_URL}/leaderboards/${id}/users`);
+          if (response.ok) {
+            const data: any = await response.json();
+            const contestants = data.data.map((user: any) => String(user?.user_id ?? ""));
+
+            const usernames = await Promise.all(
+              contestants.map(async (userId: string) => {
+                return await getUsername(userId);
+              }
+            ));
+            return usernames;
+          }
+        } catch (error) {
+          console.error("Error fetching users:", error);
+        }
+      };
+      fetchUsers().then(usernames => {
+        if (usernames) {
+          setUserList(usernames);
+        }
+      });    
+    }, [id]);
 
     const handleWinnerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
       setWinnerValue(value);
-
       if (value.length > 0) {
-        const filtered = userlist.filter((user) =>
+        const filtered = userList.filter((user) =>
           user.toLowerCase().startsWith(value.toLowerCase())
         );
         setWinnerSuggestions(filtered);
@@ -37,7 +62,7 @@ export default function AddLeaderboardData({id}: {id: string}) {
       setLoserValue(value);
 
       if (value.length > 0) {
-        const filtered = userlist.filter((user) =>
+        const filtered = userList.filter((user) =>
           user.toLowerCase().startsWith(value.toLowerCase())
         );
         setLoserSuggestions(filtered);
@@ -49,18 +74,7 @@ export default function AddLeaderboardData({id}: {id: string}) {
     const handleLoserSelect = (name: string) => {
       setLoserValue(name);
       setLoserSuggestions([]);
-    };
-
-
-  async function handleAddLeaderboardData(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    alert("Adding leaderboard data...");
-    const formData = new FormData(event.currentTarget);
-    const name = String(formData.get("name") ?? "").trim();
-  }
-
-
-    
+    };    
   
   async function addContestant(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -176,6 +190,7 @@ export default function AddLeaderboardData({id}: {id: string}) {
                   value={winnerValue}
                   onChange={handleWinnerChange}
                   name="winner"
+                  autoComplete="off"
                   placeholder="Winner name"
                   className="mt-1 w-full border border-black bg-white px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
                 />
@@ -201,6 +216,7 @@ export default function AddLeaderboardData({id}: {id: string}) {
                   value={loserValue}
                   onChange={handleLoserChange}
                   name="loser"
+                  autoComplete="off"
                   placeholder="Loser name"
                   className="mt-1 w-full border border-black bg-white px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500"
                 />
@@ -237,7 +253,7 @@ export default function AddLeaderboardData({id}: {id: string}) {
         <section className="bg-gray-100 p-4">
           <details>
             <summary className="font-medium text-gray-800 cursor-pointer mb-3">
-              Make announcement
+              Make announcement (Not implemented)
             </summary>
             <form className="space-y-3">
               <label className="block">
@@ -273,7 +289,7 @@ export default function AddLeaderboardData({id}: {id: string}) {
         <section className="bg-gray-100 p-4">
           <details>
             <summary className="font-medium text-gray-800 cursor-pointer mb-3">
-              Schedule match
+              Schedule match (Not implemented)
             </summary>
             <form className="space-y-3">
 
