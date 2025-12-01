@@ -18,6 +18,7 @@ export default function UpdateLeaderboard({id}: {id: string}) {
     const name = String(formData.get("name") ?? "").trim() || leaderboardName;
     const description = String(formData.get("description") ?? "").trim() || leaderboardDescription;
     const startDateValue = formData.get("start-date");
+    alert(startDateValue);
     const newStartDate = startDateValue ? String(startDateValue) : startDate;
     const endDateValue = formData.get("end-date");
     const indefinite = formData.get("indefinite") === "on";
@@ -31,7 +32,7 @@ export default function UpdateLeaderboard({id}: {id: string}) {
         name: name,
         description: description,
         visibility: visibilityValue,
-        createdAt: newStartDate,
+        startDate: newStartDate,
         endDate: newEndDate,
       }),
     });
@@ -80,7 +81,7 @@ export default function UpdateLeaderboard({id}: {id: string}) {
         </label>
 
         {/* DATES */}
-        <fieldset className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-gray-100 p-4">
+        <fieldset className="grid grid-cols-1 gap-4 bg-gray-100 p-4">
           <label className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
             <span className="font-medium text-gray-700 text-sm sm:text-base whitespace-nowrap">
               Start date: {startDate}
