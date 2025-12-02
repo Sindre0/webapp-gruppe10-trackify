@@ -44,6 +44,7 @@ export default function GameLeaderboard({id}: {id: string}) {
       checkAuthorization()
     };
   }, [user?.id]);
+  console.log(id, user?.id);
 
   return (
     <>
@@ -69,7 +70,7 @@ export default function GameLeaderboard({id}: {id: string}) {
             </section>
             
             <section className="flex-1">
-              <LeaderboardChart></LeaderboardChart>
+              <LeaderboardChart leaderboardId={id} userId={user?.id} ></LeaderboardChart>
             </section>
           </section>
         </article>
