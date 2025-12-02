@@ -1,5 +1,7 @@
+import { API_ENDPOINTS } from "@/app/config/api";
+
 export function getLeaderboardEntries(leaderboardID: string) {
-    const entries = fetch(`/api/v1/leaderboards/${encodeURIComponent(leaderboardID)}/entries`)
+    const entries = fetch(`${API_ENDPOINTS.LEADERBOARDS}/${encodeURIComponent(leaderboardID)}/entries`)
         .then(response => response.json())
         .then((data: any) => {
             if (data.success) {
