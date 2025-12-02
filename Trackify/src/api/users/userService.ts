@@ -12,26 +12,28 @@ export type UserRegisterParams = {
     username: string;
 };
 
+export type UserDeleteParams = {
+    userID: string;
+    password: string;
+    email: string;
+};
+
 export interface UserService {
     getByLogin(login: UserLoginParams): Promise<Result<any>>;
     registerUser(register: UserRegisterParams): Promise<Result<any>>;
     getLeaderboards(userID: string): Promise<Result<any>>;
     getUsername(userID: string): Promise<Result<any>>;
+    getUserByEmail(email: string): Promise<Result<any>>;
+    deleteUser(deleteParams: UserDeleteParams): Promise<Result<any>>;
+    joinLeaderboard(joinParams: { userID: string; leaderboardID: string }): Promise<Result<any>>;
 }
 
 export function createUserService(userRepository: UserRepository): UserService {
     return {
         async getByLogin(login: UserLoginParams): Promise<Result<any>> {
-            login.email = decodeURIComponent(login.email);
-            login.password = decodeURIComponent(login.password);
-
             return await userRepository.findByLogin(login);
         },
         async registerUser(register: UserRegisterParams): Promise<Result<any>> {
-            register.email = decodeURIComponent(register.email);
-            register.password = decodeURIComponent(register.password);
-            register.username = decodeURIComponent(register.username);
-
             return await userRepository.createUser(register);
         },
         async getLeaderboards(userID: string): Promise<Result<any>> {
@@ -42,6 +44,30 @@ export function createUserService(userRepository: UserRepository): UserService {
         async getUsername(userID: string): Promise<Result<any>> {
             userID = decodeURIComponent(userID);
             return await userRepository.getUsername(userID);
+        },
+        async getUserByEmail(email: string): Promise<Result<any>> {
+            email = decodeURIComponent(email);
+            return await userRepository.getUserByEmail(email);
+        },
+        async deleteUser(deleteParams: UserDeleteParams): Promise<Result<any>> {
+            const authenicateUser = await userRepository.findByLogin({
+                password: deleteParams.password,
+                email: deleteParams.email,
+            });
+            if (!authenicateUser.success) {
+                return {
+                    success: false,
+                    error: {
+                        code: 401,
+                        message: "Authentication failed. You are not authorized to delete this user."
+                    }
+                };
+            }
+
+            return await userRepository.deleteUser(deleteParams.userID);
+        },
+        async joinLeaderboard(joinParams: { userID: string; leaderboardID: string }): Promise<Result<any>> {
+            return await userRepository.joinLeaderboard(joinParams);
         }
     };
 }

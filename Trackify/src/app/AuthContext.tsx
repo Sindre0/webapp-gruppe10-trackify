@@ -6,15 +6,15 @@ import { navigate } from "rwsdk/client";
 
 export const AuthContext = createContext<User | undefined>(undefined);
 
-export function AuthProvider({user, children,}: {
+export function AuthProvider({user, children, requireAuth = true}: {
     user: User | undefined;
     children: ReactNode;
+    requireAuth?: boolean;
 }) {
     useEffect(() => {
-        if (!user) {
+        if (requireAuth && !user) {
             navigate("/login");
         }
-    }, [user]);
-
+    }, [user, requireAuth]);
     return <AuthContext value={user}>{children}</AuthContext>;
 }   

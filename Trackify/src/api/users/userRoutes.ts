@@ -1,20 +1,18 @@
 import { route } from "rwsdk/router";
- import { userController } from "./userController";
+import { userController } from "./userController";
 
 export const userRoutes = [
-    route("/login/:login", async (ctx: any) => {
+    route("/login", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("User route accessed with method:", method);
         switch (method) {
-            case "get":
+            case "post":
                 return await userController.loginUser(ctx);
             default:
                 return new Response("Method Not Allowed", { status: 405 });
         }
     }),
-    route("/register/:register", async (ctx: any) => {
+    route("/register", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("User route accessed with method:", method);
         switch (method) {
             case "post":
                 return await userController.registerUser(ctx);
@@ -22,9 +20,17 @@ export const userRoutes = [
                 return new Response("Method Not Allowed", { status: 405 });
         }
     }),
+    route("/join-leaderboard", async (ctx: any) => {
+        const method = ctx.request.method.toLowerCase();
+        switch (method) {
+            case "post":
+                return await userController.joinLeaderboard(ctx);
+            default:
+                return new Response("Method Not Allowed", { status: 405 });
+        }
+    }),
     route("/:userID/leaderboards", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("User route accessed with method:", method);
         switch (method) {
             case "get":
                 return await userController.getLeaderboards(ctx);
@@ -34,12 +40,30 @@ export const userRoutes = [
     }),
     route("/:userID/username", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("User route accessed with method:", method);
         switch (method) {
             case "get":
                 return await userController.getUsername(ctx);
             default:
                 return new Response("Method Not Allowed", { status: 405 });
         }
+    }),
+    route("/email/:email", async (ctx: any) => {
+        const method = ctx.request.method.toLowerCase();
+        switch (method) {
+            case "get":
+                return await userController.getUserByEmail(ctx);
+            default:
+                return new Response("Method Not Allowed", { status: 405 });
+        }
+    }),
+    route("/delete/:userID", async (ctx: any) => {
+        const method = ctx.request.method.toLowerCase();
+        switch (method) {
+            case "delete":
+                return await userController.deleteUser(ctx);
+            default:
+                return new Response("Method Not Allowed", { status: 405 });
+        }
     }), 
+
 ];

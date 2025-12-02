@@ -1,0 +1,64 @@
+"use client";
+
+import { Menu, User, X } from "react-feather";
+import Breadcrumbs from "./Breadcrumbs";
+import HamburgerMenu from "./HamburgerMenu";
+import { useState } from "react";
+
+export default function Nav() {
+  const [hamburgerOpened, setHamburgerOpened] = useState(false)
+
+  const toggleHamburger = () => {
+    setHamburgerOpened(!hamburgerOpened)
+  }
+
+  const displayHamburger = (state: boolean) => {
+    return state ? <HamburgerMenu /> : null
+  } 
+
+  return (
+    <header className="pb-10">
+      <nav className="h-12">
+          <div className="mx-auto px-4 sm:px-8 flex h-12 items-center justify-between">
+            {/* Logo */}
+            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight">
+              <a href="/">Trackify</a>
+            </h1>
+
+            {/* Ikoner */}
+            <ul className="flex items-center gap-2 sm:gap-4">
+              <li>
+                <a href="/profile" className="rounded-md p-1">
+                  <User size={20} className="sm:w-[22px] sm:h-[22px]" />
+                </a>
+              </li>
+              <li>
+                <button
+                  className="rounded-md p-1 cursor-pointer"
+                  onClick={toggleHamburger}
+                  aria-expanded={hamburgerOpened}
+                  aria-controls="hamburger-menu"
+                >
+                  <Menu size={24} className="sm:w-[26px] sm:h-[26px]" aria-label="Toggle menu" />
+                </button>
+              </li>
+            </ul>
+            <menu
+              id="hamburger-menu"
+              className={`absolute top-0 right-0 p-1 bg-white shadow-lg ${hamburgerOpened ? "block" : "hidden"}`}
+            >
+                <button
+                  className="rounded-md p-1 cursor-pointer z-20 relative right-0 top-0"
+                  onClick={toggleHamburger}
+                  aria-expanded={hamburgerOpened}
+                >
+                  <X size={40} className="right-10 absolute" aria-label="Toggle menu" />
+                </button>
+              {displayHamburger(hamburgerOpened)}
+            </menu>
+          </div>
+        <Breadcrumbs/>
+      </nav>
+    </header>
+  );
+}

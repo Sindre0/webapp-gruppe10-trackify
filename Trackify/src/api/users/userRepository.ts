@@ -1,5 +1,5 @@
 import { drizzle } from "drizzle-orm/d1";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import type { Result } from "../../types/result";
 import { users } from "@/db/schema/user-schema";
 import { env } from "cloudflare:workers";
@@ -11,13 +11,20 @@ export interface UserRepository {
     createUser(register: UserRegisterParams): Promise<Result<any>>;
     getAllUserLeaderboards(userID: string): Promise<Result<any>>;
     getUsername(userID: string): Promise<Result<any>>;
+    getUserByEmail(email: string): Promise<Result<any>>;
+    deleteUser(userID: string): Promise<Result<any>>;
+    joinLeaderboard(joinParams: { userID: string; leaderboardID: string }): Promise<Result<any>>;
 }
 
 export function createUserRepository(): UserRepository {
     return {
         async findByLogin(login: UserLoginParams) {
             const db = drizzle(env.DB);
-            const user = await db.select().from(users).where((eq(users.email, login.email), eq(users.passwordHash, login.password)));
+            const user = await db.select().from(users).where(
+                and(
+                    eq(users.email, login.email), 
+                    eq(users.passwordHash, login.password)
+                ));
             
             if (user.length == 0) {
                 return { success: false, error: { message: "User not found", code: 404 } };
@@ -26,12 +33,14 @@ export function createUserRepository(): UserRepository {
             return {success: true, data: user[0]};
         },
         async createUser(register: UserRegisterParams) {
-            console.log("Creating user with data:", register.username, register.email);
             const db = drizzle(env.DB);
-
-            const existingUser = await db.select().from(users).where((eq(users.email, register.email)));
-            if (existingUser.length > 0) {
+            const existingEmail = await db.select().from(users).where((eq(users.email, register.email)));
+            if (existingEmail.length > 0) {
                 return { success: false, error: { message: "Email already in use", code: 409 } };
+            }
+            const existingUsername = await db.select().from(users).where((eq(users.username, register.username)));
+            if (existingUsername.length > 0) {
+                return { success: false, error: { message: "Username already in use", code: 409 } };
             }
             
             let newUser; 
@@ -77,6 +86,47 @@ export function createUserRepository(): UserRepository {
             }
 
             return { success: true, data: user };
+        },
+        async getUserByEmail(email: string) {
+            const db = drizzle(env.DB);
+            const user = await db.select({
+                id: users.id,
+                username: users.username
+            }).from(users).where(eq(users.email, email));
+            if (user.length == 0) {
+                return { success: false, error: { message: "User not found", code: 404 } };
+            }
+
+            return { success: true, data: user[0] };
+        },
+        async deleteUser(userID: string) {
+            const db = drizzle(env.DB);
+            
+            const user = await db.select().from(users).where(eq(users.id, userID));
+            if (user.length === 0) {
+                return { success: false, error: { message: "User not found", code: 404 } };
+            }
+
+            try {
+                await db.delete(users).where(eq(users.id, userID));
+                return { success: true, data: { message: "User deleted successfully" } };
+            } catch (error) {
+                return { success: false, error: { message: "Failed to delete user", code: 500 } };
+            }
+        },
+        async joinLeaderboard(joinParams: { userID: string; leaderboardID: string }) {
+            const db = drizzle(env.DB);
+            try {
+                await db.insert(leaderboard_has_user).values({
+                    user_id: joinParams.userID,
+                    leaderboard_id: joinParams.leaderboardID,
+                    is_owner: false,
+                    is_mod: false
+                });
+                return { success: true, data: { message: "User joined leaderboard successfully" } };
+            } catch (error) {
+                return { success: false, error: { message: "Failed to join leaderboard", code: 500 } };
+            }
         }
     };
 }

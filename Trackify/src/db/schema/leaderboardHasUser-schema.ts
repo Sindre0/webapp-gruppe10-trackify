@@ -11,8 +11,8 @@ export const leaderboard_has_user = sqliteTable("leaderboard_has_user", {
   is_owner: int("is_owner", {mode: "boolean"}).default(false),
   is_mod: int("is_mod", {mode: "boolean"}).default(false),
 
-}, (table) => ({
-  pk: primaryKey({ columns: [table.leaderboard_id, table.user_id] })
-}));
+}, (table) => [
+  primaryKey({ columns: [table.leaderboard_id, table.user_id] })
+]);
 
 export type LeaderboardHasUser = typeof leaderboard_has_user.$inferSelect;

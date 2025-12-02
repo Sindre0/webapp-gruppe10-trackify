@@ -1,0 +1,54 @@
+"use client";
+
+import { useAuth } from "@/hooks/useAuth";
+import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
+import { useEffect, useState } from "react";
+import { getUserLeaderboards } from "@/app/lib/api/getUserLeaderboards";
+import LeaderboardButton from "../LeaderboardButton";
+
+export default function OngoingLeaderboards() {
+    const user = useAuth();
+    const [leaderboards, setLeaderboards] = useState<{ id: string; name: string }[]>([]);
+
+    useEffect(() => {
+        const fetchLeaderboards = async () => {
+            if (!user?.id) return;
+            const data: any = await getUserLeaderboards(user.id);
+            if (data !== "Unknown Leaderboard") {
+                const leaderboardID = await Promise.all(
+                    data.map(async (item: any) => {
+                        const details = await getLeaderboardDetails(item.leaderboard_id);
+                        if (details.active === false) {
+                            return null;
+                        }
+                        return {
+                            id: item.leaderboard_id,
+                            name: details.name
+                        };
+                    })
+                );
+                setLeaderboards(leaderboardID.filter((item: any) => item !== null));
+            }        
+        };
+        fetchLeaderboards();
+    }, [user?.id]);
+        
+    return (
+        <section className="space-y-4 w-[95%] sm:w-[90%] lg:max-w-[80%] mx-auto mt-8 animate-fadeIn">
+            <h2 className="text-xl sm:text-2xl font-semibold mb-4">Ongoing Leaderboards</h2>
+            <ul className="mx-auto">
+                {leaderboards.length === 0 ? (
+                    <li>No ongoing leaderboards.</li>
+                ) : (
+                    leaderboards.map((leaderboard) => (
+                        <li key={leaderboard.id}>
+                            <LeaderboardButton href={`/leaderboard/ongoing-leaderboards/${leaderboard.id}`}>
+                                {leaderboard.name}
+                            </LeaderboardButton>
+                        </li>
+                    ))
+                )}
+            </ul>
+        </section>
+    );
+}
