@@ -16,7 +16,7 @@ export default function MyLeaderboards() {
 
             const data: any = await getUserLeaderboards(user.id);
 
-            if (data.length > 0) {
+            if (data !== "Unknown Leaderboard") {
                 const ownedLeaderboards = data.filter((item: any) => item.is_owner === true || item.is_mod === true);
                 const leaderboardsData = await Promise.all(
                     ownedLeaderboards.map(async (item: any) => {
