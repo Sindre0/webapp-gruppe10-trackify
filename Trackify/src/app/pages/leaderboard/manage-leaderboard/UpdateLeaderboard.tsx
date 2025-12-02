@@ -1,5 +1,6 @@
 "use client";
 
+import { API_ENDPOINTS } from "@/app/config/api";
 import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
 import React, { useState, useEffect,} from "react";
 import { navigate } from "rwsdk/client";
@@ -25,7 +26,7 @@ export default function UpdateLeaderboard({id}: {id: string}) {
     const newEndDate = indefinite ? "indefinite" : (endDateValue ? String(endDateValue) : endDate);
     const visibilityValue = formData.get("visibility") === "on" ? "private" : "public";
     
-    const response = await fetch("/api/v1/leaderboards/" + id + "/update", {
+    const response = await fetch(`${API_ENDPOINTS.LEADERBOARDS}/` + id + "/update", {
       method: "PUT",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
@@ -38,7 +39,6 @@ export default function UpdateLeaderboard({id}: {id: string}) {
     });
     if (response.ok) {
       navigate("/leaderboard/my-leaderboards");
-      console.log(response)
     }
     else {
       alert("Failed to update leaderboard.");

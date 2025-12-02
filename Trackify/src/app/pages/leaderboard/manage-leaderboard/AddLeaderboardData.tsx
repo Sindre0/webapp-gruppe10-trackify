@@ -1,7 +1,7 @@
 "use client";
 
 import React, { use, useEffect, useState } from "react";
-import { API_URL } from "@/app/config/api";
+import { API_ENDPOINTS, API_URL } from "@/app/config/api";
 import { getUsername } from "@/app/lib/api/getUsername";
 
 export default function AddLeaderboardData({id}: {id: string}) {
@@ -11,7 +11,7 @@ export default function AddLeaderboardData({id}: {id: string}) {
     const [loserValue, setLoserValue] = useState<string>("");
     const [loserSuggestions, setLoserSuggestions] = useState<string[]>([]);
 
-    const [userList, setUserList] = useState<string[]>([]);
+    const [userList, setUserList] = useState<{ username: string; userId: string }[]>([]);
 
     useEffect(() => {
       const fetchUsers = async () => {
@@ -23,7 +23,7 @@ export default function AddLeaderboardData({id}: {id: string}) {
 
             const usernames = await Promise.all(
               contestants.map(async (userId: string) => {
-                return await getUsername(userId);
+                return { username: await getUsername(userId), userId };
               }
             ));
             return usernames;
@@ -32,9 +32,9 @@ export default function AddLeaderboardData({id}: {id: string}) {
           console.error("Error fetching users:", error);
         }
       };
-      fetchUsers().then(usernames => {
-        if (usernames) {
-          setUserList(usernames);
+      fetchUsers().then(users => {
+        if (users) {
+          setUserList(users);
         }
       });    
     }, [id]);
@@ -44,9 +44,9 @@ export default function AddLeaderboardData({id}: {id: string}) {
       setWinnerValue(value);
       if (value.length > 0) {
         const filtered = userList.filter((user) =>
-          user.toLowerCase().startsWith(value.toLowerCase())
+          user.username.toLowerCase().startsWith(value.toLowerCase())
         );
-        setWinnerSuggestions(filtered);
+        setWinnerSuggestions(filtered.map(user => user.username));
       } else {
         setWinnerSuggestions([]);
       }
@@ -63,9 +63,9 @@ export default function AddLeaderboardData({id}: {id: string}) {
 
       if (value.length > 0) {
         const filtered = userList.filter((user) =>
-          user.toLowerCase().startsWith(value.toLowerCase())
+          user.username.toLowerCase().startsWith(value.toLowerCase())
         );
-        setLoserSuggestions(filtered);
+        setLoserSuggestions(filtered.map(user => user.username));
       } else {
         setLoserSuggestions([]);
       }
@@ -81,13 +81,12 @@ export default function AddLeaderboardData({id}: {id: string}) {
     const formData = new FormData(event.currentTarget);
     const email = String(formData.get("email") ?? "").trim();
 
-    const response = await fetch("/api/v1/users/email/" + encodeURIComponent(email), {
+    const response = await fetch(`${API_ENDPOINTS.USERS}/email/` + encodeURIComponent(email), {
       method: "GET"
     });
     if (response.ok) {
       const userData = JSON.parse(await response.text());
-      console.log("User data fetched by email:", userData.data.id);
-      const addUserResponse = await fetch("/api/v1/leaderboards/" + id + "/add-user/" + userData.data.id, {
+      const addUserResponse = await fetch(`${API_ENDPOINTS.LEADERBOARDS}/` + id + "/add-user/" + userData.data.id, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
       });
@@ -108,13 +107,12 @@ export default function AddLeaderboardData({id}: {id: string}) {
     const formData = new FormData(event.currentTarget);
     const email = String(formData.get("email") ?? "").trim();
 
-    const response = await fetch("/api/v1/users/email/" + encodeURIComponent(email), {
+    const response = await fetch(`${API_ENDPOINTS.USERS}/email/` + encodeURIComponent(email), {
       method: "GET"
     });
     if (response.ok) {
       const userData = JSON.parse(await response.text());
-      console.log("User data fetched by email:", userData.data.id);
-      const addUserResponse = await fetch("/api/v1/leaderboards/" + id + "/remove-user/" + userData.data.id, {
+      const addUserResponse = await fetch(`${API_ENDPOINTS.LEADERBOARDS}/` + id + "/remove-user/" + userData.data.id, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
       });
@@ -127,6 +125,25 @@ export default function AddLeaderboardData({id}: {id: string}) {
     }
     else {
       alert("Failed to remove contestant. User not found.");
+    }
+  }
+
+  async function addMatchResult(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const winner = String(formData.get("winner") ?? "").trim();
+    const winnerUser = userList.find(user => user.username === winner);
+    const loser = String(formData.get("loser") ?? "").trim();
+    const loserUser = userList.find(user => user.username === loser);
+    const response = await fetch(`${API_ENDPOINTS.LEADERBOARDS}/${id}/add-match`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ winnerId: winnerUser?.userId, loserId: loserUser?.userId }),
+    });
+    if (response.ok) {
+      alert("Match result added successfully.");
+    } else {
+      alert("Failed to add match result.");
     }
   }
 
@@ -182,7 +199,7 @@ export default function AddLeaderboardData({id}: {id: string}) {
             <summary className="font-medium text-gray-800 cursor-pointer mb-3">
               Add match results
             </summary>
-            <form className="space-y-3">
+            <form className="space-y-3" onSubmit={addMatchResult}>
               <label className="block">
                 <span className="text-sm text-gray-700">Select the winner:</span>
                 <input

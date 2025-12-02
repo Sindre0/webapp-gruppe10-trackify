@@ -13,6 +13,11 @@ export type CreateQueryParams = {
     endDate: string;
 };
 
+export type WinLossParams = {
+    winnerId: string;
+    loserId: string;
+};
+
 export interface LeaderboardService {
     list(params?: LeaderboardQueryParams): Promise<Result<any[]>>;
     getById(id: string): Promise<Result<any>>;
@@ -21,6 +26,7 @@ export interface LeaderboardService {
     create(params: CreateQueryParams, userId: string): Promise<Result<any>>;
     delete(leaderboardId: string, userId: string): Promise<Result<any>>;
     update(leaderboardId: string, params: CreateQueryParams): Promise<Result<any>>;
+    addMatch(leaderboardId: string, params: WinLossParams): Promise<Result<any>>;
     addUser(leaderboardId: string, userId: string): Promise<Result<any>>;
     removeUser(leaderboardId: string, userId: string): Promise<Result<any>>;
 }
@@ -29,7 +35,6 @@ export function createLeaderboardService(leaderboardRepository: LeaderboardRepos
     return {
         async list(params?: LeaderboardQueryParams) : Promise<Result<any[]>> {
             return await leaderboardRepository.findMany(params);
-
         },
         async getById(id: string): Promise<Result<any>> {
             return await leaderboardRepository.findById(id);
@@ -45,11 +50,9 @@ export function createLeaderboardService(leaderboardRepository: LeaderboardRepos
                 params.startDate = undefined;
             }
             const result = await leaderboardRepository.createLeaderboard(params);
-            console.log("Created leaderboard:", result);
             if (!result.success) {
                 return result;
             }
-            console.log("Attaching user to leaderboard:", userId, result.data[0].id);
             const secondResult = await leaderboardRepository.attachUser(result.data[0].id, userId, true, true);
             if (!secondResult.success) {
                 return secondResult;
@@ -78,6 +81,12 @@ export function createLeaderboardService(leaderboardRepository: LeaderboardRepos
         },
         async update(leaderboardId: string,  params: CreateQueryParams): Promise<Result<any>> {
             return await leaderboardRepository.updateLeaderboard(leaderboardId, params);
+        },
+        async addMatch(leaderboardId: string, params: WinLossParams): Promise<Result<any>> {
+            if (params.winnerId === params.loserId) {
+                return { success: false, error: { message: "Winner and loser cannot be the same user", code: 409 } };
+            }
+            return await leaderboardRepository.addMatchResult(leaderboardId, params);
         },
         async addUser(leaderboardId: string, userId: string): Promise<Result<any>> {
             const isAttached = await leaderboardRepository.isUserAttached(leaderboardId, userId);

@@ -20,8 +20,6 @@ export default function GameLeaderboard({id}: {id: string}) {
     await getUserLeaderboards(user.id).then(leaderboards => {
       leaderboards.forEach(async (leaderboard: any) => {
         if (leaderboard.leaderboard_id !== id) return;
-        
-        console.log(leaderboard)
         if (leaderboard.is_owner || leaderboard.is_mod) {
           setIsModerator(true);
         }

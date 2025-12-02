@@ -15,30 +15,25 @@ export default function ConcludedPreview({ onSelect }: ConcludedPreviewProps) {
 
     useEffect(() => {
         const fetchLeaderboards = async () => {
-            if (!user?.id) return;
-            try {       
-                const data: any = await getUserLeaderboards(user.id);
-                if (data.length > 0) {
-                    console.log("Fetched concluded leaderboards.");
-                    const leaderboardID = await Promise.all(
-                        data.map(async (item: any) => {
-                            const details = await getLeaderboardDetails(item.leaderboard_id);
-                            if (details.active === true) {
-                                return null;
-                            }
-                            return {
-                                id: item.leaderboard_id,
-                                name: details.name
-                            };
-                        })
-                    );
-                    setLeaderboards(leaderboardID.filter((item: any) => item !== null));
-                } else {
-                    console.error("no concluded leaderboards for this user ");
-                }
-            } catch {
-                console.log("no concluded leaderboards for this user",);
-            }
+            if (!user?.id) return;      
+            const data: any = await getUserLeaderboards(user.id);
+            if (data.length > 0) {
+                const leaderboardID = await Promise.all(
+                    data.map(async (item: any) => {
+                        const details = await getLeaderboardDetails(item.leaderboard_id);
+                        if (details.active === true) {
+                            return null;
+                        }
+                        return {
+                            id: item.leaderboard_id,
+                            name: details.name
+                        };
+                    })
+                );
+                setLeaderboards(leaderboardID.filter((item: any) => item !== null));
+            } else {
+                console.error("no concluded leaderboards for this user ");
+            } 
         };
         fetchLeaderboards();
     }, [user?.id]);

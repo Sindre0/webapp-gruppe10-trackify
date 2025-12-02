@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getUserLeaderboards } from "@/app/lib/api/getUserLeaderboards";
 import { navigate } from "rwsdk/client";
 import LeaderboardButton from "@/app/components/leaderboard/LeaderboardButton";
+import { API_ENDPOINTS } from "@/app/config/api";
 
 export default function AdminGameLeaderboard({id}: {id: string}) {
   const [isBlockedState, setIsBlockedState] = useState<boolean>(true);
@@ -41,7 +42,7 @@ export default function AdminGameLeaderboard({id}: {id: string}) {
 
   async function handleDelete() {
     if (!confirmDelete()) return;
-    const response = await fetch(`/api/v1/leaderboards/delete`, {
+    const response = await fetch(`${API_ENDPOINTS.LEADERBOARDS}/delete`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({

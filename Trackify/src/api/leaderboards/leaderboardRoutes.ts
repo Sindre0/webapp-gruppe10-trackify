@@ -4,7 +4,6 @@ import { leaderboardController } from "./leaderboardController";
 export const leaderboardRoutes = [
     route("/", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("Leaderboard route accessed with method:", method);
         switch (method) {
             case "get":
                 return await leaderboardController.listLeaderboards(ctx);
@@ -14,7 +13,6 @@ export const leaderboardRoutes = [
     }),
     route("/create", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("Leaderboard route accessed with method:", method);
         switch (method) {
             case "post":
                 return await leaderboardController.createLeaderboard(ctx);
@@ -24,7 +22,6 @@ export const leaderboardRoutes = [
     }),
     route("/delete", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("Leaderboard route accessed with method:", method);
         switch (method) {
             case "delete":
                 return await leaderboardController.deleteLeaderboard(ctx);
@@ -34,7 +31,6 @@ export const leaderboardRoutes = [
     }),
     route("/:id/update", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("Leaderboard route accessed with method:", method);
         switch (method) {
             case "put":
                 return await leaderboardController.updateLeaderboard(ctx);
@@ -42,9 +38,17 @@ export const leaderboardRoutes = [
                 return new Response("Method Not Allowed", { status: 405 });
         }
     }),
+    route("/:id/add-match", async (ctx: any) => {
+        const method = ctx.request.method.toLowerCase();
+        switch (method) {
+            case "post":
+                return await leaderboardController.addMatchResult(ctx);
+            default:
+                return new Response("Method Not Allowed", { status: 405 });
+        }
+    }),
     route("/:id/users", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("Leaderboard route accessed with method:", method);
         switch (method) {
             case "get":
                 return await leaderboardController.getLeaderboardUsers(ctx);
@@ -54,7 +58,6 @@ export const leaderboardRoutes = [
     }),
     route("/:id/entries", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("Leaderboard route accessed with method:", method);
         switch (method) {
             case "get":
                 return await leaderboardController.getLeaderboardEntries(ctx);
@@ -64,7 +67,6 @@ export const leaderboardRoutes = [
     }),
     route("/:id/add-user/:userId", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("Leaderboard route accessed with method:", method);
         switch (method) {
             case "post":
                 return await leaderboardController.addUserToLeaderboard(ctx);
@@ -74,7 +76,6 @@ export const leaderboardRoutes = [
     }),
     route("/:id/remove-user/:userId", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("Leaderboard route accessed with method:", method);
         switch (method) {
             case "post":
                 return await leaderboardController.removeUserFromLeaderboard(ctx);
@@ -84,7 +85,6 @@ export const leaderboardRoutes = [
     }),
     route("/:id", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("Leaderboard route accessed with method:", method);
         switch (method) {
             case "get":
                 return await leaderboardController.getLeaderboardById(ctx);

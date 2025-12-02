@@ -4,7 +4,6 @@ import { userController } from "./userController";
 export const userRoutes = [
     route("/login", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("User route accessed with method:", method);
         switch (method) {
             case "post":
                 return await userController.loginUser(ctx);
@@ -14,7 +13,6 @@ export const userRoutes = [
     }),
     route("/register", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("User route accessed with method:", method);
         switch (method) {
             case "post":
                 return await userController.registerUser(ctx);
@@ -24,7 +22,6 @@ export const userRoutes = [
     }),
     route("/join-leaderboard", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("User route accessed with method:", method);
         switch (method) {
             case "post":
                 return await userController.joinLeaderboard(ctx);
@@ -34,7 +31,6 @@ export const userRoutes = [
     }),
     route("/:userID/leaderboards", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("User route accessed with method:", method);
         switch (method) {
             case "get":
                 return await userController.getLeaderboards(ctx);
@@ -44,7 +40,6 @@ export const userRoutes = [
     }),
     route("/:userID/username", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("User route accessed with method:", method);
         switch (method) {
             case "get":
                 return await userController.getUsername(ctx);
@@ -54,7 +49,6 @@ export const userRoutes = [
     }),
     route("/email/:email", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("User route accessed with method:", method);
         switch (method) {
             case "get":
                 return await userController.getUserByEmail(ctx);
@@ -64,7 +58,6 @@ export const userRoutes = [
     }),
     route("/delete/:userID", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
-        console.log("User route accessed with method:", method);
         switch (method) {
             case "delete":
                 return await userController.deleteUser(ctx);

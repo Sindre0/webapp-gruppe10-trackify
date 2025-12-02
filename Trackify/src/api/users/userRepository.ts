@@ -34,9 +34,13 @@ export function createUserRepository(): UserRepository {
         },
         async createUser(register: UserRegisterParams) {
             const db = drizzle(env.DB);
-            const existingUser = await db.select().from(users).where((eq(users.email, register.email)));
-            if (existingUser.length > 0) {
+            const existingEmail = await db.select().from(users).where((eq(users.email, register.email)));
+            if (existingEmail.length > 0) {
                 return { success: false, error: { message: "Email already in use", code: 409 } };
+            }
+            const existingUsername = await db.select().from(users).where((eq(users.username, register.username)));
+            if (existingUsername.length > 0) {
+                return { success: false, error: { message: "Username already in use", code: 409 } };
             }
             
             let newUser; 

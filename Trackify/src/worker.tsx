@@ -25,6 +25,7 @@ import Announcements from "./app/components/leaderboard/Announcements";
 import MyLeaderboards from "./app/pages/leaderboard/manage-leaderboard/MyLeaderboards";
 import AdminGameLeaderboard from "./app/pages/leaderboard/AdminGameLeaderboard";
 import JoinLeaderboard from "./app/pages/leaderboard/manage-leaderboard/JoinLeaderboard";
+import { API_ENDPOINTS } from "./app/config/api";
 
 export interface Env {
   DB: D1Database;
@@ -37,7 +38,6 @@ export type AppContext = {
 
 export function extractSessionFromCookies(cookieHeader: string): string | null {
   const cookies = cookieHeader.split(";").map((c) => c.trim());
-  console.log("Extracting session from cookies:", cookies);
   for (const cookie of cookies) {
     const [name, value] = cookie.split("=");
     if (name === "user_session") {
@@ -57,8 +57,6 @@ export async function authenticationMiddleware({
 }) {
   ctx.user = null;
   try {
-    // Get session cookie
-    console.log("Authenticating request...");
     const cookies = request.headers.get("cookie");
     if (!cookies) {
       return;
@@ -70,7 +68,6 @@ export async function authenticationMiddleware({
       return;
     }
     ctx.user = JSON.parse(userData) as User;
-    console.log("Authenticated user:", ctx.user);
   } catch (error) {
     console.error("Authentication middleware error:", error);
     ctx.user = null;
@@ -84,8 +81,8 @@ export default defineApp([
     await seedData(env);
     return Response.json({ success: true });
     }),
-  prefix("/api/v1/leaderboards", [leaderboardRoutes]),
-  prefix("/api/v1/users", [userRoutes]),
+  prefix(API_ENDPOINTS.LEADERBOARDS, [leaderboardRoutes]),
+  prefix(API_ENDPOINTS.USERS, [userRoutes]),
   render(Document, [
     route("/login", async () => {
       return <LoginSite />;
@@ -105,6 +102,11 @@ export default defineApp([
         return (
           <Home />
         );
+      }),
+      route("/profile", async () => { 
+        return (  
+          <Profile />
+        );  
       }),
       prefix("/leaderboard", [
         route("/", async () => { 
@@ -168,16 +170,6 @@ export default defineApp([
           );
         }),
       ]),
-      route("/test-db", async ({}) => {
-        const db = drizzle(env.DB);
-        const allUsers = await db.select().from(users);
-        return Response.json(allUsers);
-      }),
-      route("/profile", async () => { 
-        return (  
-          <Profile />
-        );  
-      }),
     ]),
   ]),
 ]);

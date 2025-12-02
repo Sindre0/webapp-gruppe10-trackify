@@ -20,7 +20,6 @@ export default function DeleteCookieButton({
 }: Props) {
   const handleClick = () => {
     deleteCookieByName(cookieName);
-    console.log("Logged out - cleared cookie:", cookieName);
     
     if (onDeleted) {
       onDeleted();

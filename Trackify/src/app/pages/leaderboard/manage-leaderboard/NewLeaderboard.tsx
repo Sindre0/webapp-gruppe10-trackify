@@ -1,5 +1,6 @@
 "use client";
 
+import { API_ENDPOINTS } from "@/app/config/api";
 import { useAuth } from "@/hooks/useAuth";
 import { navigate } from "rwsdk/client";
 
@@ -22,9 +23,7 @@ export default function NewLeaderboard() {
     let visibility;
     isPrivate ? visibility = "private" : visibility = "public";
 
-    console.log("Testing form data:", { name, description, startDateValue, endDateValue, indefinite });
-
-    const response = await fetch("/api/v1/leaderboards/create", {
+    const response = await fetch(`${API_ENDPOINTS.LEADERBOARDS}/create`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({

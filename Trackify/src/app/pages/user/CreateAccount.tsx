@@ -1,5 +1,6 @@
 "use client";
 
+import { API_ENDPOINTS } from "@/app/config/api";
 import { navigate } from "rwsdk/client";
 
 export default function CreateAccount() {
@@ -22,16 +23,16 @@ export default function CreateAccount() {
       return;
     }
 
-    try {
-      const response = await fetch(`/api/v1/users/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password })
-      });
-
-      fetch(`/api/v1/users/login/`, {
+   
+    const response = await fetch(`${API_ENDPOINTS.USERS}/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, email, password })
+    });
+    if (response.ok) {
+      fetch(`${API_ENDPOINTS.USERS}/login/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -45,17 +46,14 @@ export default function CreateAccount() {
                 document.cookie = `user_session=${encodeURIComponent(
                     JSON.stringify(user)
                 )}; path=/`;
-                console.log("Logging in user:", {user: email});
-                console.log("Set cookie:", document.cookie);
                 document.cookie = `user_session=${encodeURIComponent(
                     JSON.stringify(user)
                     )}; path=/`;
-                    console.log("Set cookie:", document.cookie);
                 navigate("/");
                   }});
-    } catch (error) {
-      console.error("Create account error:", error);
-      alert("Could not create account.");
+    } else {
+      const errorData: any = await response.json();
+      alert(`Could not create account: ${errorData.error.message || "Unknown error"}`);
     }
   }
 

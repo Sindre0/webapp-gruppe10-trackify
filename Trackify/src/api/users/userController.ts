@@ -39,8 +39,6 @@ export function createUserController(userService: UserService) {
         },
         async getLeaderboards(context: RequestInfo) {
             const userID = context.params.userID;
-            console.log("Get leaderboards for userID:", userID);
-
             const dataFromService = await userService.getLeaderboards(userID);
             
             if (!dataFromService.success) {
@@ -57,7 +55,6 @@ export function createUserController(userService: UserService) {
         },
         async getUsername(context: RequestInfo) {
             const userID = context.params.userID;
-            console.log("Get username for userID:", userID);
             const dataFromService = await userService.getUsername(userID);
             
             if (!dataFromService.success) {
