@@ -22,15 +22,15 @@ export default function CreateAccount() {
       return;
     }
 
-    try {
-      const response = await fetch(`/api/v1/users/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password })
-      });
-
+   
+    const response = await fetch(`/api/v1/users/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, email, password })
+    });
+    if (response.ok) {
       fetch(`/api/v1/users/login/`, {
         method: "POST",
         headers: {
@@ -50,9 +50,9 @@ export default function CreateAccount() {
                     )}; path=/`;
                 navigate("/");
                   }});
-    } catch (error) {
-      console.error("Create account error:", error);
-      alert("Could not create account.");
+    } else {
+      const errorData: any = await response.json();
+      alert(`Could not create account: ${errorData.error.message || "Unknown error"}`);
     }
   }
 
