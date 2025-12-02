@@ -16,7 +16,6 @@ export default function JoinLeaderboard() {
         const leaderboardCode = String(formData.get("leaderboard-code") ?? "").trim();
 
         const getResponse = await getLeaderboardDetails(leaderboardCode);
-        console.log("Leaderboard details response:", getResponse);
         if (getResponse === "Unknown Leaderboard") {
             alert("Leaderboard not found.");
             return;
