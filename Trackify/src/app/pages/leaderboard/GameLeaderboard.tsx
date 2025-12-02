@@ -8,6 +8,7 @@ import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
 import { useEffect, useState } from "react";
 import { getUserLeaderboards } from "@/app/lib/api/getUserLeaderboards";
 import LeaderboardButton from "@/app/components/leaderboard/LeaderboardButton";
+import LeaderboardChart from "./LeaderboardChart";
 
 export default function GameLeaderboard({id}: {id: string}) {
   const [isAllowedState, setIsAllowedState] = useState<boolean>(false);
@@ -68,8 +69,9 @@ export default function GameLeaderboard({id}: {id: string}) {
                 <UpcomingMatches />
               </article>
             </section>
+            
             <section className="flex-1">
-              
+              <LeaderboardChart></LeaderboardChart>
             </section>
           </section>
         </article>
