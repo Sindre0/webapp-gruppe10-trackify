@@ -7,7 +7,6 @@ export function getUsername(userID: string) {
             if (data.success) {
                 return data.data[0].username;
             } else {
-                console.error("Failed to fetch leaderboard details: " + data.error.message);
                 return "Unknown Leaderboard";
             }
         });

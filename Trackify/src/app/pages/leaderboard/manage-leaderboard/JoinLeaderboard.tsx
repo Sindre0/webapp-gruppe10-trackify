@@ -14,20 +14,35 @@ export default function JoinLeaderboard() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const leaderboardCode = String(formData.get("leaderboard-code") ?? "").trim();
-        const response = await fetch(`${API_ENDPOINTS.LEADERBOARDS}/${leaderboardCode}/add-user/${user?.id}`, {
+
+        const getResponse = await getLeaderboardDetails(leaderboardCode);
+        if (getResponse === "Unknown Leaderboard") {
+            alert("Leaderboard not found.");
+            return;
+        }
+        if (getResponse.visibility === "private") {
+            alert("Leaderboard is private.");
+            return;
+        }
+
+        const postResponse = await fetch(`${API_ENDPOINTS.LEADERBOARDS}/${leaderboardCode}/add-user/${user?.id}`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({ code: leaderboardCode }),
         });
-        if (response.ok) {
-            await response.json();
+        if (postResponse.status === 409) {
+            alert("You are already a member of this leaderboard.");
+            return;
+        }
+        if (postResponse.ok) {
+            await postResponse.json();
             const details = await getLeaderboardDetails(leaderboardCode);
             setAddedLeaderboards(list => [...list, { id: leaderboardCode, name: details.name }]);
         }
     }
 
     return (
-        <section className="space-y-4 w-[95%] sm:w-[90%] lg:max-w-[80%] mx-auto mt-8 animate-fadeIn">
+        <section className="space-y-4 w-[95%] md:w-[90%] mx-auto mt-8 animate-fadeIn">
             <h1 className="text-xl sm:text-2xl font-semibold mb-4">Join a Leaderboard</h1>
             <form onSubmit={handleJoin} className="bg-white shadow-md p-4 sm:p-6 space-y-6">
                 <label className="flex flex-col sm:flex-row sm:items-center gap-2 sm:justify-between bg-gray-100 p-4">

@@ -26,6 +26,7 @@ import MyLeaderboards from "./app/pages/leaderboard/manage-leaderboard/MyLeaderb
 import AdminGameLeaderboard from "./app/pages/leaderboard/AdminGameLeaderboard";
 import JoinLeaderboard from "./app/pages/leaderboard/manage-leaderboard/JoinLeaderboard";
 import { API_ENDPOINTS } from "./app/config/api";
+import { AuthProvider } from "./app/AuthContext";
 
 export interface Env {
   DB: D1Database;
@@ -89,6 +90,15 @@ export default defineApp([
     }),
     route("/create-account", async () => {
       return <CreateAccount />;
+    }),
+    route("/guest-leaderboard/:id", async ({params, ctx}) => { 
+      const leaderboardId = params.id;
+      const user = ctx?.user ?? undefined;
+      return (
+        <AuthProvider user={user} requireAuth={false}>
+          <GameLeaderboard id={leaderboardId} />
+        </AuthProvider>
+      );
     }),
     layout(MainLayout, [
       async (context) => {

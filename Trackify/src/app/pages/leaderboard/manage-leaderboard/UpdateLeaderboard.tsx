@@ -47,18 +47,13 @@ export default function UpdateLeaderboard({id}: {id: string}) {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const leaderboardDetails =  await getLeaderboardDetails(id);
-        setLeaderboardName(leaderboardDetails.name);
-        setLeaderboardDescription(leaderboardDetails.description);
-        setStartDate(leaderboardDetails.createdAt ?? "Not set");
-        setEndDate(leaderboardDetails.endDate ?? "Not set");
-      } catch (error) {
-        console.error("Error fetching leaderboard details:", error);
-      }
+      const leaderboardDetails =  await getLeaderboardDetails(id);
+      setLeaderboardName(leaderboardDetails.name);
+      setLeaderboardDescription(leaderboardDetails.description);
+      setStartDate(leaderboardDetails.createdAt ?? "Not set");
+      setEndDate(leaderboardDetails.endDate ?? "Not set");
     };
     fetchData();
-
   }, [id]);
 
   return (

@@ -77,7 +77,6 @@ export default function HomeLeaderboard({ selectedLeaderboardId }: HomeLeaderboa
                     setPlayerStats([]);
                     setLeaderboardName(details?.name);
                 } catch {
-                    console.error("Error fetching leaderboard data:", error);
                     setPlayerStats([]);
                     setLeaderboardName("Empty leaderboard");
                 }

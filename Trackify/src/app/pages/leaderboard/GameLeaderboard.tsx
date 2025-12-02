@@ -13,7 +13,7 @@ import LeaderboardChart from "./LeaderboardChart";
 export default function GameLeaderboard({id}: {id: string}) {
   const [isAllowedState, setIsAllowedState] = useState<boolean>(false);
   const [isModerator, setIsModerator] = useState<boolean>(false);
-  const user = useAuth();
+  const user = useAuth(false);
 
   async function checkAuthorization() {
     if (!user?.id) return;

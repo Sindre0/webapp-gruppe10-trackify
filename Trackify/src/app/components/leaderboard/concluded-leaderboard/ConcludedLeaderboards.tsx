@@ -28,8 +28,6 @@ export default function ConcludedPreview() {
                     })
                 );
                 setLeaderboards(leaderboardID.filter((item: any) => item !== null));
-            } else {
-                console.error("Failed to fetch concluded leaderboards: " + data.error?.message);
             }
         };
         fetchLeaderboards();

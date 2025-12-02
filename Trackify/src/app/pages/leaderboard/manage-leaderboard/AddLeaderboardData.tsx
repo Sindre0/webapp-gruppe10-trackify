@@ -15,21 +15,17 @@ export default function AddLeaderboardData({id}: {id: string}) {
 
     useEffect(() => {
       const fetchUsers = async () => {
-        try {
-          const response = await fetch(`${API_URL}/leaderboards/${id}/users`);
-          if (response.ok) {
-            const data: any = await response.json();
-            const contestants = data.data.map((user: any) => String(user?.user_id ?? ""));
+        const response = await fetch(`${API_URL}/leaderboards/${id}/users`);
+        if (response.ok) {
+          const data: any = await response.json();
+          const contestants = data.data.map((user: any) => String(user?.user_id ?? ""));
 
-            const usernames = await Promise.all(
-              contestants.map(async (userId: string) => {
-                return { username: await getUsername(userId), userId };
-              }
-            ));
-            return usernames;
-          }
-        } catch (error) {
-          console.error("Error fetching users:", error);
+          const usernames = await Promise.all(
+            contestants.map(async (userId: string) => {
+              return { username: await getUsername(userId), userId };
+            }
+          ));
+          return usernames;
         }
       };
       fetchUsers().then(users => {
