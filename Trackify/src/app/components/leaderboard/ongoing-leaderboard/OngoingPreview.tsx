@@ -18,7 +18,7 @@ export default function OngoingPreview({ onSelect }: OngoingPreviewProps) {
             if (!user?.id) return;
             const data: any = await getUserLeaderboards(user.id);
 
-            if (data.length > 0) {
+            if (data !== "Unknown Leaderboard") {
                 const leaderboardID = await Promise.all(
                     data.map(async (item: any) => {
                         const details = await getLeaderboardDetails(item.leaderboard_id);
