@@ -65,6 +65,15 @@ export const leaderboardRoutes = [
                 return new Response("Method Not Allowed", { status: 405 });
         }
     }),
+    route("/:id/entries/:userId", async (ctx: any) => {
+        const method = ctx.request.method.toLowerCase();
+        switch (method) {
+            case "get":
+                return await leaderboardController.getLeaderboardUserEntries(ctx);
+            default:
+                return new Response("Method Not Allowed", { status: 405 });
+        }
+    }),
     route("/:id/add-user/:userId", async (ctx: any) => {
         const method = ctx.request.method.toLowerCase();
         switch (method) {

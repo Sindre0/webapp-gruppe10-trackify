@@ -23,6 +23,7 @@ export interface LeaderboardService {
     getById(id: string): Promise<Result<any>>;
     getUsers(id: string): Promise<Result<any[]>>;
     getEntries(id: string): Promise<Result<any[]>>;
+    getUserEntries(id: string, userId: string): Promise<Result<any[]>>;
     create(params: CreateQueryParams, userId: string): Promise<Result<any>>;
     delete(leaderboardId: string, userId: string): Promise<Result<any>>;
     update(leaderboardId: string, params: CreateQueryParams): Promise<Result<any>>;
@@ -44,6 +45,9 @@ export function createLeaderboardService(leaderboardRepository: LeaderboardRepos
         },
         async getEntries(id: string): Promise<Result<any[]>> {
             return await leaderboardRepository.findEntriesByLeaderboardId(id);
+        },
+        async getUserEntries(id: string, userId: string): Promise<Result<any[]>> {
+            return await leaderboardRepository.findUserEntriesByLeaderboardId(id, userId);
         },
         async create(params: CreateQueryParams, userId: string): Promise<Result<any>> {
             if (params.startDate === '') {
