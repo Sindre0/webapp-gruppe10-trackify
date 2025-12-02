@@ -1,5 +1,6 @@
 "use client";
 
+import { API_ENDPOINTS } from "@/app/config/api";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { navigate } from "rwsdk/client";
@@ -36,7 +37,7 @@ export default function DeleteAccountButton() {
         return;
       }
 
-      const response = await fetch(`/api/v1/users/delete/${user.id}`, {
+      const response = await fetch(`${API_ENDPOINTS.USERS}/delete/${user.id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json"

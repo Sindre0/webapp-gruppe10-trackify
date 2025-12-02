@@ -1,5 +1,6 @@
 "use client";
 
+import { API_ENDPOINTS } from "@/app/config/api";
 import { navigate } from "rwsdk/client";
 
 export default function LoginSite() {
@@ -10,7 +11,7 @@ export default function LoginSite() {
         const email = String(formData.get("email") ?? "").trim();
         const password = String(formData.get("password") ?? "").trim();
 
-        fetch(`/api/v1/users/login`, {
+        fetch(`${API_ENDPOINTS.USERS}/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

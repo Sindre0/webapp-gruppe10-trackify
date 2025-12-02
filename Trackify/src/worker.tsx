@@ -25,6 +25,7 @@ import Announcements from "./app/components/leaderboard/Announcements";
 import MyLeaderboards from "./app/pages/leaderboard/manage-leaderboard/MyLeaderboards";
 import AdminGameLeaderboard from "./app/pages/leaderboard/AdminGameLeaderboard";
 import JoinLeaderboard from "./app/pages/leaderboard/manage-leaderboard/JoinLeaderboard";
+import { API_ENDPOINTS } from "./app/config/api";
 
 export interface Env {
   DB: D1Database;
@@ -80,8 +81,8 @@ export default defineApp([
     await seedData(env);
     return Response.json({ success: true });
     }),
-  prefix("/api/v1/leaderboards", [leaderboardRoutes]),
-  prefix("/api/v1/users", [userRoutes]),
+  prefix(API_ENDPOINTS.LEADERBOARDS, [leaderboardRoutes]),
+  prefix(API_ENDPOINTS.USERS, [userRoutes]),
   render(Document, [
     route("/login", async () => {
       return <LoginSite />;
@@ -101,6 +102,11 @@ export default defineApp([
         return (
           <Home />
         );
+      }),
+      route("/profile", async () => { 
+        return (  
+          <Profile />
+        );  
       }),
       prefix("/leaderboard", [
         route("/", async () => { 
@@ -164,16 +170,6 @@ export default defineApp([
           );
         }),
       ]),
-      route("/test-db", async ({}) => {
-        const db = drizzle(env.DB);
-        const allUsers = await db.select().from(users);
-        return Response.json(allUsers);
-      }),
-      route("/profile", async () => { 
-        return (  
-          <Profile />
-        );  
-      }),
     ]),
   ]),
 ]);

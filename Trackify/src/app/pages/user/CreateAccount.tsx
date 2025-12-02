@@ -1,5 +1,6 @@
 "use client";
 
+import { API_ENDPOINTS } from "@/app/config/api";
 import { navigate } from "rwsdk/client";
 
 export default function CreateAccount() {
@@ -23,7 +24,7 @@ export default function CreateAccount() {
     }
 
    
-    const response = await fetch(`/api/v1/users/register`, {
+    const response = await fetch(`${API_ENDPOINTS.USERS}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +32,7 @@ export default function CreateAccount() {
       body: JSON.stringify({ username, email, password })
     });
     if (response.ok) {
-      fetch(`/api/v1/users/login/`, {
+      fetch(`${API_ENDPOINTS.USERS}/login/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

@@ -4,6 +4,7 @@ import { useState } from "react";
 import LeaderboardButton from "../../../components/leaderboard/LeaderboardButton";
 import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
 import { useAuth } from "@/hooks/useAuth";
+import { API_ENDPOINTS } from "@/app/config/api";
 
 export default function JoinLeaderboard() {
     const [addedLeaderboards, setAddedLeaderboards] = useState<{ id: string; name: string }[]>([]);
@@ -13,7 +14,7 @@ export default function JoinLeaderboard() {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const leaderboardCode = String(formData.get("leaderboard-code") ?? "").trim();
-        const response = await fetch(`/api/v1/leaderboards/${leaderboardCode}/add-user/${user?.id}`, {
+        const response = await fetch(`${API_ENDPOINTS.LEADERBOARDS}/${leaderboardCode}/add-user/${user?.id}`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({ code: leaderboardCode }),

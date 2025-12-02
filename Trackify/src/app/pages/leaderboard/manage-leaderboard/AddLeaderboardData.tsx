@@ -1,7 +1,7 @@
 "use client";
 
 import React, { use, useEffect, useState } from "react";
-import { API_URL } from "@/app/config/api";
+import { API_ENDPOINTS, API_URL } from "@/app/config/api";
 import { getUsername } from "@/app/lib/api/getUsername";
 
 export default function AddLeaderboardData({id}: {id: string}) {
@@ -81,12 +81,12 @@ export default function AddLeaderboardData({id}: {id: string}) {
     const formData = new FormData(event.currentTarget);
     const email = String(formData.get("email") ?? "").trim();
 
-    const response = await fetch("/api/v1/users/email/" + encodeURIComponent(email), {
+    const response = await fetch(`${API_ENDPOINTS.USERS}/email/` + encodeURIComponent(email), {
       method: "GET"
     });
     if (response.ok) {
       const userData = JSON.parse(await response.text());
-      const addUserResponse = await fetch("/api/v1/leaderboards/" + id + "/add-user/" + userData.data.id, {
+      const addUserResponse = await fetch(`${API_ENDPOINTS.LEADERBOARDS}/` + id + "/add-user/" + userData.data.id, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
       });
@@ -107,12 +107,12 @@ export default function AddLeaderboardData({id}: {id: string}) {
     const formData = new FormData(event.currentTarget);
     const email = String(formData.get("email") ?? "").trim();
 
-    const response = await fetch("/api/v1/users/email/" + encodeURIComponent(email), {
+    const response = await fetch(`${API_ENDPOINTS.USERS}/email/` + encodeURIComponent(email), {
       method: "GET"
     });
     if (response.ok) {
       const userData = JSON.parse(await response.text());
-      const addUserResponse = await fetch("/api/v1/leaderboards/" + id + "/remove-user/" + userData.data.id, {
+      const addUserResponse = await fetch(`${API_ENDPOINTS.LEADERBOARDS}/` + id + "/remove-user/" + userData.data.id, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
       });
@@ -135,7 +135,7 @@ export default function AddLeaderboardData({id}: {id: string}) {
     const winnerUser = userList.find(user => user.username === winner);
     const loser = String(formData.get("loser") ?? "").trim();
     const loserUser = userList.find(user => user.username === loser);
-    const response = await fetch("/api/v1/leaderboards/" + id + "/add-match", {
+    const response = await fetch(`${API_ENDPOINTS.LEADERBOARDS}/${id}/add-match`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ winnerId: winnerUser?.userId, loserId: loserUser?.userId }),
