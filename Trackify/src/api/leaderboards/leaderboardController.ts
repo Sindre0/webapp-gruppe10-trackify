@@ -75,6 +75,23 @@ export function createLeaderboardController(leaderboardService: LeaderboardServi
             }), { status: 200 , headers: { "Content-Type": "application/json" }  
             });
         },
+        async getLeaderboardUserEntries(context: RequestInfo) {
+            const id  = context.params.id;
+            const userId = context.params.userId;
+            const dataFromService = await leaderboardService.getUserEntries(id, userId);
+
+            if (!dataFromService.success) {
+                return new Response(JSON.stringify(dataFromService), { 
+                    status: dataFromService.error.code || 500 ,
+                    headers: { "Content-Type": "application/json" }})
+            };
+
+            return new Response(JSON.stringify({
+                ...dataFromService,
+            }), { status: 200 , headers: { "Content-Type": "application/json" }  
+            });
+        },
+
         async createLeaderboard(context: RequestInfo) {
             const body = await context.request.json();
             const parameters = JSON.parse(JSON.stringify(body));

@@ -13,6 +13,7 @@ export interface LeaderboardRepository {
     findById(id: string): Promise<Result<any>>;
     findUsersByLeaderboardId(id: string): Promise<Result<any[]>>;
     findEntriesByLeaderboardId(id: string): Promise<Result<any[]>>;
+    findUserEntriesByLeaderboardId(id: string, userId: string): Promise<Result<any[]>>;
     createLeaderboard(params: CreateQueryParams): Promise<Result<any>>;
     deleteLeaderboard(id: string): Promise<Result<any>>;
     updateLeaderboard(id: string, params: CreateQueryParams): Promise<Result<any>>;
@@ -72,6 +73,22 @@ export function createLeaderboardRepository(): LeaderboardRepository {
             return {success: true, data: users};
         },
         async findEntriesByLeaderboardId(id: string) {
+            const db = drizzle(env.DB);
+            const entries = await db.select().from(leaderboard_entry).where(eq(leaderboard_entry.leaderboard_id, id));
+
+            if (entries.length === 0) {
+                return {
+                    success: false,
+                    error: {
+                        code: 404,
+                        message: "No entries found"
+                    }
+                };
+            }
+
+            return {success: true, data: entries};
+        },
+        async findUserEntriesByLeaderboardId(id: string, userId: string) {
             const db = drizzle(env.DB);
             const entries = await db.select().from(leaderboard_entry).where(eq(leaderboard_entry.leaderboard_id, id));
 
