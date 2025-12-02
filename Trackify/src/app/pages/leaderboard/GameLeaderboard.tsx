@@ -68,9 +68,10 @@ export default function GameLeaderboard({id}: {id: string}) {
               </article>
             </section>
             
+            { user && 
             <section className="flex-1">
               <LeaderboardChart leaderboardId={id} userId={user?.id} ></LeaderboardChart>
-            </section>
+            </section> }
           </section>
         </article>
       ) : (
