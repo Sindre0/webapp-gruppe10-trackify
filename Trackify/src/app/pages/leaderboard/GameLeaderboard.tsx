@@ -8,7 +8,7 @@ import { getLeaderboardDetails } from "@/app/lib/api/getLeaderboardDetails";
 import { useEffect, useState } from "react";
 import { getUserLeaderboards } from "@/app/lib/api/getUserLeaderboards";
 import LeaderboardButton from "@/app/components/leaderboard/LeaderboardButton";
-import LeaderboardChart from "./LeaderboardChart";
+import LeaderboardChart from "../../components/leaderboard/LeaderboardChart";
 
 export default function GameLeaderboard({id}: {id: string}) {
   const [isAllowedState, setIsAllowedState] = useState<boolean>(false);
