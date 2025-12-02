@@ -44,7 +44,6 @@ export default function GameLeaderboard({id}: {id: string}) {
       checkAuthorization()
     };
   }, [user?.id]);
-  console.log(id, user?.id);
 
   return (
     <>
