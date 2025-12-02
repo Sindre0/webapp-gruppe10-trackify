@@ -22,7 +22,7 @@ export default function Announcements() {
                         {element.name}
                     </li>
                 ))}
-                <a className="block mt-4 text-blue-600 text-sm text-center" href="/announcements">View All</a>
+                <a className="block mt-4 text-blue-600 text-sm text-center" href="#">View All</a>
             </ul>
         </section>
     );

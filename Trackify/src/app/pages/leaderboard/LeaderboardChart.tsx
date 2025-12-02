@@ -25,7 +25,7 @@ export default function LeaderboardChart({leaderboardId, userId}: {leaderboardId
     async function fetchUserEntries() {
         const response = await fetch(`${API_ENDPOINTS.LEADERBOARDS}/${leaderboardId}/entries/${userId}`);
         const data: { data: LeaderboardEntry[] } = await response.json();
-        console.log(data.data);
+    
 
         const monthly: Record<string, { wins: number; losses: number }> = {};
 
