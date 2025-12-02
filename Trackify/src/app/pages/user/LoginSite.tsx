@@ -32,9 +32,6 @@ export default function LoginSite() {
                 } else {
                     alert("Login failed: " + data.error.message);
                 }
-            })
-            .catch(error => {
-                console.error("Error during login:", error);
             });
     }
 

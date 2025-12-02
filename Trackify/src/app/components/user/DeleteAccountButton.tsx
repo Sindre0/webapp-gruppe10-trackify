@@ -62,7 +62,6 @@ export default function DeleteAccountButton() {
         setIsDeleting(false);
       }
     } catch (error) {
-      console.error("Error deleting account:", error);
       alert("An error occurred while deleting your account.");
       setShowSecondConfirm(false);
       setIsDeleting(false);

@@ -111,7 +111,6 @@ export function createUserRepository(): UserRepository {
                 await db.delete(users).where(eq(users.id, userID));
                 return { success: true, data: { message: "User deleted successfully" } };
             } catch (error) {
-                console.error("Error deleting user:", error);
                 return { success: false, error: { message: "Failed to delete user", code: 500 } };
             }
         },
@@ -126,7 +125,6 @@ export function createUserRepository(): UserRepository {
                 });
                 return { success: true, data: { message: "User joined leaderboard successfully" } };
             } catch (error) {
-                console.error("Error joining leaderboard:", error);
                 return { success: false, error: { message: "Failed to join leaderboard", code: 500 } };
             }
         }

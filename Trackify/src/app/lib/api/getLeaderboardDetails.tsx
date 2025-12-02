@@ -7,7 +7,6 @@ export function getLeaderboardDetails(leaderboardID: string) {
             if (data.success) {
                 return data.data;
             } else {
-                console.error("Failed to fetch leaderboard details: " + data.error.message);
                 return "Unknown Leaderboard";
             }
         });

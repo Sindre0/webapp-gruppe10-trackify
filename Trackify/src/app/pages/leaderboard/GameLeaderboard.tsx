@@ -12,7 +12,7 @@ import LeaderboardButton from "@/app/components/leaderboard/LeaderboardButton";
 export default function GameLeaderboard({id}: {id: string}) {
   const [isAllowedState, setIsAllowedState] = useState<boolean>(false);
   const [isModerator, setIsModerator] = useState<boolean>(false);
-  const user = useAuth();
+  const user = useAuth(false);
 
   async function checkAuthorization() {
     if (!user?.id) return;
@@ -65,9 +65,6 @@ export default function GameLeaderboard({id}: {id: string}) {
               <article className="w-full md:w-1/2 h-full">
                 <UpcomingMatches />
               </article>
-            </section>
-            <section className="flex-1">
-              
             </section>
           </section>
         </article>

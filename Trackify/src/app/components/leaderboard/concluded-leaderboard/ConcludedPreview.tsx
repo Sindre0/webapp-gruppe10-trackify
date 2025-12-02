@@ -31,9 +31,7 @@ export default function ConcludedPreview({ onSelect }: ConcludedPreviewProps) {
                     })
                 );
                 setLeaderboards(leaderboardID.filter((item: any) => item !== null));
-            } else {
-                console.error("no concluded leaderboards for this user ");
-            } 
+            }
         };
         fetchLeaderboards();
     }, [user?.id]);

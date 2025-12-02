@@ -14,14 +14,9 @@ export default function Profile() {
     for (const cookie of cookies) {
       const [name, value] = cookie.split("=");
       if (name === "user_session") {
-        try {
-          const userData = JSON.parse(decodeURIComponent(value));
-          setUsername(userData.username || "");
-          setEmail(userData.email || "");
-        } catch (e) {
-          console.error("Error parsing user session:", e);
-        }
-        break;
+        const userData = JSON.parse(decodeURIComponent(value));
+        setUsername(userData.username || "");
+        setEmail(userData.email || "");
       }
     }
   }, []);
